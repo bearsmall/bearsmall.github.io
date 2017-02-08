@@ -1,0 +1,793 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hibernate,Spring,通用" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="序言
+基于泛型的依赖注入。当我们的项目中有很多的Model时，相应的Dao（DaoImpl),Service(ServiceImpl)也会增多。
+
+而我们对这些Model的操作很多都是类似的，下面是我举出的一些（见名知意，其它自行脑补）：
+
+
+
+save
+saveAll
+findById
+update
+saveOrUpdate
+delete
+deleteAll
+deleteById
+loadAll">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Spring4+Hibernate4的通用数据访问层+业务逻辑层（Dao层+Service层）设计与实现">
+<meta property="og:url" content="http://yoursite.com/2016/06/02/javaweb/2016-06-02-framework-BaseSSH/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="序言
+基于泛型的依赖注入。当我们的项目中有很多的Model时，相应的Dao（DaoImpl),Service(ServiceImpl)也会增多。
+
+而我们对这些Model的操作很多都是类似的，下面是我举出的一些（见名知意，其它自行脑补）：
+
+
+
+save
+saveAll
+findById
+update
+saveOrUpdate
+delete
+deleteAll
+deleteById
+loadAll">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-spring4+hibernate4-base-dao-service-1.png">
+<meta property="og:updated_time" content="2017-02-08T18:00:43.785Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Spring4+Hibernate4的通用数据访问层+业务逻辑层（Dao层+Service层）设计与实现">
+<meta name="twitter:description" content="序言
+基于泛型的依赖注入。当我们的项目中有很多的Model时，相应的Dao（DaoImpl),Service(ServiceImpl)也会增多。
+
+而我们对这些Model的操作很多都是类似的，下面是我举出的一些（见名知意，其它自行脑补）：
+
+
+
+save
+saveAll
+findById
+update
+saveOrUpdate
+delete
+deleteAll
+deleteById
+loadAll">
+<meta name="twitter:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-spring4+hibernate4-base-dao-service-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/06/02/javaweb/2016-06-02-framework-BaseSSH/"/>
+
+
+
+
+
+  <title> 基于Spring4+Hibernate4的通用数据访问层+业务逻辑层（Dao层+Service层）设计与实现 | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hexo</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-Web技术 " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/02/javaweb/2016-06-02-framework-BaseSSH/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                基于Spring4+Hibernate4的通用数据访问层+业务逻辑层（Dao层+Service层）设计与实现
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-06-02T00:00:00+08:00">
+                2016-06-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><ul>
+<li><p>基于泛型的依赖注入。当我们的项目中有很多的Model时，相应的Dao（DaoImpl),Service(ServiceImpl)也会增多。</p>
+</li>
+<li><p>而我们对这些Model的操作很多都是类似的，下面是我举出的一些（见名知意，其它自行脑补）：</p>
+</li>
+</ul>
+<ol>
+<li>save</li>
+<li>saveAll</li>
+<li>findById</li>
+<li>update</li>
+<li>saveOrUpdate</li>
+<li>delete</li>
+<li>deleteAll</li>
+<li>deleteById</li>
+<li>loadAll</li>
+<li>load(int page,int rows)</li>
+<li>getTotalCount</li>
+<li>getScrollData(int firstResult, int maxResult)</li>
+<li>getScrollData(int firstResult, int maxResult, LinkedHashMap<string, string=""> orderby)</string,></li>
+<li>getScrollData(int firstResult, int maxResult, String where, Object[] params)</li>
+<li>getScrollData(int firstResult, int maxResult, String where, Object[] params, LinkedHashMap<string, string=""> orderby)</string,></li>
+</ol>
+<ul>
+<li><p>如果我们在每个Dao(DaoImpl),Service(ServiceImpl)中都定义这些方法，我们来算一下。假如有20个Model，那么：20<em>15</em>（2+2）= 1200。纳里，这么一堆破东西就花了1200个方法！！！！（下次可以用这个凑代码量了。。。。）平均每个方法实现了20次，平均每个方法复制了不下40次。还要保证不出任何错误，这个还真是个苦力活。下面是我们更先进的方法。【注：此方法必须将spring更新到4，Spring3还不支持泛型注入！】</p>
+</li>
+<li><p>我们在Dao(DaoImpl),Service(ServiceImpl)中定义BaseDao(BaseDaoImpl),BaseService(BaseServiceImpl),然后由于ORM使用的是hibernate，我们在操作一个实体的时候其实只需要知道两个属性{Model.id.class（主键类型），Model.class（实体类类型）}，好吧其实都是Class类型，还是可序列化的。这样我们的BaseDao在实现的时候不需要关注具体是哪个实体类，根据Model.id.class和Model.class即可获取操作的一切【就CURD操作来说】。然后每个具体的Dao继承BaseDao,就可以拥有BaseDao中定义的十多个方法（不需重复复制代码），还可以根据业务需求扩展具体Dao中的方法，做到了很大程度的解耦（基础操作和特殊操作的解耦）。然后具体的DaoImpl首先继承自BaseDaoImpl（这样那十多个基础方法的实现就又可以省去了）再实现自己Dao的特殊业务逻辑方法。解耦很到位！【当然既然是基于泛型的那么别传错了Model类！！！】。</p>
+</li>
+<li><p>同理，Service（ServiceImpl）层也是一样的！！！</p>
+</li>
+</ul>
+<h2 id="包的结构"><a href="#包的结构" class="headerlink" title="包的结构"></a>包的结构</h2><ul>
+<li>com.xy.model<ul>
+<li>Car</li>
+<li>Driver</li>
+<li>Passenger</li>
+</ul>
+</li>
+<li>com.xy.dao<ul>
+<li>BaseDao</li>
+<li>CarDao</li>
+<li>DriverDao</li>
+<li>PassengerDao</li>
+</ul>
+</li>
+<li>com.xy.dao.impl<ul>
+<li>BaseDaoImpl</li>
+<li>CarDaoImpl</li>
+<li>DriverDaoImpl</li>
+<li>PassengerDaoImpl</li>
+</ul>
+</li>
+<li>com.xy.service<ul>
+<li>BaseService</li>
+<li>CarService</li>
+<li>DriverService</li>
+<li>PassengerService</li>
+</ul>
+</li>
+<li>com.xy.service.impl<ul>
+<li>BaseServiceImpl</li>
+<li>CarServiceImpl</li>
+<li>DriverServiceImpl</li>
+<li>PassengerServiceImpl</li>
+</ul>
+</li>
+</ul>
+<h2 id="配置文件信息"><a href="#配置文件信息" class="headerlink" title="配置文件信息"></a>配置文件信息</h2><h3 id="web-xml"><a href="#web-xml" class="headerlink" title="web.xml"></a>web.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.request.RequestContextListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:spring.xml,classpath:spring-hibernate.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.util.IntrospectorCleanupListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>openSessionInViewFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>singleSession<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>openSessionInViewFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.action<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="Spring-xml"><a href="#Spring-xml" class="headerlink" title="Spring.xml"></a>Spring.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line"><span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line"><span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></div><div class="line"><span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></div><div class="line">http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</div><div class="line">http://www.springframework.org/schema/context</div><div class="line">http://www.springframework.org/schema/context/spring-context-3.0.xsd</div><div class="line">"&gt;</div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 引入属性文件,config.properties位于src/main/resources目录下 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">"classpath:config.properties"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 自动扫描dao和service包(自动注入) --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.xy.dao.**,com.xy.service.**"</span> /&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="Spring-hibernate-xml"><a href="#Spring-hibernate-xml" class="headerlink" title="Spring-hibernate.xml"></a>Spring-hibernate.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:tx</span>=<span class="string">"http://www.springframework.org/schema/tx"</span> <span class="attr">xmlns:aop</span>=<span class="string">"http://www.springframework.org/schema/aop"</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"</span></span></div><div class="line">http://www.springframework.org/schema/beans</div><div class="line">http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</div><div class="line">http://www.springframework.org/schema/tx</div><div class="line">http://www.springframework.org/schema/tx/spring-tx-3.0.xsd</div><div class="line">http://www.springframework.org/schema/aop</div><div class="line">http://www.springframework.org/schema/aop/spring-aop-3.0.xsd</div><div class="line">"&gt;</div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 配置数据源 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span> <span class="attr">init-method</span>=<span class="string">"init"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc_url&#125;"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc_username&#125;"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc_password&#125;"</span> /&gt;</span></div><div class="line"></div><div class="line">        <span class="comment">&lt;!-- 初始化连接大小 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"initialSize"</span> <span class="attr">value</span>=<span class="string">"0"</span> /&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 连接池最大使用连接数量 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxActive"</span> <span class="attr">value</span>=<span class="string">"20"</span> /&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 连接池最小空闲 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minIdle"</span> <span class="attr">value</span>=<span class="string">"0"</span> /&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 获取连接最大等待时间 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxWait"</span> <span class="attr">value</span>=<span class="string">"60000"</span> /&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"validationQuery"</span> <span class="attr">value</span>=<span class="string">"$&#123;validationQuery&#125;"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnBorrow"</span> <span class="attr">value</span>=<span class="string">"false"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnReturn"</span> <span class="attr">value</span>=<span class="string">"false"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testWhileIdle"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line"></div><div class="line">        <span class="comment">&lt;!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"timeBetweenEvictionRunsMillis"</span> <span class="attr">value</span>=<span class="string">"60000"</span> /&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 配置一个连接在池中最小生存的时间，单位是毫秒 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minEvictableIdleTimeMillis"</span> <span class="attr">value</span>=<span class="string">"25200000"</span> /&gt;</span></div><div class="line"></div><div class="line">        <span class="comment">&lt;!-- 打开removeAbandoned功能 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"removeAbandoned"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 1800秒，也就是30分钟 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"removeAbandonedTimeout"</span> <span class="attr">value</span>=<span class="string">"1800"</span> /&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 关闭abanded连接时输出错误日志 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"logAbandoned"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line"></div><div class="line">        <span class="comment">&lt;!-- 监控数据库 --&gt;</span></div><div class="line">        <span class="comment">&lt;!-- &lt;property name="filters" value="stat" /&gt; --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"filters"</span> <span class="attr">value</span>=<span class="string">"mergeStat"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 配置hibernate session工厂 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.springframework.orm.hibernate4.LocalSessionFactoryBean"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernateProperties"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">props</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!-- web项目启动时是否更新表结构 --&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.hbm2ddl.auto"</span>&gt;</span>$&#123;hibernate.hbm2ddl.auto&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!-- 系统使用的数据库方言，也就是使用的数据库类型 --&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.dialect"</span>&gt;</span>$&#123;hibernate.dialect&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!-- 是否打印Hibernate生成的SQL到控制台 --&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.show_sql"</span>&gt;</span>$&#123;hibernate.show_sql&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!-- 是否格式化打印出来的SQL --&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">prop</span> <span class="attr">key</span>=<span class="string">"hibernate.format_sql"</span>&gt;</span>$&#123;hibernate.format_sql&#125;<span class="tag">&lt;/<span class="name">prop</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">props</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 自动扫描注解方式配置的hibernate类文件 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"packagesToScan"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">list</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.xy.model<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">list</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="comment">&lt;!-- 自动扫描hbm方式配置的hibernate文件和.hbm文件 --&gt;</span></div><div class="line">        <span class="comment">&lt;!--</span></div><div class="line">        &lt;property name="mappingDirectoryLocations"&gt;</div><div class="line">            &lt;list&gt;</div><div class="line">                &lt;value&gt;classpath:me/gacl/model/hbm&lt;/value&gt;</div><div class="line">            &lt;/list&gt;</div><div class="line">        &lt;/property&gt;</div><div class="line">         --&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 配置事务管理器 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">name</span>=<span class="string">"transactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.orm.hibernate4.HibernateTransactionManager"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sessionFactory"</span> <span class="attr">ref</span>=<span class="string">"sessionFactory"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 注解方式配置事物 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="核心部分（Dao层）"><a href="#核心部分（Dao层）" class="headerlink" title="核心部分（Dao层）"></a>核心部分（Dao层）</h2><h3 id="BaseDao-Java"><a href="#BaseDao-Java" class="headerlink" title="BaseDao.Java"></a>BaseDao.Java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseDaoInter</span>&lt;<span class="title">K</span> <span class="keyword">extends</span> <span class="title">Serializable</span> ,<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Serializable</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 由session工厂获取当前session对象</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> Session <span class="title">getSession</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 将实体对象保存到数据库中</div><div class="line">     * <span class="doctag">@param</span> t 待保存的实体对象</div><div class="line">     * <span class="doctag">@return</span> 实体对象的ID</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> K <span class="title">save</span><span class="params">(T t)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 将实体对象【集合】保存到数据库中</div><div class="line">     * <span class="doctag">@param</span> ct 实体对象【集合】</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveAll</span><span class="params">(Collection&lt;T&gt; ct)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 根据Id查询实体对象</div><div class="line">     * <span class="doctag">@param</span> id 表记录中的对应的id字段</div><div class="line">     * <span class="doctag">@return</span> 对应的实体对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">findById</span><span class="params">(K id)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 更新一条记录</div><div class="line">     * <span class="doctag">@param</span> t 待更新记录对应的实体对象</div><div class="line">     * <span class="doctag">@return</span> 更新后的实体对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">update</span><span class="params">(T t)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 保存或更新一个实体对象到表记录中</div><div class="line">     * <span class="doctag">@param</span> t 待更新的实体对象</div><div class="line">     * <span class="doctag">@return</span> 更新后的实体对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">saveOrUpdate</span><span class="params">(T t)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 删除一个实体对象对应的表记录</div><div class="line">     * <span class="doctag">@param</span> t 待删除的实体对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(T t)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 删除一组记录</div><div class="line">     * <span class="doctag">@param</span> ct 待删除记录集合</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteAll</span><span class="params">(Collection&lt;T&gt; ct)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 根据id删除一条记录</div><div class="line">     * <span class="doctag">@param</span> id 待删除记录id</div><div class="line">     * <span class="doctag">@return</span> 是否删除成功（id是否有效）</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deleteById</span><span class="params">(K id)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 加载所有记录集合</div><div class="line">     * <span class="doctag">@return</span> 所有记录集合</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">loadAll</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分页加载记录集合</div><div class="line">     * <span class="doctag">@param</span> page 当前第多少页</div><div class="line">     * <span class="doctag">@param</span> rows 每页最多多少行数据</div><div class="line">     * <span class="doctag">@return</span> 第page页的数据集合</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">load</span><span class="params">(<span class="keyword">int</span> page,<span class="keyword">int</span> rows)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 获取总记录数</div><div class="line">     * <span class="doctag">@return</span> 总数</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getTotalCount</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/******************************HQL******************************/</span></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分页获取所有记录</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分页获取记录</div><div class="line">     * <span class="doctag">@param</span> firstResult 开始索引,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> maxResult 每页获取的记录数,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分页获取记录</div><div class="line">     * <span class="doctag">@param</span> firstResult 开始索引,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> maxResult 每页获取的记录数,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> orderby 排序,Key为排序属性,Value为asc/desc,如:</div><div class="line">     *  LinkedHashMap&lt;String, String&gt; orderby = new LinkedHashMap&lt;String, String&gt;();</div><div class="line">        orderby.put("email", "asc");</div><div class="line">        orderby.put("password", "desc");</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult, LinkedHashMap&lt;String, String&gt; orderby)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分页获取记录</div><div class="line">     * <span class="doctag">@param</span> firstResult 开始索引,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> maxResult 每页获取的记录数,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> where 条件语句,不带where关键字,条件语句只能使用位置参数,位置参数的索引值以1开始,如:o.username=?1 and o.password=?2</div><div class="line">     * <span class="doctag">@param</span> params 条件语句出现的位置参数值</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult, String where, Object[] params)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分页获取记录</div><div class="line">     * <span class="doctag">@param</span> firstResult 开始索引,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> maxResult 每页获取的记录数,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> where 条件语句,不带where关键字,条件语句只能使用位置参数,位置参数的索引值以1开始,如:o.username=?1 and o.password=?2</div><div class="line">     * <span class="doctag">@param</span> params 条件语句出现的位置参数值</div><div class="line">     * <span class="doctag">@param</span> orderby 排序,Key为排序属性,Value为asc/desc,如:</div><div class="line">     *  LinkedHashMap&lt;String, String&gt; orderby = new LinkedHashMap&lt;String, String&gt;();</div><div class="line">        orderby.put("email", "asc");</div><div class="line">        orderby.put("password", "desc");</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult, String where, Object[] params, LinkedHashMap&lt;String, String&gt; orderby)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="CarDao-java"><a href="#CarDao-java" class="headerlink" title="CarDao.java"></a>CarDao.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CarDaoInter</span> <span class="keyword">extends</span> <span class="title">BaseDaoInter</span>&lt;<span class="title">Integer</span>,<span class="title">Car</span>&gt;</span>&#123;</div><div class="line">    <span class="comment">//定义扩展的方法</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="DriverDao-java"><a href="#DriverDao-java" class="headerlink" title="DriverDao.java"></a>DriverDao.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DriverDaoInter</span> <span class="keyword">extends</span> <span class="title">BaseDaoInter</span>&lt;<span class="title">Integer</span>,<span class="title">Driver</span>&gt;</span>&#123;    &lt;pre name=<span class="string">"code"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"java"</span>&gt;</div><div class="line">       <span class="comment">//定义扩展的方法</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="PassengerDao-java"><a href="#PassengerDao-java" class="headerlink" title="PassengerDao.java"></a>PassengerDao.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">PassengerDaoInter</span> <span class="keyword">extends</span> <span class="title">BaseDaoInter</span>&lt;<span class="title">Integer</span>,<span class="title">Passenger</span>&gt;</span>&#123;&lt;pre name=<span class="string">"code"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"java"</span>&gt;</div><div class="line">      <span class="comment">//定义扩展的方法</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="BaseDaoImpl-java"><a href="#BaseDaoImpl-java" class="headerlink" title="BaseDaoImpl.java"></a>BaseDaoImpl.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 不一定必须是abstract类型的， 请不要对BaseDaoImpl使用<span class="doctag">@Repository</span>注解，因为无法直接指定clatt属性值</div><div class="line"> * class值由继承类来指定</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> BearSmall</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> &lt;T&gt;</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseDaoImpl</span>&lt;<span class="title">K</span> <span class="keyword">extends</span> <span class="title">Serializable</span>, <span class="title">T</span> <span class="keyword">extends</span> <span class="title">Serializable</span>&gt;</span></div><div class="line">        <span class="keyword">implements</span> <span class="title">BaseDaoInter</span>&lt;<span class="title">K</span>, <span class="title">T</span>&gt; &#123;</div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> SessionFactory sessionFactory; <span class="comment">// 从容器中注入session工厂【无需get,set方法】</span></div><div class="line"></div><div class="line">    <span class="keyword">private</span> Class&lt;T&gt; clatt; <span class="comment">// 【实体类对应的Class对象】</span></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * //向子类暴露的接口获用来获取sessionFactory</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> sessionFactory</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> SessionFactory <span class="title">getSessionFactory</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> sessionFactory;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 保留指定clatt值的接口【通过子类显示调用父类的构造函数来指定】</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> clatt</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BaseDaoImpl</span><span class="params">(Class&lt;T&gt; clatt)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.clatt = clatt;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// @SuppressWarnings("unchecked")</span></div><div class="line">    <span class="comment">// public BaseDaoImpl() &#123;//另外一种方式指定clatt值，要求类必须是abstract类型</span></div><div class="line">    <span class="comment">// ParameterizedType parameterizedType =</span></div><div class="line">    <span class="comment">// (ParameterizedType)this.getClass().getGenericSuperclass();</span></div><div class="line">    <span class="comment">// clatt= (Class&lt;T&gt;)(parameterizedType.getActualTypeArguments()[0]);</span></div><div class="line">    <span class="comment">// &#125;</span></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Session <span class="title">getSession</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> getSessionFactory().getCurrentSession();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> K <span class="title">save</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">        Session session = getSession();</div><div class="line">        <span class="keyword">return</span> (K) session.save(t);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">findById</span><span class="params">(K id)</span> </span>&#123;</div><div class="line">        Session session = getSession();</div><div class="line">        <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">        T t = (T) session.get(clatt, id);</div><div class="line">        <span class="keyword">return</span> t;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveAll</span><span class="params">(Collection&lt;T&gt; ct)</span> </span>&#123;</div><div class="line">        Session session = getSession();</div><div class="line">        <span class="keyword">for</span> (T t : ct) &#123;</div><div class="line">            session.save(t);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">update</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">        Session session = getSession();</div><div class="line">        session.update(t);</div><div class="line">        <span class="keyword">return</span> t;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteAll</span><span class="params">(Collection&lt;T&gt; ct)</span> </span>&#123;</div><div class="line">        Session session = getSession();</div><div class="line">        <span class="keyword">for</span> (T t : ct) &#123;</div><div class="line">            session.delete(t);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">saveOrUpdate</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">        Session session = getSession();</div><div class="line">        session.saveOrUpdate(t);</div><div class="line">        <span class="keyword">return</span> t;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">        Session session = getSession();</div><div class="line">        session.delete(t);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deleteById</span><span class="params">(K id)</span> </span>&#123;</div><div class="line">        Session session = getSession();</div><div class="line">        <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">        T t = (T) session.get(clatt, id);</div><div class="line">        <span class="keyword">if</span> (t == <span class="keyword">null</span>)</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        session.delete(t);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">loadAll</span><span class="params">()</span> </span>&#123;</div><div class="line">        Session session = getSession();</div><div class="line">        Criteria criteria = session.createCriteria(clatt);</div><div class="line">        QueryResult&lt;T&gt; result = <span class="keyword">new</span> QueryResult&lt;&gt;();</div><div class="line">        result.setDatas(criteria.list());</div><div class="line">        result.setTotalCount(Long.parseLong(criteria</div><div class="line">                .setProjection(Projections.rowCount()).uniqueResult()</div><div class="line">                .toString()));</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">load</span><span class="params">(<span class="keyword">int</span> page, <span class="keyword">int</span> rows)</span> </span>&#123;</div><div class="line">        Session session = getSession();</div><div class="line">        Criteria criteria = session.createCriteria(clatt);</div><div class="line">        criteria.setFirstResult((page - <span class="number">1</span>) * rows);</div><div class="line">        criteria.setMaxResults(rows);</div><div class="line">        QueryResult&lt;T&gt; result = <span class="keyword">new</span> QueryResult&lt;&gt;();</div><div class="line">        result.setDatas(criteria.list());</div><div class="line">        result.setTotalCount(Long.parseLong(criteria</div><div class="line">                .setProjection(Projections.rowCount()).uniqueResult()</div><div class="line">                .toString()));</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getTotalCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        Session session = getSession();</div><div class="line">        Criteria criteria = session.createCriteria(clatt);</div><div class="line">        Object object = criteria.setProjection(Projections.rowCount())</div><div class="line">                .uniqueResult();</div><div class="line">        <span class="keyword">long</span> totalCount = <span class="number">0</span>;</div><div class="line">        <span class="keyword">if</span> (object != <span class="keyword">null</span>) &#123;</div><div class="line">            totalCount = Long.parseLong(object.toString());</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> totalCount;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/****************************** HQL ******************************/</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> getScrollData(-<span class="number">1</span>, -<span class="number">1</span>, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> getScrollData(firstResult, maxResult, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult,</span></span></div><div class="line">            LinkedHashMap&lt;String, String&gt; orderby) &#123;</div><div class="line">        <span class="keyword">return</span> getScrollData(firstResult, maxResult, <span class="keyword">null</span>, <span class="keyword">null</span>, orderby);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult,</span></span></div><div class="line">            String where, Object[] params) &#123;</div><div class="line">        <span class="keyword">return</span> getScrollData(firstResult, maxResult, where, params, <span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult,</span></span></div><div class="line">            String where, Object[] params, LinkedHashMap&lt;String, String&gt; orderby) &#123;</div><div class="line">        String entityName = clatt.getSimpleName();</div><div class="line">        String whereql = where != <span class="keyword">null</span> &amp;&amp; !<span class="string">""</span>.equals(where.trim()) ? <span class="string">" where "</span></div><div class="line">                + where : <span class="string">""</span>;</div><div class="line">        Session session = getSession();</div><div class="line">        Query query = session.createQuery(<span class="string">"select o from "</span> + entityName + <span class="string">" o"</span></div><div class="line">                + whereql + buildOrderby(orderby));</div><div class="line">        <span class="keyword">if</span> (firstResult != -<span class="number">1</span> &amp;&amp; maxResult != -<span class="number">1</span>)</div><div class="line">            query.setFirstResult(firstResult).setMaxResults(maxResult);</div><div class="line">        setQueryParameter(query, params);</div><div class="line"></div><div class="line">        QueryResult&lt;T&gt; qr = <span class="keyword">new</span> QueryResult&lt;T&gt;();</div><div class="line">        <span class="comment">// qr.setResultlist(query.getResultList());</span></div><div class="line">        Query queryCount = session.createQuery(<span class="string">"select count(o) from "</span></div><div class="line">                + entityName + <span class="string">" o"</span> + whereql);</div><div class="line">        setQueryParameter(queryCount, params);</div><div class="line">        <span class="keyword">long</span> count = (Long) queryCount.uniqueResult();</div><div class="line">        qr.setTotalCount(count);</div><div class="line">        qr.setDatas(query.list());</div><div class="line">        <span class="keyword">return</span> qr;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 设置查询参数</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> query</div><div class="line">     *            查询对象</div><div class="line">     * <span class="doctag">@param</span> params</div><div class="line">     *            参数值</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setQueryParameter</span><span class="params">(Query query, Object[] params)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (params != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; params.length; i++) &#123;</div><div class="line">                query.setParameter(i, params[i]);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 构建排序语句</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> orderby</div><div class="line">     *            排序属性与asc/desc, Key为属性,Value为asc/desc</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">buildOrderby</span><span class="params">(LinkedHashMap&lt;String, String&gt; orderby)</span> </span>&#123;</div><div class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</div><div class="line">        <span class="keyword">if</span> (orderby != <span class="keyword">null</span> &amp;&amp; !orderby.isEmpty()) &#123;</div><div class="line">            sb.append(<span class="string">" order by "</span>);</div><div class="line">            <span class="keyword">for</span> (Map.Entry&lt;String, String&gt; entry : orderby.entrySet()) &#123;</div><div class="line">                sb.append(<span class="string">"o."</span>).append(entry.getKey()).append(<span class="string">" "</span>)</div><div class="line">                        .append(entry.getValue()).append(<span class="string">','</span>);</div><div class="line">            &#125;</div><div class="line">            sb.deleteCharAt(sb.length() - <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> sb.toString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="CarDaoImpl-java"><a href="#CarDaoImpl-java" class="headerlink" title="CarDaoImpl.java"></a>CarDaoImpl.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Repository</span>(<span class="string">"carDao"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarDaoImpl</span> <span class="keyword">extends</span> <span class="title">BaseDaoImpl</span>&lt;<span class="title">Integer</span>,<span class="title">Car</span>&gt; <span class="keyword">implements</span> <span class="title">CarDaoInter</span></span>&#123;</div><div class="line">    <span class="comment">//通过调用父类的构造函数指定clazz值，即实体类的类类型</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CarDaoImpl</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(Car.class);</div><div class="line">    &#125;</div><div class="line">     <span class="comment">/*****************************************扩展的方法的实现****************************************/</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="DriverDaoImpl-java"><a href="#DriverDaoImpl-java" class="headerlink" title="DriverDaoImpl.java"></a>DriverDaoImpl.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Repository</span>(value=<span class="string">"driverDao"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DriverDaoImpl</span> <span class="keyword">extends</span> <span class="title">BaseDaoImpl</span>&lt;<span class="title">Integer</span>,<span class="title">Driver</span>&gt; <span class="keyword">implements</span> <span class="title">DriverDaoInter</span></span>&#123;</div><div class="line">    <span class="comment">//通过调用父类的构造函数指定clazz值，即实体类的类类型</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DriverDaoImpl</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(Driver.class);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*****************************************扩展的方法的实现****************************************/</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="PassengerDaoImpl-java"><a href="#PassengerDaoImpl-java" class="headerlink" title="PassengerDaoImpl.java"></a>PassengerDaoImpl.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Repository</span>(<span class="string">"passengerDao"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PassengerDaoImpl</span> <span class="keyword">extends</span> <span class="title">BaseDaoImpl</span>&lt;<span class="title">Integer</span>,<span class="title">Passenger</span>&gt; <span class="keyword">implements</span> <span class="title">PassengerDaoInter</span> </span>&#123;</div><div class="line">    <span class="comment">//通过调用父类的构造函数指定clazz值，即实体类的类类型</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PassengerDaoImpl</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(Passenger.class);</div><div class="line">    &#125;&lt;pre name=<span class="string">"code"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"java"</span>&gt;</div><div class="line">       <span class="comment">/*****************************************扩展的方法的实现****************************************/</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="核心部分（Service层）"><a href="#核心部分（Service层）" class="headerlink" title="核心部分（Service层）"></a>核心部分（Service层）</h2><h3 id="BaseService-java"><a href="#BaseService-java" class="headerlink" title="BaseService.java"></a>BaseService.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BaseServiceInter</span>&lt;<span class="title">K</span> <span class="keyword">extends</span> <span class="title">Serializable</span>,<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Serializable</span>&gt;  </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 将实体对象保存到数据库中</div><div class="line">     * <span class="doctag">@param</span> t 待保存的实体对象</div><div class="line">     * <span class="doctag">@return</span> 实体对象的ID</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> K <span class="title">save</span><span class="params">(T t)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 将实体对象【集合】保存到数据库中</div><div class="line">     * <span class="doctag">@param</span> ct 实体对象【集合】</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveAll</span><span class="params">(Collection&lt;T&gt; ct)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 根据Id查询实体对象</div><div class="line">     * <span class="doctag">@param</span> id 表记录中的对应的id字段</div><div class="line">     * <span class="doctag">@return</span> 对应的实体对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">findById</span><span class="params">(K id)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 更新一条记录</div><div class="line">     * <span class="doctag">@param</span> t 待更新记录对应的实体对象</div><div class="line">     * <span class="doctag">@return</span> 更新后的实体对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">update</span><span class="params">(T t)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 保存或更新一个实体对象到表记录中</div><div class="line">     * <span class="doctag">@param</span> t 待更新的实体对象</div><div class="line">     * <span class="doctag">@return</span> 更新后的实体对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">saveOrUpdate</span><span class="params">(T t)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 删除一个实体对象对应的表记录</div><div class="line">     * <span class="doctag">@param</span> t 待删除的实体对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(T t)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 删除一组记录</div><div class="line">     * <span class="doctag">@param</span> ct 待删除记录集合</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteAll</span><span class="params">(Collection&lt;T&gt; ct)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 根据id删除一条记录</div><div class="line">     * <span class="doctag">@param</span> id 待删除记录id</div><div class="line">     * <span class="doctag">@return</span> 是否删除成功（id是否有效）</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deleteById</span><span class="params">(K id)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 加载所有记录集合</div><div class="line">     * <span class="doctag">@return</span> 所有记录集合</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">loadAll</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分页加载记录集合</div><div class="line">     * <span class="doctag">@param</span> page 当前第多少页</div><div class="line">     * <span class="doctag">@param</span> rows 每页最多多少行数据</div><div class="line">     * <span class="doctag">@return</span> 第page页的数据集合</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">load</span><span class="params">(<span class="keyword">int</span> page,<span class="keyword">int</span> rows)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 获取总记录数</div><div class="line">     * <span class="doctag">@return</span> 总数</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getTotalCount</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">/******************************HQL******************************/</span></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分页获取所有记录</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">()</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分页获取记录</div><div class="line">     * <span class="doctag">@param</span> firstResult 开始索引,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> maxResult 每页获取的记录数,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分页获取记录</div><div class="line">     * <span class="doctag">@param</span> firstResult 开始索引,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> maxResult 每页获取的记录数,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> orderby 排序,Key为排序属性,Value为asc/desc,如:</div><div class="line">     *  LinkedHashMap&lt;String, String&gt; orderby = new LinkedHashMap&lt;String, String&gt;();</div><div class="line">        orderby.put("email", "asc");</div><div class="line">        orderby.put("password", "desc");</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult, LinkedHashMap&lt;String, String&gt; orderby)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分页获取记录</div><div class="line">     * <span class="doctag">@param</span> firstResult 开始索引,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> maxResult 每页获取的记录数,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> where 条件语句,不带where关键字,条件语句只能使用位置参数,位置参数的索引值以1开始,如:o.username=?1 and o.password=?2</div><div class="line">     * <span class="doctag">@param</span> params 条件语句出现的位置参数值</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult, String where, Object[] params)</span></span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 分页获取记录</div><div class="line">     * <span class="doctag">@param</span> firstResult 开始索引,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> maxResult 每页获取的记录数,如果输入值为-1,即获取全部数据</div><div class="line">     * <span class="doctag">@param</span> where 条件语句,不带where关键字,条件语句只能使用位置参数,位置参数的索引值以1开始,如:o.username=?1 and o.password=?2</div><div class="line">     * <span class="doctag">@param</span> params 条件语句出现的位置参数值</div><div class="line">     * <span class="doctag">@param</span> orderby 排序,Key为排序属性,Value为asc/desc,如:</div><div class="line">     *  LinkedHashMap&lt;String, String&gt; orderby = new LinkedHashMap&lt;String, String&gt;();</div><div class="line">        orderby.put("email", "asc");</div><div class="line">        orderby.put("password", "desc");</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult, String where, Object[] params, LinkedHashMap&lt;String, String&gt; orderby)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="CarService-java"><a href="#CarService-java" class="headerlink" title="CarService.java"></a>CarService.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CarServiceInter</span> <span class="keyword">extends</span> <span class="title">BaseServiceInter</span>&lt;<span class="title">Integer</span>,<span class="title">Car</span>&gt;</span>&#123;</div><div class="line">    <span class="comment">//定义扩展的方法</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="DriverService-java"><a href="#DriverService-java" class="headerlink" title="DriverService.java"></a>DriverService.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DriverServiceInter</span> <span class="keyword">extends</span> <span class="title">BaseServiceInter</span>&lt;<span class="title">Integer</span>,<span class="title">Driver</span>&gt;</span>&#123;</div><div class="line">    <span class="comment">//定义扩展的方法</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="PassengerService-java"><a href="#PassengerService-java" class="headerlink" title="PassengerService.java"></a>PassengerService.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">PassengerServiceInter</span> <span class="keyword">extends</span> <span class="title">BaseServiceInter</span>&lt;<span class="title">Integer</span>,<span class="title">Passenger</span>&gt;</span>&#123;</div><div class="line">    <span class="comment">//定义扩展的方法</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="BaseServiceImpl-java"><a href="#BaseServiceImpl-java" class="headerlink" title="BaseServiceImpl.java"></a>BaseServiceImpl.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Transactional</span>(propagation=Propagation.REQUIRED)</div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseServiceImpl</span>&lt;<span class="title">K</span> <span class="keyword">extends</span> <span class="title">Serializable</span>,<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Serializable</span>&gt; <span class="keyword">implements</span> <span class="title">BaseServiceInter</span>&lt;<span class="title">K</span>,<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> BaseDaoInter&lt;K,T&gt; baseDao;        <span class="comment">//从容器中注入session工厂【无需get,set方法】</span></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> K <span class="title">save</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> baseDao.save(t);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">saveAll</span><span class="params">(Collection&lt;T&gt; ct)</span> </span>&#123;</div><div class="line">        baseDao.saveAll(ct);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">findById</span><span class="params">(K id)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> baseDao.findById(id);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">update</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> baseDao.update(t);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">saveOrUpdate</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> baseDao.saveOrUpdate(t);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">        baseDao.delete(t);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteAll</span><span class="params">(Collection&lt;T&gt; ct)</span> </span>&#123;</div><div class="line">        baseDao.deleteAll(ct);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deleteById</span><span class="params">(K id)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> baseDao.deleteById(id);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">loadAll</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> baseDao.loadAll();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">load</span><span class="params">(<span class="keyword">int</span> page, <span class="keyword">int</span> rows)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> baseDao.load(page, rows);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getTotalCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> baseDao.getTotalCount();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/******************************HQL******************************/</span></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> baseDao.getScrollData();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> baseDao.getScrollData(firstResult, maxResult);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult,</span></span></div><div class="line">            LinkedHashMap&lt;String, String&gt; orderby) &#123;</div><div class="line">        <span class="keyword">return</span> baseDao.getScrollData(firstResult, maxResult, orderby);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult,</span></span></div><div class="line">            String where, Object[] params) &#123;</div><div class="line">        <span class="keyword">return</span> baseDao.getScrollData(firstResult, maxResult, where, params);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> QueryResult&lt;T&gt; <span class="title">getScrollData</span><span class="params">(<span class="keyword">int</span> firstResult, <span class="keyword">int</span> maxResult,</span></span></div><div class="line">            String where, Object[] params, LinkedHashMap&lt;String, String&gt; orderby) &#123;</div><div class="line">        <span class="keyword">return</span> baseDao.getScrollData(firstResult, maxResult, where, params, orderby);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="CarServiceImpl-java"><a href="#CarServiceImpl-java" class="headerlink" title="CarServiceImpl.java"></a>CarServiceImpl.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Service</span>(<span class="string">"carProxy"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarServiceImpl</span> <span class="keyword">extends</span> <span class="title">BaseServiceImpl</span>&lt;<span class="title">Integer</span>,<span class="title">Car</span>&gt; <span class="keyword">implements</span> <span class="title">CarServiceInter</span> </span>&#123;</div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> CarDaoInter carDao;        <span class="comment">//从容器中注入session工厂【无需get,set方法】</span></div><div class="line"></div><div class="line">      <span class="comment">/*****************************************扩展的方法的实现****************************************/</span></div><div class="line"></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h3 id="DriverServiceImpl-java"><a href="#DriverServiceImpl-java" class="headerlink" title="DriverServiceImpl.java"></a>DriverServiceImpl.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Service</span>(<span class="string">"driverProxy"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DriverServiceImpl</span> <span class="keyword">extends</span> <span class="title">BaseServiceImpl</span>&lt;<span class="title">Integer</span>,<span class="title">Driver</span>&gt; <span class="keyword">implements</span> <span class="title">DriverServiceInter</span> </span>&#123;</div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> DriverDaoInter driverDao;       <span class="comment">//从容器中注入session工厂【无需get,set方法】</span></div><div class="line"></div><div class="line">       <span class="comment">/*****************************************扩展的方法的实现****************************************/</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="PassengerServiceImpl-java"><a href="#PassengerServiceImpl-java" class="headerlink" title="PassengerServiceImpl.java"></a>PassengerServiceImpl.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Service</span>(<span class="string">"passengerProxy"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PassengerServiceImpl</span> <span class="keyword">extends</span> <span class="title">BaseServiceImpl</span>&lt;<span class="title">Integer</span>,<span class="title">Passenger</span>&gt; <span class="keyword">implements</span> <span class="title">PassengerServiceInter</span> </span>&#123;</div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> PassengerDaoInter passengerDao;     <span class="comment">//从容器中注入session工厂【无需get,set方法】</span></div><div class="line"></div><div class="line">      <span class="comment">/*****************************************扩展的方法的实现****************************************/</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="UML图"><a href="#UML图" class="headerlink" title="UML图"></a>UML图</h2><ul>
+<li>Model类没有贴进来</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-spring4+hibernate4-base-dao-service-1.png" alt="spring4 hibernate base dao service"></p>
+<ul>
+<li>感觉这次的博文有点长。。。。。。</li>
+<li>下次少贴点代码，多贴点图吧。。。。。。</li>
+<li>欢迎拍砖！！！</li>
+<li>Plus：源代码传送门：<a href="https://github.com/bearsmall/BASESSH2" target="_blank" rel="external">https://github.com/bearsmall/BASESSH2</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaWeb-Spring-Hibernate-通用Dao/" rel="tag"># JavaWeb,Spring,Hibernate,通用Dao</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/26/javaweb/2016-01-26-Servlet-write-encoding/" rel="next" title="Servlet中直接response.getWriter().write() 输出乱码解决！">
+                <i class="fa fa-chevron-left"></i> Servlet中直接response.getWriter().write() 输出乱码解决！
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/02/android/2016-06-02-android-webview/" rel="prev" title="一次Android WebView使用的苦逼体验之旅">
+                一次Android WebView使用的苦逼体验之旅 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#序言"><span class="nav-number">1.</span> <span class="nav-text">序言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#包的结构"><span class="nav-number">2.</span> <span class="nav-text">包的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件信息"><span class="nav-number">3.</span> <span class="nav-text">配置文件信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#web-xml"><span class="nav-number">3.1.</span> <span class="nav-text">web.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-xml"><span class="nav-number">3.2.</span> <span class="nav-text">Spring.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-hibernate-xml"><span class="nav-number">3.3.</span> <span class="nav-text">Spring-hibernate.xml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心部分（Dao层）"><span class="nav-number">4.</span> <span class="nav-text">核心部分（Dao层）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BaseDao-Java"><span class="nav-number">4.1.</span> <span class="nav-text">BaseDao.Java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CarDao-java"><span class="nav-number">4.2.</span> <span class="nav-text">CarDao.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DriverDao-java"><span class="nav-number">4.3.</span> <span class="nav-text">DriverDao.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PassengerDao-java"><span class="nav-number">4.4.</span> <span class="nav-text">PassengerDao.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BaseDaoImpl-java"><span class="nav-number">4.5.</span> <span class="nav-text">BaseDaoImpl.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CarDaoImpl-java"><span class="nav-number">4.6.</span> <span class="nav-text">CarDaoImpl.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DriverDaoImpl-java"><span class="nav-number">4.7.</span> <span class="nav-text">DriverDaoImpl.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PassengerDaoImpl-java"><span class="nav-number">4.8.</span> <span class="nav-text">PassengerDaoImpl.java</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心部分（Service层）"><span class="nav-number">5.</span> <span class="nav-text">核心部分（Service层）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BaseService-java"><span class="nav-number">5.1.</span> <span class="nav-text">BaseService.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CarService-java"><span class="nav-number">5.2.</span> <span class="nav-text">CarService.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DriverService-java"><span class="nav-number">5.3.</span> <span class="nav-text">DriverService.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PassengerService-java"><span class="nav-number">5.4.</span> <span class="nav-text">PassengerService.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BaseServiceImpl-java"><span class="nav-number">5.5.</span> <span class="nav-text">BaseServiceImpl.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CarServiceImpl-java"><span class="nav-number">5.6.</span> <span class="nav-text">CarServiceImpl.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DriverServiceImpl-java"><span class="nav-number">5.7.</span> <span class="nav-text">DriverServiceImpl.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PassengerServiceImpl-java"><span class="nav-number">5.8.</span> <span class="nav-text">PassengerServiceImpl.java</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UML图"><span class="nav-number">6.</span> <span class="nav-text">UML图</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

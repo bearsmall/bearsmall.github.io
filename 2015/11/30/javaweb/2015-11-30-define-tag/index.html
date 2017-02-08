@@ -1,0 +1,688 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="tag" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="引言在javaweb开发中我们可能经常会用到basePath这个参数，没错，当我们新建一个jsp页面的时候，myeclipse会自动帮我们生成下面这段代码：
+1234&amp;lt;%String path = request.getContextPath();String basePath = request.getScheme()+&quot;://&quot;+request.getServerName()+&quot;:&quot;+r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVAWEB之自定义TAG开发">
+<meta property="og:url" content="http://yoursite.com/2015/11/30/javaweb/2015-11-30-define-tag/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="引言在javaweb开发中我们可能经常会用到basePath这个参数，没错，当我们新建一个jsp页面的时候，myeclipse会自动帮我们生成下面这段代码：
+1234&amp;lt;%String path = request.getContextPath();String basePath = request.getScheme()+&quot;://&quot;+request.getServerName()+&quot;:&quot;+r">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-tag-1.png">
+<meta property="og:updated_time" content="2017-02-08T18:00:43.672Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JAVAWEB之自定义TAG开发">
+<meta name="twitter:description" content="引言在javaweb开发中我们可能经常会用到basePath这个参数，没错，当我们新建一个jsp页面的时候，myeclipse会自动帮我们生成下面这段代码：
+1234&amp;lt;%String path = request.getContextPath();String basePath = request.getScheme()+&quot;://&quot;+request.getServerName()+&quot;:&quot;+r">
+<meta name="twitter:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-tag-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/11/30/javaweb/2015-11-30-define-tag/"/>
+
+
+
+
+
+  <title> JAVAWEB之自定义TAG开发 | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hexo</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-Web技术 " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/30/javaweb/2015-11-30-define-tag/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JAVAWEB之自定义TAG开发
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-11-30T00:00:00+08:00">
+                2015-11-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在javaweb开发中我们可能经常会用到basePath这个参数，没错，当我们新建一个jsp页面的时候，myeclipse会自动帮我们生成下面这段代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">String path = request.getContextPath();</div><div class="line">String basePath = request.getScheme()+<span class="string">"://"</span>+request.getServerName()+<span class="string">":"</span>+request.getServerPort()+path+<span class="string">"/"</span>;</div><div class="line">%&gt;</div></pre></td></tr></table></figure>
+<h2 id="使用标签"><a href="#使用标签" class="headerlink" title="使用标签"></a>使用标签</h2><p>起初也许你看他不爽，后来发现这个东西确实很有用哦，但是我们仔细数了数这代码行数有点多，而且还是jsp页面嵌套Java代码实现的，看起来有些不伦不类（话又说回来，这个用肯定是没有问题的）。</p>
+<p>现在我们想把这段代码抽离出来，用更简洁的方式实现同样的功能，即提供basePath参数。我们知道jsp页面中的jstl标签库功能强大，我们只需要在jsp页面引入这么一条代码就可以使用功能如此强大的标签。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%@ taglib prefix=<span class="string">"c"</span> uri=<span class="string">"http://java.sun.com/jsp/jstl/core"</span>%&gt;</div></pre></td></tr></table></figure>
+<p>同样的，我们打算也用这种方式实现，不过jstl标签库中并没有提供basePath参数，不然也不用我们在这大费周章自定义Tag了。好了废话不多说。我们来实际操作吧：</p>
+<ul>
+<li>新建一个WebProject，名字自己定，这里我用Tag</li>
+<li>然后我们新建一个文件夹用来存放自定义标签文件（.tld文件），名字自己定，这里我就用WEB-TAG了</li>
+<li>新建一个tld文件，名字自己定，这里我就用tools.tld了</li>
+<li>taglib标签的内容如下：</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;taglib&gt;</div><div class="line">    &lt;tlib-version&gt;1.0&lt;/tlib-version&gt;</div><div class="line">    &lt;jsp-version&gt;1.2&lt;/jsp-version&gt;</div><div class="line">    &lt;short-name&gt;base&lt;/short-name&gt;</div><div class="line">    &lt;tag&gt;</div><div class="line">        &lt;name&gt;basePath&lt;/name&gt;</div><div class="line">        &lt;tag-class&gt;com.xy.tag.BasePathTag&lt;/t`ag-class&gt;</div><div class="line">        &lt;body-content&gt;jsp&lt;/body-content&gt;</div><div class="line">    &lt;/tag&gt;</div><div class="line">&lt;/taglib&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>新建一个类BasePathTag 继承自TagSupport</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.xy.tag;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</div><div class="line"><span class="keyword">import</span> javax.servlet.jsp.JspException;</div><div class="line"><span class="keyword">import</span> javax.servlet.jsp.JspWriter;</div><div class="line"><span class="keyword">import</span> javax.servlet.jsp.tagext.TagSupport;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BasePathTag</span> <span class="keyword">extends</span> <span class="title">TagSupport</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">doEndTag</span><span class="params">()</span> <span class="keyword">throws</span> JspException </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">doStartTag</span><span class="params">()</span> <span class="keyword">throws</span> JspException </span>&#123;</div><div class="line">        HttpServletRequest request = (HttpServletRequest)<span class="keyword">this</span>.pageContext.getRequest();</div><div class="line">        String path = request.getContextPath();</div><div class="line">        String basePath = request.getScheme() + <span class="string">"://"</span> + request.getServerName() + <span class="string">":"</span> + request.getServerPort() + path + <span class="string">"/"</span>;</div><div class="line">        JspWriter jspw = <span class="keyword">this</span>.pageContext.getOut();</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            jspw.print(basePath);</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>是不是在这里看到了这两行熟悉的语句：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String path = request.getContextPath();</div><div class="line">String basePath = request.getScheme() + <span class="string">"://"</span> + request.getServerName() + <span class="string">":"</span> + request.getServerPort() + path + <span class="string">"/"</span>;</div></pre></td></tr></table></figure>
+<ul>
+<li>没错，我们在这里获取到了basePath参数，并借助JspWriter写到jsp页面，以什么方式写呢？当然是标签的形式，看看我们的tools.tdl文件，不能猜出是其中的basePath这个标签吧，毕竟我在里面就写了一个tag。。。。。。<br>ok，准备工作基本上做好了，下面我们开始在jsp页面中测试效果，打开项目的index.jsp页面，在最上面加入下面这行语句（就和引入jstl标签库一样）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%@ taglib prefix=<span class="string">"Cfg"</span> uri=<span class="string">"/WEB-TAG/tools.tld"</span> %&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>简单说一下里面的两个参数，prefix指的是前缀，也就是我们使用标签的时候的前缀，uri指的是我们的标签库文件路径。具体说我们如何使用就是下面这段代码了：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;Cfg:basePath/&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>你没有看错，就是这么简单！现在我们可以删除jsp文件中的那五行代码了。运行后即可正确显示：</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-tag-1.png" alt="Struts2 Json format"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Javaweb-自定义Tag/" rel="tag"># Javaweb,自定义Tag</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/30/javaweb/2015-11-30-define-tag2/" rel="next" title="JAVAWEB之自定义TAG开发二">
+                <i class="fa fa-chevron-left"></i> JAVAWEB之自定义TAG开发二
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/02/javaweb/2016-01-2-jquery-struts2-ajax/" rel="prev" title="jquery+Struts2实现ajax局部刷新分页">
+                jquery+Struts2实现ajax局部刷新分页 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用标签"><span class="nav-number">2.</span> <span class="nav-text">使用标签</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

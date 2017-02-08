@@ -1,0 +1,700 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="局部刷新,分页" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="传统的分页
+
+从URL中很明显的看出了分页的技术点，两个参数：一个是当前页page一个是页面大小size我们甚至可以直接修改URL中的参数来跳转到相应的页面。下面几个按钮也是比较常见的。
+
+弊端我简单总结一下：
+
+get请求参数在url中，虽然也不是什么敏感的信息，但是一旦哪个用户传递过来的不是整数，你后台要是不做处理肯定NumberFormatException！
+当换页的时候，后台处理请求然后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jquery+Struts2实现ajax局部刷新分页">
+<meta property="og:url" content="http://yoursite.com/2016/01/02/javaweb/2016-01-2-jquery-struts2-ajax/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="传统的分页
+
+从URL中很明显的看出了分页的技术点，两个参数：一个是当前页page一个是页面大小size我们甚至可以直接修改URL中的参数来跳转到相应的页面。下面几个按钮也是比较常见的。
+
+弊端我简单总结一下：
+
+get请求参数在url中，虽然也不是什么敏感的信息，但是一旦哪个用户传递过来的不是整数，你后台要是不做处理肯定NumberFormatException！
+当换页的时候，后台处理请求然后">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-1.png">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-2.png">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-3.png">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-4.png">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-5.png">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-6.png">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-7.png">
+<meta property="og:updated_time" content="2017-02-08T18:00:43.651Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jquery+Struts2实现ajax局部刷新分页">
+<meta name="twitter:description" content="传统的分页
+
+从URL中很明显的看出了分页的技术点，两个参数：一个是当前页page一个是页面大小size我们甚至可以直接修改URL中的参数来跳转到相应的页面。下面几个按钮也是比较常见的。
+
+弊端我简单总结一下：
+
+get请求参数在url中，虽然也不是什么敏感的信息，但是一旦哪个用户传递过来的不是整数，你后台要是不做处理肯定NumberFormatException！
+当换页的时候，后台处理请求然后">
+<meta name="twitter:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/01/02/javaweb/2016-01-2-jquery-struts2-ajax/"/>
+
+
+
+
+
+  <title> jquery+Struts2实现ajax局部刷新分页 | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hexo</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-Web技术 " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/02/javaweb/2016-01-2-jquery-struts2-ajax/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jquery+Struts2实现ajax局部刷新分页
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-01-02T00:00:00+08:00">
+                2016-01-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="传统的分页"><a href="#传统的分页" class="headerlink" title="传统的分页"></a>传统的分页</h2><p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-1.png" alt="jquery struts2 ajax"></p>
+<ul>
+<li>从URL中很明显的看出了分页的技术点，两个参数：一个是当前页page一个是页面大小size<br>我们甚至可以直接修改URL中的参数来跳转到相应的页面。下面几个按钮也是比较常见的。</li>
+</ul>
+<h3 id="弊端"><a href="#弊端" class="headerlink" title="弊端"></a>弊端</h3><p>我简单总结一下：</p>
+<ol>
+<li>get请求参数在url中，虽然也不是什么敏感的信息，但是一旦哪个用户传递过来的不是整数，<br>你后台要是不做处理肯定NumberFormatException！</li>
+<li>当换页的时候，后台处理请求然后将页面需要的数据准备好，再转到页面,然后数据填充到页面，<br>渲染页面，一个分页就需要将整个页面重新绘制一遍。要是页面就一张table还好说。但是如果页面<br>中有其它数据，你得从后台再获取一遍（虽然前后并没有什么变化）。再者，如果页面中有很多类似<br>的table你得在分页的同时保持其它table的状态信息（比如说其它table现在在第几页什么的，如果分页<br>后其它table的状态信息没有被保存，而是统一回到第一页，那体验是很不好的。）</li>
+</ol>
+<h2 id="分页的实质"><a href="#分页的实质" class="headerlink" title="分页的实质"></a>分页的实质</h2><ul>
+<li>分页我们原本只需要关心当前table中的数据更新，我们并不想”多管闲事“。当我切换页面的时候只<br>需要后台将”当前页“的数据替换成最新的数据，其它页面元素不需要多的变动。ajax局部刷新技术<br>正好可以解决这个问题。</li>
+</ul>
+<h3 id="ajax局部刷新"><a href="#ajax局部刷新" class="headerlink" title="ajax局部刷新"></a>ajax局部刷新</h3><p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-2.png" alt="jquery struts2 ajax"></p>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-3.png" alt="jquery struts2 ajax"></p>
+<ul>
+<li>可以看到虽然切换了页面，但是URL并没有改变。而且不像前面的get请求那样，这里页面不会刷，只改变<br>局部数据。</li>
+</ul>
+<h2 id="整合jquery-twbsPagination-js"><a href="#整合jquery-twbsPagination-js" class="headerlink" title="整合jquery.twbsPagination.js"></a>整合jquery.twbsPagination.js</h2><p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-4.png" alt="jquery struts2 ajax"></p>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-5.png" alt="jquery struts2 ajax"></p>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-6.png" alt="jquery struts2 ajax"></p>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-7.png" alt="jquery struts2 ajax"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jquery-struts2-ajax-分页/" rel="tag"># jquery,struts2,ajax,分页</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/30/javaweb/2015-11-30-define-tag/" rel="next" title="JAVAWEB之自定义TAG开发">
+                <i class="fa fa-chevron-left"></i> JAVAWEB之自定义TAG开发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/21/tool/2016-01-21-page-seperate/" rel="prev" title="分页求总页数">
+                分页求总页数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的分页"><span class="nav-number">1.</span> <span class="nav-text">传统的分页</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#弊端"><span class="nav-number">1.1.</span> <span class="nav-text">弊端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分页的实质"><span class="nav-number">2.</span> <span class="nav-text">分页的实质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ajax局部刷新"><span class="nav-number">2.1.</span> <span class="nav-text">ajax局部刷新</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整合jquery-twbsPagination-js"><span class="nav-number">3.</span> <span class="nav-text">整合jquery.twbsPagination.js</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

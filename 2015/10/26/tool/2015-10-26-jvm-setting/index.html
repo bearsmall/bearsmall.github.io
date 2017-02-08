@@ -1,0 +1,738 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jvm,编码设置" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="引例123456789import java.nio.charset.Charset;public class Encoding &amp;#123;    public static void main(String[] args) &amp;#123;        System.out.println(System.getProperty(&quot;file.encoding&quot;));        System.o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eclipse、IDEA环境下设置jvm默认编码">
+<meta property="og:url" content="http://yoursite.com/2015/10/26/tool/2015-10-26-jvm-setting/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="引例123456789import java.nio.charset.Charset;public class Encoding &amp;#123;    public static void main(String[] args) &amp;#123;        System.out.println(System.getProperty(&quot;file.encoding&quot;));        System.o">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-1.png">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-2.png">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-3.png">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-4.png">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-5.png">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-6.png">
+<meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-7.png">
+<meta property="og:updated_time" content="2017-02-08T18:00:43.773Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Eclipse、IDEA环境下设置jvm默认编码">
+<meta name="twitter:description" content="引例123456789import java.nio.charset.Charset;public class Encoding &amp;#123;    public static void main(String[] args) &amp;#123;        System.out.println(System.getProperty(&quot;file.encoding&quot;));        System.o">
+<meta name="twitter:image" content="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/10/26/tool/2015-10-26-jvm-setting/"/>
+
+
+
+
+
+  <title> Eclipse、IDEA环境下设置jvm默认编码 | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hexo</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-工具 " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/26/tool/2015-10-26-jvm-setting/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Eclipse、IDEA环境下设置jvm默认编码
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-10-26T00:00:00+08:00">
+                2015-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Encoding</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        System.out.println(System.getProperty(<span class="string">"file.encoding"</span>));</div><div class="line">        System.out.println(Charset.defaultCharset().name());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>打印结果是什么？</p>
+</li>
+<li><p>是GBK吧</p>
+</li>
+<li><p>估计大多数人的机器打印的结果是GBK，因为我们很多人系统默认编码就是GBK（In China）.</p>
+</li>
+<li><p>我们查看jdk文档可以看到：</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Java.nio.charset.Charset</span></div><div class="line"><span class="function"><span class="keyword">static</span> Charset <span class="title">defaultCharset</span><span class="params">()</span></span></div><div class="line">Returns the <span class="keyword">default</span> charset of <span class="keyword">this</span> Java virtual machine.</div><div class="line"><span class="comment">//java.lang.System</span></div><div class="line"><span class="keyword">static</span> String <span class="title">getProperty</span><span class="params">(String key)</span></div><div class="line">Gets the system property indicated by the specified key.</div></pre></td></tr></table></figure>
+<ul>
+<li><p>上面两个说白了上面两个方法获得的是系统默认的字符集编码，所以我们一般获得的是GBK，因为我们大部分用的是中文版的window系统。。。。。</p>
+</li>
+<li><p>但是我们能不能改呢？肯定能！</p>
+</li>
+<li><p>eclipse上 右键工程–&gt;properties–&gt;Resource–&gt;textfileEncoding</p>
+</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-1.png" alt="Eclipse Encoding Setting Page"></p>
+<ul>
+<li><p>看到这里的GBK了吧，也许你早就改过了，所以前面运行结果不是GBK。</p>
+</li>
+<li><p>试试改成utf-8，再运行程序。是不是发现运行结果变成utf-8了？</p>
+</li>
+<li><p>为了统一编码，这里我们通常设置成utf-8</p>
+</li>
+<li><p>IDEA上 File–&gt;Settings–&gt;File Encodings–&gt;Project Encoding</p>
+</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-2.png" alt="IDEA Encoding Setting Page"></p>
+<ul>
+<li><p>我们改成iso8859-1试试</p>
+</li>
+<li><p>输出是不是变成了iso8859-1。为了统一编码我们还是改回utf-8吧。【如果你之前没有改过idea的编码，这个位置还有其它几个位置编码可能就是system default即GBK】</p>
+</li>
+<li><p>这样就完了？no,no,no!!</p>
+</li>
+<li><p>我们试着建立一个web项目，web容器采用tomcat</p>
+</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-3.png" alt="IDEA Encoding Setting Page"></p>
+<ul>
+<li><p>好大的两个GBK…….【声明：IDEA上工程，文件的字符集编码已经设置成了UTF-8，所以不要怀疑是这个原因。】</p>
+</li>
+<li><p>那么，到底是什么原因呢？我们之前明明就是这样改的，而且成功了哎。</p>
+</li>
+<li><p>我只想说：可能web项目比较特殊吧，毕竟它运行的时候借助了web容器，比如这里我们使用的是tomcat容器。</p>
+</li>
+<li><p>那么我们该如何让其回归utf-8呢？</p>
+</li>
+<li><p>方法当然有，如下：来到tomcat配置界面：添加虚拟机启动参数：-Dfile.encoding=UTF-8</p>
+</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-4.png" alt="JVM Encoding Setting Page"></p>
+<ul>
+<li>我们再来运行一遍：</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-5.png" alt="JVM Encoding Setting Page"></p>
+<ul>
+<li><p>utf-8出来了，有木有。</p>
+</li>
+<li><p>纳尼，控制台出现了鸟文？</p>
+</li>
+<li><p>我们继续对IDEA做点修改。</p>
+</li>
+<li><p>打开idea安装目录下的bin文件夹，找到idea.exe.vmoptions文件并打开</p>
+</li>
+<li><p>添加一条配置信息：-Dfile.encoding=UTF-8</p>
+</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-6.png" alt="IDEA Encoding Setting Page"></p>
+<ul>
+<li>ok，重启idea，再次运行web项目</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-7.png" alt="IDEA Encoding Setting Page"></p>
+<ul>
+<li>世界顿时又美好了。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jvm编码设置-eclipse-IDEA/" rel="tag"># jvm编码设置,eclipse,IDEA</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/26/javase/2015-10-26-java-httpclient-encoding/" rel="next" title="HttpClient发送请求后得到的响应内容出现部分乱码的问题">
+                <i class="fa fa-chevron-left"></i> HttpClient发送请求后得到的响应内容出现部分乱码的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/26/javase/2015-10-26-java-file-operation/" rel="prev" title="JAVA文件操作之默认字符集编码">
+                JAVA文件操作之默认字符集编码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引例"><span class="nav-number">1.</span> <span class="nav-text">引例</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,670 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,HttpClient,Encoding" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="引言几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！
+问题代码1234567891011121314151617181920212223242526272829303132333435363738 package com.springapp.parse;imp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HttpClient发送请求后得到的响应内容出现部分乱码的问题">
+<meta property="og:url" content="http://yoursite.com/2015/10/26/javase/2015-10-26-java-httpclient-encoding/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="引言几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！
+问题代码1234567891011121314151617181920212223242526272829303132333435363738 package com.springapp.parse;imp">
+<meta property="og:updated_time" content="2017-02-08T18:00:43.778Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HttpClient发送请求后得到的响应内容出现部分乱码的问题">
+<meta name="twitter:description" content="引言几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！
+问题代码1234567891011121314151617181920212223242526272829303132333435363738 package com.springapp.parse;imp">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/10/26/javase/2015-10-26-java-httpclient-encoding/"/>
+
+
+
+
+
+  <title> HttpClient发送请求后得到的响应内容出现部分乱码的问题 | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hexo</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-语言基础 " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/26/javase/2015-10-26-java-httpclient-encoding/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                HttpClient发送请求后得到的响应内容出现部分乱码的问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-10-26T00:00:00+08:00">
+                2015-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：<br>得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！</p>
+<h3 id="问题代码"><a href="#问题代码" class="headerlink" title="问题代码"></a>问题代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">package</span> com.springapp.parse;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.http.*;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by BearSmall on 2015/10/26.</div><div class="line"> * 响应工具类</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ResponseUtils</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 返回响应正文(有乱码)</div><div class="line">     * <span class="doctag">@param</span> response</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getResponseString</span><span class="params">(HttpResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        HttpEntity entity = response.getEntity();<span class="comment">//响应实体类</span></div><div class="line">        StringBuilder result = <span class="keyword">new</span> StringBuilder();<span class="comment">//响应正文</span></div><div class="line">        <span class="keyword">if</span> (entity != <span class="keyword">null</span>) &#123;</div><div class="line">            String charset = getContentCharSet(entity);</div><div class="line">            InputStream instream = entity.getContent();</div><div class="line"></div><div class="line">            BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(</div><div class="line">                    instream));</div><div class="line">            String temp = <span class="string">""</span>;</div><div class="line">            <span class="keyword">while</span> ((temp = br.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">                String str = <span class="keyword">new</span> String(temp.getBytes(), <span class="string">"UTF-8"</span>);</div><div class="line">                result.append(str+<span class="string">"\n"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result.toString();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>发现这段代码出现了乱码问题，已知的情况是：响应的正文是utf-8格式的。出问题的地方也是这个位子。由于对Java编码解码理解得不是太透彻，试过很多笨办法，果然解决了部分乱码问题，但是来了个全部乱码。。。。。。。果然是个冷笑话。本来打算就这样了，反正影响不是特别大，但是越往后面这个问题越来越明显。基本上爬下来的大一点的页面都会零零散散的出现乱码现象，很是讨人嫌。</p>
+</li>
+<li><p>最后发现了问题的症结所在，这里跟大家分享一下：</p>
+</li>
+</ul>
+<p>从代码上看，没有逻辑上的错误。我们就看看细节吧。<br>首先从响应对象response中得到InputStream 流。然后包装成BufferredReader对象。最后一行一行的读取。但是这样读取的字符串会出现乱码，于是我们从新对读到的每一行字符串重新编码，设置成和inputstream匹配的utf-8。<br>大面积乱码确实不见了，但是却出现小面积的乱码。。。。。。</p>
+<p>我们再仔细想一想，我们已经知道inputStream的编码格式为utf-8，那为什么要在最后字符串都一行行读取出来了的情况下将其转化呢？<br>难道不能用另外的方式实现处理这个utf-8,让读出来的一行行的字符串就不存在乱码，这样就省得我们一行行的去重新编码。</p>
+<p>果然，看过InputStreamReader的构造函数后，我们发现它有一个两个参数的构造函数，另一个参数就是用来指定字符集的。于是我们果断用上。</p>
+<h2 id="解决方案1"><a href="#解决方案1" class="headerlink" title="解决方案1"></a>解决方案1</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.springapp.parse;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.http.*;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by BearSmall on 2015/10/26.</div><div class="line"> * 响应工具类</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ResponseUtils</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 返回响应正文(无乱码)</div><div class="line">     * <span class="doctag">@param</span> response</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getResponseString</span><span class="params">(HttpResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        HttpEntity entity = response.getEntity();<span class="comment">//响应实体类</span></div><div class="line">        StringBuilder result = <span class="keyword">new</span> StringBuilder();<span class="comment">//响应正文</span></div><div class="line">        <span class="keyword">if</span> (entity != <span class="keyword">null</span>) &#123;</div><div class="line">            String charset = getContentCharSet(entity);</div><div class="line">            InputStream instream = entity.getContent();</div><div class="line"></div><div class="line">            BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(</div><div class="line">                    instream,<span class="string">"utf-8"</span>));</div><div class="line">            String temp = <span class="string">""</span>;</div><div class="line">            <span class="keyword">while</span> ((temp = br.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">                result.append(temp+<span class="string">"\n"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result.toString();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="解决方案2"><a href="#解决方案2" class="headerlink" title="解决方案2"></a>解决方案2</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.springapp.parse;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.http.*;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by BearSmall on 2015/10/26.</div><div class="line"> * 响应工具类</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ResponseUtils</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 返回响应正文(无乱码)</div><div class="line">     * <span class="doctag">@param</span> response</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getResponseString</span><span class="params">(HttpResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        HttpEntity entity = response.getEntity();<span class="comment">//响应实体类</span></div><div class="line">        StringBuilder result = <span class="keyword">new</span> StringBuilder();<span class="comment">//响应正文</span></div><div class="line">        <span class="keyword">if</span> (entity != <span class="keyword">null</span>) &#123;</div><div class="line">            InputStream instream = entity.getContent();</div><div class="line">            <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4096</span>];</div><div class="line">            <span class="keyword">int</span> size = <span class="number">0</span>;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="keyword">while</span> ((size = instream.read(bytes)) &gt; <span class="number">0</span>) &#123;</div><div class="line">                    String str = <span class="keyword">new</span> String(bytes, <span class="number">0</span>, size, <span class="string">"utf-8"</span>);</div><div class="line">                    result.append(str);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    instream.close();</div><div class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result.toString();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>这里由于没有使用包装类，所以需要自己编码解码。但是这里和第一个那种出现乱码的方式还是有区别的。</li>
+<li>虽然都是自己编码解码，但是这里是对纯的inputStream进行的操作，中间不涉及包装类的额外编码附操作。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java-HttpClient-Encoding/" rel="tag"># Java,HttpClient,Encoding</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/07/javaweb/2015-09-07-Get-Post-Encoding/" rel="next" title="Get请求，Post请求乱码问题解决方案">
+                <i class="fa fa-chevron-left"></i> Get请求，Post请求乱码问题解决方案
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/26/tool/2015-10-26-jvm-setting/" rel="prev" title="Eclipse、IDEA环境下设置jvm默认编码">
+                Eclipse、IDEA环境下设置jvm默认编码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题代码"><span class="nav-number">1.1.</span> <span class="nav-text">问题代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案1"><span class="nav-number">2.</span> <span class="nav-text">解决方案1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案2"><span class="nav-number">3.</span> <span class="nav-text">解决方案2</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
