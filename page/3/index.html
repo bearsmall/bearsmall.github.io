@@ -192,7 +192,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Archiv
           </a>
         </li>
       
@@ -245,7 +245,7 @@
   
 
   <article class="post post-type-语言基础 " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/26/javase/2015-10-26-java-httpclient-encoding/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/26/javase/2015-10-26-java-file-operation/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
@@ -270,8 +270,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/10/26/javase/2015-10-26-java-httpclient-encoding/" itemprop="url">
-                  HttpClient发送请求后得到的响应内容出现部分乱码的问题
+                <a class="post-title-link" href="/2015/10/26/javase/2015-10-26-java-file-operation/" itemprop="url">
+                  JAVA文件操作之默认字符集编码
                 </a>
               
             
@@ -285,7 +285,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-10-26T00:00:00+08:00">
                 2015-10-26
@@ -325,22 +325,62 @@
       
         
           
-            <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：<br>得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！</p>
-<h3 id="问题代码"><a href="#问题代码" class="headerlink" title="问题代码"></a>问题代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">package</span> com.springapp.parse;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.http.*;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by BearSmall on 2015/10/26.</div><div class="line"> * 响应工具类</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ResponseUtils</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 返回响应正文(有乱码)</div><div class="line">     * <span class="doctag">@param</span> response</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getResponseString</span><span class="params">(HttpResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        HttpEntity entity = response.getEntity();<span class="comment">//响应实体类</span></div><div class="line">        StringBuilder result = <span class="keyword">new</span> StringBuilder();<span class="comment">//响应正文</span></div><div class="line">        <span class="keyword">if</span> (entity != <span class="keyword">null</span>) &#123;</div><div class="line">            String charset = getContentCharSet(entity);</div><div class="line">            InputStream instream = entity.getContent();</div><div class="line"></div><div class="line">            BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(</div><div class="line">                    instream));</div><div class="line">            String temp = <span class="string">""</span>;</div><div class="line">            <span class="keyword">while</span> ((temp = br.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">                String str = <span class="keyword">new</span> String(temp.getBytes(), <span class="string">"UTF-8"</span>);</div><div class="line">                result.append(str+<span class="string">"\n"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result.toString();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>发现这段代码出现了乱码问题，已知的情况是：响应的正文是utf-8格式的。出问题的地方也是这个位子。由于对Java编码解码理解得不是太透彻，试过很多笨办法，果然解决了部分乱码问题，但是来了个全部乱码。。。。。。。果然是个冷笑话。本来打算就这样了，反正影响不是特别大，但是越往后面这个问题越来越明显。基本上爬下来的大一点的页面都会零零散散的出现乱码现象，很是讨人嫌。</p>
+            <h2 id="导引"><a href="#导引" class="headerlink" title="导引"></a>导引</h2><ul>
+<li><p>我们知道，在一些文件操作，特别是涉及到编码的时候，很让人心烦。</p>
 </li>
-<li><p>最后发现了问题的症结所在，这里跟大家分享一下：</p>
+<li><p>为什么呢？因为编码解码不一致容易出现乱码啊。。。。。。然而很多时候我们只顾及到了编码或者只顾及到解码。所以这种情况下就只能作死的一个个的试常见的编码格式。</p>
 </li>
 </ul>
-<p>从代码上看，没有逻辑上的错误。我们就看看细节吧。<br>首先从响应对象response中得到InputStream 流。然后包装成BufferredReader对象。最后一行一行的读取。但是这样读取的字符串会出现乱码，于是我们从新对读到的每一行字符串重新编码，设置成和inputstream匹配的utf-8。<br>大面积乱码确实不见了，但是却出现小面积的乱码。。。。。。</p>
-<p>我们再仔细想一想，我们已经知道inputStream的编码格式为utf-8，那为什么要在最后字符串都一行行读取出来了的情况下将其转化呢？<br>难道不能用另外的方式实现处理这个utf-8,让读出来的一行行的字符串就不存在乱码，这样就省得我们一行行的去重新编码。</p>
-<p>果然，看过InputStreamReader的构造函数后，我们发现它有一个两个参数的构造函数，另一个参数就是用来指定字符集的。于是我们果断用上。</p>
-<h2 id="解决方案1"><a href="#解决方案1" class="headerlink" title="解决方案1"></a>解决方案1</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.springapp.parse;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.http.*;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by BearSmall on 2015/10/26.</div><div class="line"> * 响应工具类</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ResponseUtils</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 返回响应正文(无乱码)</div><div class="line">     * <span class="doctag">@param</span> response</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getResponseString</span><span class="params">(HttpResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        HttpEntity entity = response.getEntity();<span class="comment">//响应实体类</span></div><div class="line">        StringBuilder result = <span class="keyword">new</span> StringBuilder();<span class="comment">//响应正文</span></div><div class="line">        <span class="keyword">if</span> (entity != <span class="keyword">null</span>) &#123;</div><div class="line">            String charset = getContentCharSet(entity);</div><div class="line">            InputStream instream = entity.getContent();</div><div class="line"></div><div class="line">            BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(</div><div class="line">                    instream,<span class="string">"utf-8"</span>));</div><div class="line">            String temp = <span class="string">""</span>;</div><div class="line">            <span class="keyword">while</span> ((temp = br.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">                result.append(temp+<span class="string">"\n"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result.toString();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="解决方案2"><a href="#解决方案2" class="headerlink" title="解决方案2"></a>解决方案2</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.springapp.parse;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.http.*;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by BearSmall on 2015/10/26.</div><div class="line"> * 响应工具类</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ResponseUtils</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 返回响应正文(无乱码)</div><div class="line">     * <span class="doctag">@param</span> response</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getResponseString</span><span class="params">(HttpResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        HttpEntity entity = response.getEntity();<span class="comment">//响应实体类</span></div><div class="line">        StringBuilder result = <span class="keyword">new</span> StringBuilder();<span class="comment">//响应正文</span></div><div class="line">        <span class="keyword">if</span> (entity != <span class="keyword">null</span>) &#123;</div><div class="line">            InputStream instream = entity.getContent();</div><div class="line">            <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4096</span>];</div><div class="line">            <span class="keyword">int</span> size = <span class="number">0</span>;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="keyword">while</span> ((size = instream.read(bytes)) &gt; <span class="number">0</span>) &#123;</div><div class="line">                    String str = <span class="keyword">new</span> String(bytes, <span class="number">0</span>, size, <span class="string">"utf-8"</span>);</div><div class="line">                    result.append(str);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    instream.close();</div><div class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result.toString();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.xy.file;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.FileInputStream;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.junit.Test;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Encoding</span> </span>&#123;</div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUTF_8</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        String result = <span class="string">""</span>;</div><div class="line">        String str = getClass().getResource(<span class="string">"/"</span>).getFile().toString();</div><div class="line">        str = System.getProperty(<span class="string">"user.dir"</span>);</div><div class="line">        BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(</div><div class="line">                <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(str + File.separator</div><div class="line">                        + <span class="string">"file/file1.txt"</span>))));</div><div class="line">        String temp = <span class="string">""</span>;</div><div class="line">        <span class="keyword">while</span> ((temp = br.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">            result+=temp+<span class="string">"\n"</span>;</div><div class="line">        &#125;</div><div class="line">        System.out.println(result);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <ul>
-<li>这里由于没有使用包装类，所以需要自己编码解码。但是这里和第一个那种出现乱码的方式还是有区别的。</li>
-<li>虽然都是自己编码解码，但是这里是对纯的inputStream进行的操作，中间不涉及包装类的额外编码附操作。</li>
+<li>【注】这里有一个文件：工程目录下/file/file1.txt。编码格式为utf-8（文件编码格式信息很重要）<br>文件内容如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">计算机科学  与技术学院</div><div class="line">abc</div><div class="line">()（）【】</div></pre></td></tr></table></figure>
+<ul>
+<li>我们再来看一看打印输出的结果。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">璁＄畻鏈虹瀛?  涓庢妧鏈闄?</div><div class="line">abc</div><div class="line">()锛堬級銆愩??</div></pre></td></tr></table></figure>
+<ul>
+<li>果然乱了。     下面看一看解决方法</li>
+</ul>
+<h3 id="解决方法一"><a href="#解决方法一" class="headerlink" title="解决方法一"></a>解决方法一</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> ((temp = br.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">            String s = <span class="keyword">new</span> String(temp.getBytes(), <span class="string">"utf-8"</span>);</div><div class="line">            result+=s+<span class="string">"\n"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们仅仅修改了while循环中的语句，把每次读取的一行信息重新编码，设置成utf-8。果然成功了。但是你知道这个过程究竟是怎么进行的吗？<br> 前面我们在包装文件对象的时候用到了InputStreamReader，构造函数中使用了只带一个参数的构造函数。查看jdk文档或者源代码可以看到，这个时候会采用jvm默认的编码格式进行编码。那么问题来了，在运行这个程序的时候你知道jvm到底采用的什么编码格式呢？并且随着具体环境的不同可能这个默认的编码格式就会改变。我们可以在eclipse上简单的模拟一下修改jvm默认编码的效果。右键项目–&gt;properties–&gt;Resource–&gt;TextFileEncoding<br> 默认的是GBK，如果你没有改过的话。这样我们改来改去，发现对输出的结果没有影响啊？？？你在逗我吗？不是说改变了jvm的默认编码吗？怎么结果都一样。</p>
+<ul>
+<li>我们拿gbk为例子，看while循环中的语句：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String s = <span class="keyword">new</span> String(temp.getBytes(), <span class="string">"utf-8"</span>);</div></pre></td></tr></table></figure>
+<ul>
+<li><p>这句代码简单明了，把原来的字符串以utf-8的形式重新编码。</p>
+</li>
+<li><p>话是这么说，但是你知道这条代码其实包括两部分吗？</p>
+<ul>
+<li>第一：temp字符串解码为bytes数组。</li>
+<li>第二：解码后的数组从新编码为新的字符串。</li>
+</ul>
+</li>
+<li><p>问题来了，既然涉及到了编码和解码，那么他们分别采用什么字符集进行的呢？毕竟我们只看到一个utf-8。难道都是采用utf-8?</p>
+</li>
+<li><p>no，由String的构造函数可知编码是采用的utf-8没错。</p>
+</li>
+<li><p>但是解码的话其实和上面的InputStreamReader类似，采用的是jvm默认的编码格式（这里即为GBK）。好的，有点乱对吧，下面我们好好理一理。</p>
+</li>
+<li><p>file1.txt【文件格式：UTF-8】–&gt;封装的FileInputStream【编码，系统默认GBK】–&gt;每一行对应的temp字符串【解码，系统默认GBK】–&gt;新串s【编码，UTF-8】。没错，你发现它其实是饶了一圈又绕回来了。。。。。。。</p>
+</li>
+<li><p>但是不要以为这样做很好，确实很多情况下没有显现出问题出来，但是其实这是有问题的。打个比方：你把水从杯子A全部倒进另一个杯子B里面，然后再从B倒回A。你觉得最后水是一样的吗？（暂且不考虑杯子上面沾上点水）。答案是不确定的。例如当杯子A比杯子B小，这个时候没有问题，或者杯子A比杯子B大，但是水比较少，杯子B能容纳得下。但是还有这种情况啊：杯子A比杯子B大，不巧A中装的水比较多，杯子B装不下。这个时候就会有水溢出。希望这个例子类比乱码对你有所帮助。</p>
+</li>
+<li><p>既然有问题，那么什么才是好的解决方法呢？</p>
+</li>
+<li><p>看看下面更改的代码：</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(</div><div class="line">             <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(str + File.separator</div><div class="line">                     + <span class="string">"file/file1.txt"</span>)),<span class="string">"utf-8"</span>));</div></pre></td></tr></table></figure>
+<ul>
+<li>没错，在构造InputStreamReader的时候就指定了编码方式（和文件的编码方式保持了一致）。其它代码不改动。<br>运行看看。</li>
+</ul>
+<figure class="highlight plain"><figcaption><span>与技术学院</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">abc</div><div class="line">()（）【】</div></pre></td></tr></table></figure>
+<p>乱码消失了。</p>
+<ul>
+<li>对比这两种方式，会发现第二种方式更好。因为它不会出现不必要的重复编码，解码的操作，这会导致数据丢失，从而导致乱码。<br>而且这种方式会不经意的提醒你：我的文件到底是什么编码格式的？这条信息非常重要！</li>
 </ul>
 
           
@@ -422,7 +462,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-09-07T00:00:00+08:00">
                 2015-09-07
@@ -577,7 +617,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-08-24T00:00:00+08:00">
                 2015-08-24
@@ -727,7 +767,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-07-27T00:00:00+08:00">
                 2015-07-27
@@ -877,7 +917,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-07-24T00:00:00+08:00">
                 2015-07-24
@@ -1038,7 +1078,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-07-23T00:00:00+08:00">
                 2015-07-23
@@ -1200,7 +1240,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">26</span>
-                <span class="site-state-item-name">posts</span>
+                <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
           
@@ -1211,7 +1251,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">25</span>
-                <span class="site-state-item-name">tags</span>
+                <span class="site-state-item-name">Tags</span>
               </a>
             </div>
           
@@ -1259,7 +1299,7 @@
 
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
