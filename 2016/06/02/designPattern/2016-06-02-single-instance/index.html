@@ -92,9 +92,7 @@
 懒汉模式
 双重检查锁
 内部类
-枚举
-
-具体实现方式1. 饿汉模式12345678public class Single1 &amp;#123;     private static Single1 single = new Single1();     private Single1() &amp;#123;     &amp;#125;     public static Single1 ge">
+枚举">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式之单例模式总结">
 <meta property="og:url" content="https://bearsmall.github.io/2016/06/02/designPattern/2016-06-02-single-instance/index.html">
@@ -104,10 +102,8 @@
 懒汉模式
 双重检查锁
 内部类
-枚举
-
-具体实现方式1. 饿汉模式12345678public class Single1 &amp;#123;     private static Single1 single = new Single1();     private Single1() &amp;#123;     &amp;#125;     public static Single1 ge">
-<meta property="og:updated_time" content="2017-02-08T19:08:02.890Z">
+枚举">
+<meta property="og:updated_time" content="2017-02-08T19:41:06.329Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式之单例模式总结">
 <meta name="twitter:description" content="常见的单例模式
@@ -115,9 +111,7 @@
 懒汉模式
 双重检查锁
 内部类
-枚举
-
-具体实现方式1. 饿汉模式12345678public class Single1 &amp;#123;     private static Single1 single = new Single1();     private Single1() &amp;#123;     &amp;#125;     public static Single1 ge">
+枚举">
 
 
 
@@ -433,9 +427,10 @@
 <li>懒汉模式</li>
 <li>双重检查锁</li>
 <li>内部类</li>
-<li>枚举</li>
+<li>枚举<a id="more"></a>
+<h2 id="具体实现方式"><a href="#具体实现方式" class="headerlink" title="具体实现方式"></a>具体实现方式</h2></li>
 </ul>
-<h2 id="具体实现方式"><a href="#具体实现方式" class="headerlink" title="具体实现方式"></a>具体实现方式</h2><h3 id="1-饿汉模式"><a href="#1-饿汉模式" class="headerlink" title="1. 饿汉模式"></a>1. 饿汉模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single1</span> </span>&#123;</div><div class="line">     <span class="keyword">private</span> <span class="keyword">static</span> Single1 single = <span class="keyword">new</span> Single1();</div><div class="line">     <span class="function"><span class="keyword">private</span> <span class="title">Single1</span><span class="params">()</span> </span>&#123;</div><div class="line">     &#125;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single1 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">             <span class="keyword">return</span> single;</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h3 id="1-饿汉模式"><a href="#1-饿汉模式" class="headerlink" title="1. 饿汉模式"></a>1. 饿汉模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single1</span> </span>&#123;</div><div class="line">     <span class="keyword">private</span> <span class="keyword">static</span> Single1 single = <span class="keyword">new</span> Single1();</div><div class="line">     <span class="function"><span class="keyword">private</span> <span class="title">Single1</span><span class="params">()</span> </span>&#123;</div><div class="line">     &#125;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single1 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">             <span class="keyword">return</span> single;</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
 <h3 id="2-1-懒汉模式"><a href="#2-1-懒汉模式" class="headerlink" title="2.1 懒汉模式"></a>2.1 懒汉模式</h3><ul>
 <li>线程不安全</li>
 <li>延迟加载</li>
@@ -526,8 +521,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/02/javaweb/2016-06-02-framework-BaseSSH/" rel="next" title="基于Spring4+Hibernate4的通用数据访问层+业务逻辑层（Dao层+Service层）设计与实现">
-                <i class="fa fa-chevron-left"></i> 基于Spring4+Hibernate4的通用数据访问层+业务逻辑层（Dao层+Service层）设计与实现
+              <a href="/2016/06/02/tool/2016-06-02-class-version/" rel="next" title="查看.class文件的版本号">
+                <i class="fa fa-chevron-left"></i> 查看.class文件的版本号
               </a>
             
           </div>
@@ -536,8 +531,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/06/02/android/2016-06-02-android-webview/" rel="prev" title="一次Android WebView使用的苦逼体验之旅">
-                一次Android WebView使用的苦逼体验之旅 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/06/27/tool/2016-06-27-id-pid-tree/" rel="prev" title="（id，pid）格式数据转树和森林结构工具类设计与实现">
+                （id，pid）格式数据转树和森林结构工具类设计与实现 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

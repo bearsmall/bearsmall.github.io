@@ -87,19 +87,16 @@
 
 
 
-<meta name="description" content="引言几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！
-问题代码1234567891011121314151617181920212223242526272829303132333435363738 package com.springapp.parse;imp">
+<meta name="description" content="引言几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HttpClient发送请求后得到的响应内容出现部分乱码的问题">
 <meta property="og:url" content="https://bearsmall.github.io/2015/10/26/javase/2015-10-26-java-httpclient-encoding/index.html">
 <meta property="og:site_name" content="X+Y-Z">
-<meta property="og:description" content="引言几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！
-问题代码1234567891011121314151617181920212223242526272829303132333435363738 package com.springapp.parse;imp">
-<meta property="og:updated_time" content="2017-02-08T19:08:03.072Z">
+<meta property="og:description" content="引言几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！">
+<meta property="og:updated_time" content="2017-02-08T19:41:06.243Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HttpClient发送请求后得到的响应内容出现部分乱码的问题">
-<meta name="twitter:description" content="引言几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！
-问题代码1234567891011121314151617181920212223242526272829303132333435363738 package com.springapp.parse;imp">
+<meta name="twitter:description" content="引言几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！">
 
 
 
@@ -410,7 +407,7 @@
       
 
       
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：<br>得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！</p>
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：<br>得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！<br><a id="more"></a></p>
 <h3 id="问题代码"><a href="#问题代码" class="headerlink" title="问题代码"></a>问题代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">package</span> com.springapp.parse;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.http.*;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStream;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by BearSmall on 2015/10/26.</div><div class="line"> * 响应工具类</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ResponseUtils</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 返回响应正文(有乱码)</div><div class="line">     * <span class="doctag">@param</span> response</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getResponseString</span><span class="params">(HttpResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        HttpEntity entity = response.getEntity();<span class="comment">//响应实体类</span></div><div class="line">        StringBuilder result = <span class="keyword">new</span> StringBuilder();<span class="comment">//响应正文</span></div><div class="line">        <span class="keyword">if</span> (entity != <span class="keyword">null</span>) &#123;</div><div class="line">            String charset = getContentCharSet(entity);</div><div class="line">            InputStream instream = entity.getContent();</div><div class="line"></div><div class="line">            BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(</div><div class="line">                    instream));</div><div class="line">            String temp = <span class="string">""</span>;</div><div class="line">            <span class="keyword">while</span> ((temp = br.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">                String str = <span class="keyword">new</span> String(temp.getBytes(), <span class="string">"UTF-8"</span>);</div><div class="line">                result.append(str+<span class="string">"\n"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result.toString();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <ul>
 <li><p>发现这段代码出现了乱码问题，已知的情况是：响应的正文是utf-8格式的。出问题的地方也是这个位子。由于对Java编码解码理解得不是太透彻，试过很多笨办法，果然解决了部分乱码问题，但是来了个全部乱码。。。。。。。果然是个冷笑话。本来打算就这样了，反正影响不是特别大，但是越往后面这个问题越来越明显。基本上爬下来的大一点的页面都会零零散散的出现乱码现象，很是讨人嫌。</p>

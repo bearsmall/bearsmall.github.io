@@ -89,25 +89,22 @@
 
 <meta name="description" content="概述
 我们知道json数据就是一堆键/值对的集合，更随意的可以就把它理解为符合特定规则字符串。那么我们怎么利用这个特殊的“字符串”来进行前后台的交互呢？
-其实很简单，让你用字符串交互估计都会，用json也没有那么复杂。
-简单的我们直接向页面输出：先获取到response（不要问我怎么获取，用你的奇技淫巧可以办到的）然后调用response.getWriter().write(String str)">
+其实很简单，让你用字符串交互估计都会，用json也没有那么复杂。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Struts返回Json格式数据">
 <meta property="og:url" content="https://bearsmall.github.io/2015/08/24/javaweb/2015-08-24-Struts2-return-json/index.html">
 <meta property="og:site_name" content="X+Y-Z">
 <meta property="og:description" content="概述
 我们知道json数据就是一堆键/值对的集合，更随意的可以就把它理解为符合特定规则字符串。那么我们怎么利用这个特殊的“字符串”来进行前后台的交互呢？
-其实很简单，让你用字符串交互估计都会，用json也没有那么复杂。
-简单的我们直接向页面输出：先获取到response（不要问我怎么获取，用你的奇技淫巧可以办到的）然后调用response.getWriter().write(String str)">
+其实很简单，让你用字符串交互估计都会，用json也没有那么复杂。">
 <meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-struts2-json-1.png">
 <meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-struts2-json-2.png">
-<meta property="og:updated_time" content="2017-02-08T19:08:02.987Z">
+<meta property="og:updated_time" content="2017-02-08T19:41:06.265Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Struts返回Json格式数据">
 <meta name="twitter:description" content="概述
 我们知道json数据就是一堆键/值对的集合，更随意的可以就把它理解为符合特定规则字符串。那么我们怎么利用这个特殊的“字符串”来进行前后台的交互呢？
-其实很简单，让你用字符串交互估计都会，用json也没有那么复杂。
-简单的我们直接向页面输出：先获取到response（不要问我怎么获取，用你的奇技淫巧可以办到的）然后调用response.getWriter().write(String str)">
+其实很简单，让你用字符串交互估计都会，用json也没有那么复杂。">
 <meta name="twitter:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-struts2-json-1.png">
 
 
@@ -421,7 +418,7 @@
       
         <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
 <li>我们知道json数据就是一堆键/值对的集合，更随意的可以就把它理解为符合特定规则字符串。那么我们怎么利用这个特殊的“字符串”来进行前后台的交互呢？</li>
-<li>其实很简单，让你用字符串交互估计都会，用json也没有那么复杂。</li>
+<li>其实很简单，让你用字符串交互估计都会，用json也没有那么复杂。<a id="more"></a></li>
 <li>简单的我们直接向页面输出：先获取到response（不要问我怎么获取，用你的奇技淫巧可以办到的）然后调用response.getWriter().write(String str)方法直接向调用者输出。</li>
 <li>感觉是不是很无聊啊，就是输出个字符串而已嘛，不过既然是输出json格式的就麻烦把字符串弄成符合要求的json吧。你可以自己拼字符串，也可以用现成的工具类。</li>
 <li>Java api就有现成的，不过有好多更加优秀的第三方jar包，为什么不试一试呢？来半张官网的图 :scream:，有兴趣的自行研究：</li>

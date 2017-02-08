@@ -89,26 +89,20 @@
 
 <meta name="description" content="引例小问题还是直接上代码比较直观
 代码
-Parent类（父类）
-
-12345678910package com.xiongyu.reflect;public class Parent &amp;#123;    public void method1() &amp;#123;        System.out.println(&quot;Parent:method1&quot;);        this.method2();">
+Parent类（父类）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java反射">
 <meta property="og:url" content="https://bearsmall.github.io/2015/07/23/javase/2015-07-23-java-Reflection/index.html">
 <meta property="og:site_name" content="X+Y-Z">
 <meta property="og:description" content="引例小问题还是直接上代码比较直观
 代码
-Parent类（父类）
-
-12345678910package com.xiongyu.reflect;public class Parent &amp;#123;    public void method1() &amp;#123;        System.out.println(&quot;Parent:method1&quot;);        this.method2();">
-<meta property="og:updated_time" content="2017-02-08T19:08:02.907Z">
+Parent类（父类）">
+<meta property="og:updated_time" content="2017-02-08T19:41:06.248Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java反射">
 <meta name="twitter:description" content="引例小问题还是直接上代码比较直观
 代码
-Parent类（父类）
-
-12345678910package com.xiongyu.reflect;public class Parent &amp;#123;    public void method1() &amp;#123;        System.out.println(&quot;Parent:method1&quot;);        this.method2();">
+Parent类（父类）">
 
 
 
@@ -421,11 +415,12 @@ Parent类（父类）
       
         <h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><p>小问题还是直接上代码比较直观</p>
 <h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><ul>
-<li>Parent类（父类）</li>
-</ul>
+<li><p>Parent类（父类）</p>
+<a id="more"></a>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.xiongyu.reflect;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Parent</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Parent:method1"</span>);</div><div class="line">        <span class="keyword">this</span>.method2();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method2</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Parent:method2"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>Children类（Parent类的子类）</li>
+</li>
+<li><p>Children类（Parent类的子类）</p>
+</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.xiongyu.reflect;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Children</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Children:mehtod1"</span>);</div><div class="line">        <span class="keyword">super</span>.method1();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method2</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Children:method2"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method3</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Children:method3"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="开始测试"><a href="#开始测试" class="headerlink" title="开始测试"></a>开始测试</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.xiongyu.reflect;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test_Main</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Parent p = <span class="keyword">new</span> Children();</div><div class="line">        p.method1();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>

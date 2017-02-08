@@ -88,24 +88,18 @@
 
 
 <meta name="description" content="已知代码
-Bean.java
-
-123456789101112public class Bean &amp;#123;    private String beanName;    public String getBeanName() &amp;#123;        return beanName;    &amp;#125;    public void setBeanName(String beanName)">
+Bean.java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="工厂模式坑爹题目">
 <meta property="og:url" content="https://bearsmall.github.io/2016/01/26/designPattern/2016-01-26-factory-pattern-problem/index.html">
 <meta property="og:site_name" content="X+Y-Z">
 <meta property="og:description" content="已知代码
-Bean.java
-
-123456789101112public class Bean &amp;#123;    private String beanName;    public String getBeanName() &amp;#123;        return beanName;    &amp;#125;    public void setBeanName(String beanName)">
-<meta property="og:updated_time" content="2017-02-08T19:08:02.979Z">
+Bean.java">
+<meta property="og:updated_time" content="2017-02-08T19:41:06.260Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="工厂模式坑爹题目">
 <meta name="twitter:description" content="已知代码
-Bean.java
-
-123456789101112public class Bean &amp;#123;    private String beanName;    public String getBeanName() &amp;#123;        return beanName;    &amp;#125;    public void setBeanName(String beanName)">
+Bean.java">
 
 
 
@@ -417,11 +411,12 @@ Bean.java
 
       
         <h2 id="已知代码"><a href="#已知代码" class="headerlink" title="已知代码"></a>已知代码</h2><ul>
-<li>Bean.java</li>
-</ul>
+<li><p>Bean.java</p>
+<a id="more"></a>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bean</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String beanName;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getBeanName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> beanName;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBeanName</span><span class="params">(String beanName)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.beanName = beanName;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Bean</span><span class="params">(String beanName)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.beanName = beanName;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>BeanFactory.java</li>
+</li>
+<li><p>BeanFactory.java</p>
+</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> BeanFactory instance = <span class="keyword">new</span> BeanFactory();</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Bean bean = <span class="keyword">null</span>;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BeanFactory</span><span class="params">()</span> </span>&#123;</div><div class="line">        bean = <span class="keyword">new</span> Bean(<span class="string">"mybean"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BeanFactory <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bean <span class="title">getBean</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> bean;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <ul>
@@ -473,8 +468,8 @@ Bean.java
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/21/tool/2016-01-21-page-seperate/" rel="next" title="分页求总页数">
-                <i class="fa fa-chevron-left"></i> 分页求总页数
+              <a href="/2016/01/26/javaweb/2016-01-26-Servlet-write-encoding/" rel="next" title="Servlet中直接response.getWriter().write() 输出乱码解决！">
+                <i class="fa fa-chevron-left"></i> Servlet中直接response.getWriter().write() 输出乱码解决！
               </a>
             
           </div>
@@ -483,8 +478,8 @@ Bean.java
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/01/26/javaweb/2016-01-26-Servlet-write-encoding/" rel="prev" title="Servlet中直接response.getWriter().write() 输出乱码解决！">
-                Servlet中直接response.getWriter().write() 输出乱码解决！ <i class="fa fa-chevron-right"></i>
+              <a href="/2016/01/26/javase/2016-01-26-java-generic/" rel="prev" title="关于Java泛型的小知识点">
+                关于Java泛型的小知识点 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

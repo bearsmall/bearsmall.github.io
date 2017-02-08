@@ -412,89 +412,14 @@
 
       
         
-          
-            <h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Encoding</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        System.out.println(System.getProperty(<span class="string">"file.encoding"</span>));</div><div class="line">        System.out.println(Charset.defaultCharset().name());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>打印结果是什么？</p>
-</li>
-<li><p>是GBK吧</p>
-</li>
-<li><p>估计大多数人的机器打印的结果是GBK，因为我们很多人系统默认编码就是GBK（In China）.</p>
-</li>
-<li><p>我们查看jdk文档可以看到：</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Java.nio.charset.Charset</span></div><div class="line"><span class="function"><span class="keyword">static</span> Charset <span class="title">defaultCharset</span><span class="params">()</span></span></div><div class="line">Returns the <span class="keyword">default</span> charset of <span class="keyword">this</span> Java virtual machine.</div><div class="line"><span class="comment">//java.lang.System</span></div><div class="line"><span class="keyword">static</span> String <span class="title">getProperty</span><span class="params">(String key)</span></div><div class="line">Gets the system property indicated by the specified key.</div></pre></td></tr></table></figure>
-<ul>
-<li><p>上面两个说白了上面两个方法获得的是系统默认的字符集编码，所以我们一般获得的是GBK，因为我们大部分用的是中文版的window系统。。。。。</p>
-</li>
-<li><p>但是我们能不能改呢？肯定能！</p>
-</li>
-<li><p>eclipse上 右键工程–&gt;properties–&gt;Resource–&gt;textfileEncoding</p>
-</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-1.png" alt="Eclipse Encoding Setting Page"></p>
-<ul>
-<li><p>看到这里的GBK了吧，也许你早就改过了，所以前面运行结果不是GBK。</p>
-</li>
-<li><p>试试改成utf-8，再运行程序。是不是发现运行结果变成utf-8了？</p>
-</li>
-<li><p>为了统一编码，这里我们通常设置成utf-8</p>
-</li>
-<li><p>IDEA上 File–&gt;Settings–&gt;File Encodings–&gt;Project Encoding</p>
-</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-2.png" alt="IDEA Encoding Setting Page"></p>
-<ul>
-<li><p>我们改成iso8859-1试试</p>
-</li>
-<li><p>输出是不是变成了iso8859-1。为了统一编码我们还是改回utf-8吧。【如果你之前没有改过idea的编码，这个位置还有其它几个位置编码可能就是system default即GBK】</p>
-</li>
-<li><p>这样就完了？no,no,no!!</p>
-</li>
-<li><p>我们试着建立一个web项目，web容器采用tomcat</p>
-</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-3.png" alt="IDEA Encoding Setting Page"></p>
-<ul>
-<li><p>好大的两个GBK…….【声明：IDEA上工程，文件的字符集编码已经设置成了UTF-8，所以不要怀疑是这个原因。】</p>
-</li>
-<li><p>那么，到底是什么原因呢？我们之前明明就是这样改的，而且成功了哎。</p>
-</li>
-<li><p>我只想说：可能web项目比较特殊吧，毕竟它运行的时候借助了web容器，比如这里我们使用的是tomcat容器。</p>
-</li>
-<li><p>那么我们该如何让其回归utf-8呢？</p>
-</li>
-<li><p>方法当然有，如下：来到tomcat配置界面：添加虚拟机启动参数：-Dfile.encoding=UTF-8</p>
-</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-4.png" alt="JVM Encoding Setting Page"></p>
-<ul>
-<li>我们再来运行一遍：</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-5.png" alt="JVM Encoding Setting Page"></p>
-<ul>
-<li><p>utf-8出来了，有木有。</p>
-</li>
-<li><p>纳尼，控制台出现了鸟文？</p>
-</li>
-<li><p>我们继续对IDEA做点修改。</p>
-</li>
-<li><p>打开idea安装目录下的bin文件夹，找到idea.exe.vmoptions文件并打开</p>
-</li>
-<li><p>添加一条配置信息：-Dfile.encoding=UTF-8</p>
-</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-6.png" alt="IDEA Encoding Setting Page"></p>
-<ul>
-<li>ok，重启idea，再次运行web项目</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-7.png" alt="IDEA Encoding Setting Page"></p>
-<ul>
-<li>世界顿时又美好了。</li>
-</ul>
-
-          
+          <h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Encoding</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        System.out.println(System.getProperty(<span class="string">"file.encoding"</span>));</div><div class="line">        System.out.println(Charset.defaultCharset().name());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/10/26/tool/2015-10-26-jvm-setting/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -644,44 +569,16 @@
 
       
         
-          
-            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
 <li><strong>之所以出现乱码，主要是由于编码和解码采用的方法不同。</strong></li>
-<li><strong>因此保证编码解码格式一致是避免乱码发生的重要前提。</strong></li>
-</ul>
-<h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>JavaWeb技术下，Tomcat作为容器，发送请求的时候出现乱码问题。</p>
-<h2 id="两种常见方法"><a href="#两种常见方法" class="headerlink" title="两种常见方法"></a>两种常见方法</h2><h3 id="1-Post方式请求乱码"><a href="#1-Post方式请求乱码" class="headerlink" title="1.Post方式请求乱码"></a>1.Post方式请求乱码</h3><ul>
-<li><p>自从Tomcat5.x以来，Get方式和Post方式提交的请求，tomcat会采用不同的方式来处理编码。<br>对于Post请求，Tomcat会使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">如果未设置，则默认都采用iso-8859-1编码。因此如果在发送Post请求的时候出现乱码，常见的解决方法如下：</div><div class="line">    * a)  ```request.setCharacterEncoding(&quot;utf-8&quot;);</div></pre></td></tr></table></figure></p>
-<ul>
-<li>b)  <figure class="highlight plain"><figcaption><span>name = new String(request.getParameter("name").getBytes("ISO-8859-1"), "UTF-8");```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- （当然response的编码也不要忘记设置成utf-8的）</div><div class="line">- 【注】：上面提供的是两种不同的方法，并不是一种方法的两个步骤！！！</div><div class="line"></div><div class="line">#### 我们可以看出来第一种方式写法固定，非常很适合通过写成过滤器的方式进行编码的统一转换。</div><div class="line"></div><div class="line">```java</div><div class="line">publicclass EncodingFilter extends HttpFilter &#123;</div><div class="line">    publicvoid doFilter(HttpServletRequest request,  HttpServletResponse response, FilterChain chain) throws IOException, ServletException &#123;</div><div class="line">       Stringcharset = this.getInitParameter(&quot;charset&quot;);</div><div class="line">       if(charset == null ||charset.isEmpty()) &#123;</div><div class="line">           charset =&quot;UTF-8&quot;;</div><div class="line">       &#125;</div><div class="line">        request.setCharacterEncoding(charset);</div><div class="line">       response.setContentType(&quot;text/html;charset=&quot; + charset);</div><div class="line">       chain.doFilter(request, response);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ul>
-<h3 id="2-Get方式请求乱码"><a href="#2-Get方式请求乱码" class="headerlink" title="2.Get方式请求乱码"></a>2.Get方式请求乱码</h3><ul>
-<li><p>我们刚谈到Tomcat对Post请求的编码处理策略，并且从字里行间读出了Tomcat对Post和Get的编码策略有所不同，<br>那么Tomcat对Get请求的编码策略到底是如何不同的呢？答案就是Tomcat对于Get请求并不会考虑使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- 言外之意就是我们无法通过```request.setCharacterEncoding```方式来改变编码，因为最终Tomcat会永远使用iso-8859-1进行编码（但是要注意一下，</div><div class="line">respon还是可以通过调用```response.setCharacterEncoding```方式进行编码的设置的），既然是这样的话下面这个方法还是勉强可行的</div><div class="line"></div><div class="line">    &gt;方法a）</div><div class="line"></div><div class="line">    * 步骤一：```response.setCharacterEncoding(&quot;UTF-8&quot;)</div></pre></td></tr></table></figure></p>
-<ul>
-<li>步骤二：<figure class="highlight plain"><figcaption><span>name = new String(request.getParameter("name").getBytes("ISO-8859-1"), "UTF-8");```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- 通过这两步，可以看到我们的request的字符编码格式是默认的“iso-8859-1&quot; 我们的response字符编码是自己设置的”utf-8&quot;</div><div class="line">显然两个是不相容的，因此我们在获取请求参数的时候才进行了一下字符集的转换即步骤二：```String name=new String(request.getParameter(&quot;name&quot;).getBytes(&quot;ISO-8859-1&quot;), &quot;UTF-8&quot;)；</div></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p>既然有a），那肯定还有b）咯？当然！而且方案b更加干净，利落，彻底。让我们一起看一下吧：</p>
-<blockquote>
-<p>方法b）</p>
-</blockquote>
-<ul>
-<li><p>修改Tomcat安装目录下conf子目录下的<figure class="highlight plain"><figcaption><span>【注：记得先停掉服务器】</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">找到文件中类似这样的段落：```&lt;Connector connectionTimeout=&quot;20000&quot; port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot; redirectPort=&quot;8443&quot;/&gt;</div></pre></td></tr></table></figure></p>
-</li>
-<li><p>在里面加上这样一段：URIEncoding=”UTF-8” 即变成下面这段<figure class="highlight plain"><figcaption><span>connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443" URIEncoding="UTF-8"</span><a href="/>```">link</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">    * 最后重启Tomcat即可。</div><div class="line"></div><div class="line">- 对于Get请求编码的统一处理也可以写成过滤器的形式，只不过稍微有些复杂。</div><div class="line"></div><div class="line">#### EncodingRequest.Java</div><div class="line"></div><div class="line">```java</div><div class="line">public class EncodingRequest extends HttpServletRequestWrapper &#123;</div><div class="line">    private String charset;</div><div class="line">    public EncodingRequest(HttpServletRequest request, String charset) &#123;</div><div class="line">        super(request);</div><div class="line">        this.charset = charset;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public String getParameter(String name) &#123;</div><div class="line">        HttpServletRequest request = (HttpServletRequest) getRequest();</div><div class="line"></div><div class="line">        String method = request.getMethod();</div><div class="line">        if(method.equalsIgnoreCase(&quot;post&quot;)) &#123;</div><div class="line">            try &#123;</div><div class="line">                request.setCharacterEncoding(charset);</div><div class="line">            &#125; catch (UnsupportedEncodingException e) &#123;&#125;</div><div class="line">        &#125; else if(method.equalsIgnoreCase(&quot;get&quot;)) &#123;</div><div class="line">            String value = request.getParameter(name);</div><div class="line">            try &#123;</div><div class="line">                value = new String(name.getBytes(&quot;ISO-8859-1&quot;), charset);</div><div class="line">            &#125; catch (UnsupportedEncodingException e) &#123;</div><div class="line">            &#125;</div><div class="line">            return value;</div><div class="line">        &#125;</div><div class="line">        return request.getParameter(name);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="EncodingFilter-java"><a href="#EncodingFilter-java" class="headerlink" title="EncodingFilter.java"></a>EncodingFilter.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EncodingFilter</span> <span class="keyword">extends</span> <span class="title">HttpFilter</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(HttpServletRequest request,</span></span></div><div class="line">            HttpServletResponse response, FilterChain chain)</div><div class="line">            <span class="keyword">throws</span> IOException, ServletException &#123;</div><div class="line">        String charset = <span class="keyword">this</span>.getInitParameter(<span class="string">"charset"</span>);</div><div class="line">        <span class="keyword">if</span>(charset == <span class="keyword">null</span> || charset.isEmpty()) &#123;</div><div class="line">            charset = <span class="string">"UTF-8"</span>;</div><div class="line">        &#125;</div><div class="line">        response.setCharacterEncoding(charset);</div><div class="line">        response.setContentType(<span class="string">"text/html;charset="</span> + charset);</div><div class="line">        EncodingRequest res = <span class="keyword">new</span> EncodingRequest(request, charset);</div><div class="line">        chain.doFilter(res, response);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="web-xml"><a href="#web-xml" class="headerlink" title="web.xml"></a>web.xml</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>EncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>cn.itcast.filter.EncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>charset<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>EncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>【注】为了避免您的测试与我给的解决方案结果不符，请在项目编码格式为<code>utf-8</code>，jsp页面 <code>pageEncoding=&quot;utf-8&quot;</code>的环境下测试。</li>
-</ul>
-
-          
+<li><strong>因此保证编码解码格式一致是避免乱码发生的重要前提。</strong>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/09/07/javaweb/2015-09-07-Get-Post-Encoding/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -831,39 +728,16 @@
 
       
         
-          
-            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
 <li>我们知道json数据就是一堆键/值对的集合，更随意的可以就把它理解为符合特定规则字符串。那么我们怎么利用这个特殊的“字符串”来进行前后台的交互呢？</li>
-<li>其实很简单，让你用字符串交互估计都会，用json也没有那么复杂。</li>
-<li>简单的我们直接向页面输出：先获取到response（不要问我怎么获取，用你的奇技淫巧可以办到的）然后调用response.getWriter().write(String str)方法直接向调用者输出。</li>
-<li>感觉是不是很无聊啊，就是输出个字符串而已嘛，不过既然是输出json格式的就麻烦把字符串弄成符合要求的json吧。你可以自己拼字符串，也可以用现成的工具类。</li>
-<li>Java api就有现成的，不过有好多更加优秀的第三方jar包，为什么不试一试呢？来半张官网的图 :scream:，有兴趣的自行研究：</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-struts2-json-1.png" alt="Struts2 Json format"></p>
-<h2 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h2><h3 id="配置Action"><a href="#配置Action" class="headerlink" title="配置Action"></a>配置Action</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"adminManage"</span> <span class="attr">namespace</span>=<span class="string">"/"</span> <span class="attr">extends</span>=<span class="string">"json-default"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"KAdminTest"</span> <span class="attr">class</span>=<span class="string">"com.know.control.action.AdminAction"</span></span></div><div class="line">        <span class="attr">method</span>=<span class="string">"queryAllUsers"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">type</span>=<span class="string">"json"</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"root"</span>&gt;</span>jsonResult<span class="tag">&lt;/<span class="name">param</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!-- 指定是否序列化值为空的属性 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"excludeNullProperties"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">param</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">result</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">action</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">package</span>&gt;</span></div></pre></td></tr></table></figure>
-<h4 id="有几点值得注意："><a href="#有几点值得注意：" class="headerlink" title="有几点值得注意："></a>有几点值得注意：</h4><ul>
-<li>不同于我们以往配置的Action（以往配置的Action所在的package都是extends=”struts-defualt”）<br>这里我们extends=”json-default”，这里需要引入特定的jar包：struts2-json-plugin-xxx.jar.来支持<br>有人可能会问了json-default哪来的？其实就是继承自struts-default打开struts2-json-plugin-xxx.jar.查看struts-default.xml文件就会发现这个：</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">struts</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"json-default"</span> <span class="attr">extends</span>=<span class="string">"struts-default"</span>&gt;</span></div><div class="line">       ........</div><div class="line">    <span class="tag">&lt;/<span class="name">package</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">struts</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>就是配置result的时候要指定type=”json”，如果想向前台传递参数则配置<figure class="highlight plain"><figcaption><span>name="root">jsonResult ``` ，这里的jsonResult必须在Action中有对应的get方法，</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">jsonResult的类型不固定，因为最终由jsonResult到格式化的json是由struts2完成的，不需要我们做转换。</div><div class="line">当然还有其它更多的配置如下：</div><div class="line"></div><div class="line">```xml</div><div class="line">    &lt;param name=&quot;root&quot;&gt;jsonResult&lt;/param&gt;</div><div class="line">    &lt;!-- 指定是否序列化值为空的属性 --&gt;</div><div class="line">    &lt;param name=&quot;excludeNullProperties&quot;&gt;true&lt;/param&gt;</div><div class="line">    &lt;!-- 指定将序列化jsonResult中的哪些属性 --&gt;</div><div class="line">    &lt;param name=&quot;includeProperties&quot;&gt;userList.*&lt;/param&gt;</div><div class="line">    &lt;!-- 指定jsonResult中哪些属性将不被序列化，一般不与上边的配置同时出现 --&gt;</div><div class="line">    &lt;param name=&quot;excludeProperties&quot;&gt;SUCCESS&lt;/param&gt;</div></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="编写Action"><a href="#编写Action" class="headerlink" title="编写Action"></a>编写Action</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdminAction</span> <span class="keyword">extends</span> <span class="title">ActionSupport</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> Map&lt;String,Object&gt; jsonResult;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title">getJsonResult</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> jsonResult;</div><div class="line">    &#125;</div><div class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> UserService userProxy = (UserService) BeanFactory</div><div class="line">            .getBean(<span class="string">"UserProxy"</span>);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">queryAllUsers</span><span class="params">()</span></span>&#123;</div><div class="line">        List&lt;UserModel&gt; userList = userProxy.transForm(userProxy.getUsers());</div><div class="line">        jsonResult = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</div><div class="line">        jsonResult.put(<span class="string">"total"</span>, userList.size());</div><div class="line">        jsonResult.put(<span class="string">"rows"</span>, userList);</div><div class="line">        jsonResult.put(<span class="string">"success"</span>, <span class="keyword">true</span>);</div><div class="line">        <span class="keyword">return</span> SUCCESS;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>使用Map做jsonResult更符合json的格式。好了，其它的细节不展开了。</p>
-</li>
-<li><p>最后测试，下面是输出结果：</p>
-</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-struts2-json-2.png" alt="Struts2 Json format"></p>
-<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><ul>
-<li><p>一开始我在获取userList的时并没有做transForm操作，一切看似正确，但是当程序运行，访问URL的时候报了一个could not initialize proxy -no session 异常，当时很郁闷。<br>后来才发现是hibernate的懒加载捣的鬼。就是我的User和其他表有一对多的映射。看似userList查询成功，其实User的一些属性并没有值（这种”没有值“的状态和为null不太一样，当你访问这些属性的时候，它会再次查询一遍数据库（俗称懒加载）。<br>不过，要实现懒加载必须在同一个session中，但是由于我们访问这些属性的地方不对（我们在哪里访问这些属性了？），不在同一个session中，导致出错）</p>
-</li>
-<li><p>所以我重新做了一个UserModel来封装需要的数据。这样就不会被那些无辜牵连的数据折腾了。</p>
-</li>
-</ul>
-
-          
+<li>其实很简单，让你用字符串交互估计都会，用json也没有那么复杂。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/08/24/javaweb/2015-08-24-Struts2-return-json/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1013,39 +887,15 @@
 
       
         
-          
-            <h2 id="Ajax的关键"><a href="#Ajax的关键" class="headerlink" title="Ajax的关键"></a>Ajax的关键</h2><p>XMLHttpRequest对象</p>
-<h2 id="期望的效果"><a href="#期望的效果" class="headerlink" title="期望的效果"></a>期望的效果</h2><p>有这样一个表单（类似注册）当用户输入用户名，且User name输入框失去焦点时，立即判断该用户输入的用户名是否合法：<br>如果用户名已经存在则给出类似下面的提示：达到较好的用户体验。【密码输入框有空的读者自行实践，这里不做过多描述】</p>
-<h2 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h2><h3 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"#"</span>&gt;</span></div><div class="line">        User name：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span> = <span class="string">"name"</span> <span class="attr">onblur</span>=<span class="string">"checkUserName()"</span>&gt;</span><span class="tag">&lt;<span class="name">label</span> <span class="attr">id</span>=<span class="string">"nameMsg"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">        PassWord：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">id</span> = <span class="string">"password"</span> <span class="attr">onblur</span>=<span class="string">"checkPassword()"</span>&gt;</span><span class="tag">&lt;<span class="name">label</span> <span class="attr">id</span>=<span class="string">"passMsg"</span>&gt;</span><span class="tag">&lt;/<span class="name">label</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"注册"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
-<h3 id="js代码"><a href="#js代码" class="headerlink" title="js代码"></a>js代码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">createXMLHttpRequest</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">try</span>&#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">new</span> XMLHttpRequest();<span class="comment">//大多数浏览器</span></div><div class="line">            &#125;<span class="keyword">catch</span>(e)&#123;</div><div class="line">                <span class="keyword">try</span>&#123;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> ActiveXObject(<span class="string">"Msxml2.XMLHTTP"</span>);</div><div class="line">                &#125;<span class="keyword">catch</span>(e)&#123;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> ActiveXObject(<span class="string">"Microsoft.XMLHTTP"</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">function</span> <span class="title">checkUserName</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> xmlHttp = createXMLHttpRequest();</div><div class="line">            <span class="keyword">var</span> username = <span class="built_in">document</span>.getElementById(<span class="string">"name"</span>).value;</div><div class="line">            xmlHttp.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                <span class="keyword">if</span>(xmlHttp.readyState==<span class="number">4</span>&amp;&amp;xmlHttp.status==<span class="number">200</span>)&#123;</div><div class="line">                    <span class="keyword">var</span> name =  <span class="built_in">document</span>.getElementById(<span class="string">"nameMsg"</span>);</div><div class="line">                    name.innerHTML = xmlHttp.responseText;</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line">            xmlHttp.open(<span class="string">"POST"</span>, <span class="string">"/AjaxDemo1/BServlet"</span>, <span class="literal">true</span>);</div><div class="line">            xmlHttp.setRequestHeader(<span class="string">"Content-type"</span>, <span class="string">"application/x-www-form-urlencoded"</span>);</div><div class="line">            xmlHttp.send(<span class="string">"username="</span>+username);</div><div class="line">        &#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>【注】简单说明一下，post请求必须设置 content-type的请求头为xmlHttp.setRequestHeader(“Content-type”, “application/x-www-form-urlencoded”);</li>
-<li>其实这个就是表单ectype的默认值，等同于设置了content-type请求头，不过这里我们用的是Ajax的方式发送请求，这里没有默认值，需要我们自己指定。</li>
-<li><p>这里用到了XMLHttpRequest对象的onreadystatechange事件，该事件会在XMLHttpRequest对象的状态变化的时候触发，上网搜一搜XMLHttpRequest对象有五种状态：</p>
-<ul>
-<li>0：仅仅创建了XMLHttpRequest对象，还未调用open()方法，【初始化未完成状态】</li>
-<li>1：open()方法已经调用，但是还没有调用send()方法，【请求已经开始】</li>
-<li>2：send()方法已经调用，【请求发送完成】</li>
-<li>3：开始收到服务器的响应。</li>
-<li>4：服务器响应完毕。</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>也就是说onreadystatechange会在,0–&gt;1，1–&gt;2，2–&gt;3，3–&gt;4的时候触发。</li>
-<li>如果我们不做一些处理的话，很显然onreadystatechange会被触发四次。所以加了这个判断：if(xmlHttp.readyState==4&amp;&amp;xmlHttp.status==200)，我们还关心服务器返回的状态码是否是200。</li>
-<li>然后我们可以猜到：xmlHttp.responseText是从后台传递过来的数据，没错就是这样。</li>
-<li>这里我们是这样传递参数给后台的：xmlHttp.send(“username=”+username);</li>
-<li>后台就可以这样取到传递过来的数据：String username = request.getParameter(“username”);</li>
-</ul>
-<h3 id="BServlet"><a href="#BServlet" class="headerlink" title="BServlet"></a>BServlet</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">response.setContentType(<span class="string">"text/html"</span>);</div><div class="line">PrintWriter out = response.getWriter();</div><div class="line"></div><div class="line">String username = request.getParameter(<span class="string">"username"</span>);</div><div class="line"><span class="keyword">boolean</span> flag = <span class="keyword">new</span> DBHelper().searchByName(username);<span class="comment">//判断用户是否已经存在</span></div><div class="line">String msg = flag==<span class="keyword">true</span>?<span class="string">"User Already exists!"</span>:<span class="string">""</span>;</div><div class="line"></div><div class="line">out.print(msg);</div></pre></td></tr></table></figure>
-<p>out.print中的msg为后台与Ajax交互后最后传递过去的数据，与xmlHttp.responseText;对应。<br> 中间就是封装的jdbc的操作了。</p>
-<h3 id="jdbc代码"><a href="#jdbc代码" class="headerlink" title="jdbc代码"></a>jdbc代码</h3><h4 id="DBHelper"><a href="#DBHelper" class="headerlink" title="DBHelper"></a>DBHelper</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DBHelper</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">searchByName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">        Connection conn = <span class="keyword">null</span>;</div><div class="line">        PreparedStatement ps = <span class="keyword">null</span>;</div><div class="line">        ResultSet rs = <span class="keyword">null</span>;</div><div class="line">        String sql = <span class="string">"select * from user where name=?"</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            conn = DBUtils.getConnection();</div><div class="line">            ps = conn.prepareStatement(sql);</div><div class="line">            ps.setString(<span class="number">1</span>, name);</div><div class="line">            rs = ps.executeQuery();</div><div class="line">            <span class="keyword">if</span> (rs.next()) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;<span class="keyword">finally</span>&#123;</div><div class="line">            DBUtils.close(conn, ps, rs);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="DBUtils"><a href="#DBUtils" class="headerlink" title="DBUtils"></a>DBUtils</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DBUtils</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String driver = <span class="string">"com.mysql.jdbc.Driver"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String url = <span class="string">"jdbc:mysql:///test"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String username = <span class="string">"root"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String password = <span class="string">"123"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">static</span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Class.forName(driver);</div><div class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**获取数据库连接对象</span></div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">getConnection</span><span class="params">()</span></span>&#123;</div><div class="line">        Connection conn = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            conn = DriverManager.getConnection(url,username,password);</div><div class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> conn;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**关闭数据库连接资源</span></div><div class="line">     * <span class="doctag">@param</span> con</div><div class="line">     * <span class="doctag">@param</span> ps</div><div class="line">     * <span class="doctag">@param</span> rs</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">(Connection con,PreparedStatement ps,ResultSet rs)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(rs!=<span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                rs.close();</div><div class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(ps!=<span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                ps.close();</div><div class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(con!=<span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                con.close();</div><div class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="数据库中的user表如下："><a href="#数据库中的user表如下：" class="headerlink" title="数据库中的user表如下："></a>数据库中的user表如下：</h4><p>就加了两条数据。</p>
-<h4 id="效果图再来一张"><a href="#效果图再来一张" class="headerlink" title="效果图再来一张"></a>效果图再来一张</h4><p>图被狗吃了</p>
-
-          
+          <h2 id="Ajax的关键"><a href="#Ajax的关键" class="headerlink" title="Ajax的关键"></a>Ajax的关键</h2><p>XMLHttpRequest对象</p>
+<h2 id="期望的效果"><a href="#期望的效果" class="headerlink" title="期望的效果"></a>期望的效果</h2><p>有这样一个表单（类似注册）当用户输入用户名，且User name输入框失去焦点时，立即判断该用户输入的用户名是否合法：<br>如果用户名已经存在则给出类似下面的提示：达到较好的用户体验。【密码输入框有空的读者自行实践，这里不做过多描述】<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/07/27/javaweb/2015-07-27-Ajax-login-check/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1195,50 +1045,15 @@
 
       
         
-          
-            <h2 id="题引"><a href="#题引" class="headerlink" title="题引"></a>题引</h2><ul>
-<li>看代码写运行结果</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerAndInt</span></span></div><div class="line">&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></div><div class="line">    &#123;</div><div class="line">        Integer i1 = <span class="number">100</span>;</div><div class="line">        Integer i2 = <span class="number">100</span>;</div><div class="line">        Integer i3 = <span class="number">200</span>;</div><div class="line">        Integer i4 = <span class="number">200</span>;</div><div class="line"></div><div class="line">        System.out.println(i1==i2);</div><div class="line">        System.out.println(i3==i4);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>运行结果是什么呢？（可以事先思考一下再看答案）</li>
-<li><p>-thingking！！-thingking！！-thingking！！-thingking！！-thingking！！-thingking！！-thingking！！-thingking！！-thingking！！-thingking！！-thingking！！-thingking！！-thingking！！-thingking！！-thingking！！-thingking！！</p>
-</li>
-<li><p>运行结果揭晓：</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">true</div><div class="line">false</div></pre></td></tr></table></figure>
-<ul>
-<li>——————-不相信？不信可以自己试一试</li>
-<li>coding…….</li>
-<li>——————-Oh My God!   but why?</li>
-</ul>
-<h2 id="正解"><a href="#正解" class="headerlink" title="正解"></a>正解</h2><p>涉及到Java中Integer与int之间的自动拆装箱知识点</p>
-<h3 id="自动拆装箱"><a href="#自动拆装箱" class="headerlink" title="自动拆装箱"></a>自动拆装箱</h3><ul>
-<li><p>自动拆装箱指的是：8种基本类型与其对应包装器类型可以直接互换 注意：基本类型的数组，与其包装器类型的数组不可互换<br>自动拆装箱由编译器（不是虚拟机）完成的，编译器帮我们完成拆箱和装箱操作 Add：可以用反编译看看编译器到底为我们做了什么</p>
-<ol>
-<li>装箱：把int类型赋值给Integer类型时（Integer = int），int类型的变量的值会自动装箱成Integer类型，然后赋给Integer类型的引用，这里底层就是通过调用valueOf()这个方法来实现的。</li>
-<li>拆箱：把Integer类型赋值给int类型时（int = Integer），Integer类型的变量的值会自动拆箱成int类型，然后赋给int类型的变量，这里底层则是通过调用intValue()方法来实现的。</li>
-</ol>
-</li>
-</ul>
-<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><ul>
-<li>下面给出Integer的valueOf函数源代码</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)</div><div class="line">        <span class="keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>IntegerCache是Integer的静态内部类cache是IntegerCathed的成员： static final Integer cache[];（注意关键字 static final Integer）<br>caChe里面装的值是【-128,127】之间的Integer，这里我截取一部分来自IntegerCache的静态代码块的代码以便更清楚的认识：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cache = <span class="keyword">new</span> Integer[(high - low) + <span class="number">1</span>];</div><div class="line"><span class="keyword">int</span> j = low;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; cache.length; k++)</div><div class="line">     cache[k] = <span class="keyword">new</span> Integer(j++);</div></pre></td></tr></table></figure>
-<ul>
-<li>说明：high的值是127，low的值是-128 （两个都是IntegerCache的成员变量，都是static final int类型）<br>这样一来，就相当于-128到127之间的Integer已经存在了。后面不论你有多少个Integer = int类型的装箱操作，如果int的值始终在-128到127之间，那么得到的Integer对象始终是指向事先就已经确定好的这些区域。其中如果有些int的值相等，那么这些int所对应的Integer对象就指向同一块区域，这也就是为什么上面的“i1==i2”得到的是true的缘故了。至于”i1==i2”为什么是false，相信大家都知道：由于【+128,127】满足不了所有的需求，必须重新开辟了一块内存空间用于存放“越界”的Integer。因为200不在【-128,127】内，而两次开辟的内存空间位置不同，所以”i1==i2”是false。<ol>
-<li><integer及其内部类integercache具体内容请参看源码></integer及其内部类integercache具体内容请参看源码></li>
-<li>【注：*Java设计模式之享元模式的体现】</li>
-</ol>
-</li>
-</ul>
-
-          
+          <h2 id="题引"><a href="#题引" class="headerlink" title="题引"></a>题引</h2><ul>
+<li><p>看代码写运行结果</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/07/24/javase/2015-07-24-java-src-important/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1388,52 +1203,16 @@
 
       
         
-          
-            <h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><p>小问题还是直接上代码比较直观</p>
+          <h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><p>小问题还是直接上代码比较直观</p>
 <h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><ul>
-<li>Parent类（父类）</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.xiongyu.reflect;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Parent</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Parent:method1"</span>);</div><div class="line">        <span class="keyword">this</span>.method2();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method2</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Parent:method2"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>Children类（Parent类的子类）</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.xiongyu.reflect;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Children</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Children:mehtod1"</span>);</div><div class="line">        <span class="keyword">super</span>.method1();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method2</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Children:method2"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method3</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Children:method3"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="开始测试"><a href="#开始测试" class="headerlink" title="开始测试"></a>开始测试</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.xiongyu.reflect;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test_Main</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Parent p = <span class="keyword">new</span> Children();</div><div class="line">        p.method1();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>下面是打印输出的结果：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Children:mehtod1</div><div class="line">Parent:method1</div><div class="line">Children:method2</div></pre></td></tr></table></figure>
-<ul>
-<li>这能说明什么？表示我对此并不感到很惊讶！！【注：对此表示惊讶的同学得回去看看Java基础了】</li>
-<li>别急，好戏开始了，现在我对输出有点不满，我要下面这个！</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Children:mehtod1</div><div class="line">Parent:method1</div><div class="line">Children:method3</div></pre></td></tr></table></figure>
-<ul>
-<li>【注：简单说就是在执行Parent类的method1后回来执行Children类的method3方法，怎么办？】</li>
-</ul>
-<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><ul>
-<li>重写Parent类的method1方法</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Parent:method1"</span>);</div><div class="line">        <span class="keyword">this</span>.method3();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>纳里，编译都过不了。。。。。。</li>
-<li>编译过不了是必然的，因为这里只能调用在父类中声明的方法：method1()和method2()，而method3()是子类特有的，父类里面“看不到”，所以这里会编译出错！</li>
-<li>但是，我们发现一个问题，程序运行起来后，这里的this明明就是子类对象啊！这可真是干着急啊，到嘴的肥肉竟然不能吃。办法当然是有的，现在进入正题。</li>
-<li>既然问题的关键已经找到了，就是这个this搞的鬼。我们直接上代码。</li>
-</ul>
-<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><ul>
-<li>重写父类的method1方法</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</div><div class="line">    System.out.println(<span class="string">"Parent:method1"</span>);</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        Method method = <span class="keyword">this</span>.getClass().getDeclaredMethod(<span class="string">"method3"</span>, <span class="keyword">null</span>);</div><div class="line">        method.invoke(<span class="keyword">this</span>, <span class="keyword">null</span>);</div><div class="line">    &#125; <span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>下面是打印输出的结果：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Children:mehtod1</div><div class="line">Parent:method1</div><div class="line">Children:method3</div></pre></td></tr></table></figure>
-<ul>
-<li>正题结束，这回真的就是指哪打哪了，加了几行代码就搞定了，收工。</li>
-</ul>
-
-          
+<li><p>Parent类（父类）</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/07/23/javase/2015-07-23-java-Reflection/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

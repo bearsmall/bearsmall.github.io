@@ -87,20 +87,17 @@
 
 
 
-<meta name="description" content="引言在javaweb开发中我们可能经常会用到basePath这个参数，没错，当我们新建一个jsp页面的时候，myeclipse会自动帮我们生成下面这段代码：
-1234&amp;lt;%String path = request.getContextPath();String basePath = request.getScheme()+&quot;://&quot;+request.getServerName()+&quot;:&quot;+r">
+<meta name="description" content="引言在javaweb开发中我们可能经常会用到basePath这个参数，没错，当我们新建一个jsp页面的时候，myeclipse会自动帮我们生成下面这段代码：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JAVAWEB之自定义TAG开发">
 <meta property="og:url" content="https://bearsmall.github.io/2015/11/30/javaweb/2015-11-30-define-tag/index.html">
 <meta property="og:site_name" content="X+Y-Z">
-<meta property="og:description" content="引言在javaweb开发中我们可能经常会用到basePath这个参数，没错，当我们新建一个jsp页面的时候，myeclipse会自动帮我们生成下面这段代码：
-1234&amp;lt;%String path = request.getContextPath();String basePath = request.getScheme()+&quot;://&quot;+request.getServerName()+&quot;:&quot;+r">
+<meta property="og:description" content="引言在javaweb开发中我们可能经常会用到basePath这个参数，没错，当我们新建一个jsp页面的时候，myeclipse会自动帮我们生成下面这段代码：">
 <meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-tag-1.png">
-<meta property="og:updated_time" content="2017-02-08T19:08:02.916Z">
+<meta property="og:updated_time" content="2017-02-08T19:41:06.231Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JAVAWEB之自定义TAG开发">
-<meta name="twitter:description" content="引言在javaweb开发中我们可能经常会用到basePath这个参数，没错，当我们新建一个jsp页面的时候，myeclipse会自动帮我们生成下面这段代码：
-1234&amp;lt;%String path = request.getContextPath();String basePath = request.getScheme()+&quot;://&quot;+request.getServerName()+&quot;:&quot;+r">
+<meta name="twitter:description" content="引言在javaweb开发中我们可能经常会用到basePath这个参数，没错，当我们新建一个jsp页面的时候，myeclipse会自动帮我们生成下面这段代码：">
 <meta name="twitter:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-tag-1.png">
 
 
@@ -412,8 +409,7 @@
       
 
       
-        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在javaweb开发中我们可能经常会用到basePath这个参数，没错，当我们新建一个jsp页面的时候，myeclipse会自动帮我们生成下面这段代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">String path = request.getContextPath();</div><div class="line">String basePath = request.getScheme()+<span class="string">"://"</span>+request.getServerName()+<span class="string">":"</span>+request.getServerPort()+path+<span class="string">"/"</span>;</div><div class="line">%&gt;</div></pre></td></tr></table></figure>
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在javaweb开发中我们可能经常会用到basePath这个参数，没错，当我们新建一个jsp页面的时候，myeclipse会自动帮我们生成下面这段代码：<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;%</div><div class="line">String path = request.getContextPath();</div><div class="line">String basePath = request.getScheme()+<span class="string">"://"</span>+request.getServerName()+<span class="string">":"</span>+request.getServerPort()+path+<span class="string">"/"</span>;</div><div class="line">%&gt;</div></pre></td></tr></table></figure></p>
 <h2 id="使用标签"><a href="#使用标签" class="headerlink" title="使用标签"></a>使用标签</h2><p>起初也许你看他不爽，后来发现这个东西确实很有用哦，但是我们仔细数了数这代码行数有点多，而且还是jsp页面嵌套Java代码实现的，看起来有些不伦不类（话又说回来，这个用肯定是没有问题的）。</p>
 <p>现在我们想把这段代码抽离出来，用更简洁的方式实现同样的功能，即提供basePath参数。我们知道jsp页面中的jstl标签库功能强大，我们只需要在jsp页面引入这么一条代码就可以使用功能如此强大的标签。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;%@ taglib prefix=<span class="string">"c"</span> uri=<span class="string">"http://java.sun.com/jsp/jstl/core"</span>%&gt;</div></pre></td></tr></table></figure>

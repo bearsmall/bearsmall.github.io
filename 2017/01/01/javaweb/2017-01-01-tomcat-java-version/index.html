@@ -99,7 +99,7 @@
 当我们把javaweb项目部署到tomcat中时，一般来说是没有源文件的（.Java），而是只有类文件（.class）.tomcat是servlet容器，负责执行servlet。
 众所周知：jsp实际上就是servlet。那么我们编写的jsp页面最终在访问的时候，都会预编译为Servlet（源文件和目标文件都有，work目录下）。
 可以尝试：安装tomcat和jre（不是jdk）。竟然可">
-<meta property="og:updated_time" content="2017-02-08T19:08:03.097Z">
+<meta property="og:updated_time" content="2017-02-08T19:41:06.310Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="给tomcat配java版本">
 <meta name="twitter:description" content="储备知识
@@ -419,9 +419,9 @@
         <h2 id="储备知识"><a href="#储备知识" class="headerlink" title="储备知识"></a>储备知识</h2><ul>
 <li>当我们把javaweb项目部署到tomcat中时，一般来说是没有源文件的（.Java），而是只有类文件（.class）.tomcat是servlet容器，负责执行servlet。</li>
 <li>众所周知：jsp实际上就是servlet。那么我们编写的jsp页面最终在访问的时候，都会预编译为Servlet（源文件和目标文件都有，work目录下）。</li>
-<li>可以尝试：安装tomcat和jre（不是jdk）。竟然可以执行jsp页面，也就是说jsp到servlet的转化和servlet源文件到.class文件的编译在</li>
+<li>可以尝试：安装tomcat和jre（不是jdk）。竟然可以执行jsp页面，也就是说jsp到servlet的转化和servlet源文件到.class文件的编译在<a id="more"></a>
+只有jre的情况下竟然完成了。所以可以断定，编译过程是tomcat内置&gt;的一个编译环境。那么这个编译级别是怎么样的呢？jdk1.6?还是jdk1.7?</li>
 </ul>
-<p>只有jre的情况下竟然完成了。所以可以断定，编译过程是tomcat内置&gt;的一个编译环境。那么这个编译级别是怎么样的呢？jdk1.6?还是jdk1.7?</p>
 <ul>
 <li>我拿两个tomcat版本查看后发现（\conf\web.xml）：</li>
 </ul>

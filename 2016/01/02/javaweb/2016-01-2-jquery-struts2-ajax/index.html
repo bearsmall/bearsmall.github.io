@@ -89,24 +89,14 @@
 
 <meta name="description" content="传统的分页
 
-从URL中很明显的看出了分页的技术点，两个参数：一个是当前页page一个是页面大小size我们甚至可以直接修改URL中的参数来跳转到相应的页面。下面几个按钮也是比较常见的。
-
-弊端我简单总结一下：
-
-get请求参数在url中，虽然也不是什么敏感的信息，但是一旦哪个用户传递过来的不是整数，你后台要是不做处理肯定NumberFormatException！
-当换页的时候，后台处理请求然后">
+从URL中很明显的看出了分页的技术点，两个参数：一个是当前页page一个是页面大小size我们甚至可以直接修改URL中的参数来跳转到相应的页面。下面几个按钮也是比较常见的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jquery+Struts2实现ajax局部刷新分页">
 <meta property="og:url" content="https://bearsmall.github.io/2016/01/02/javaweb/2016-01-2-jquery-struts2-ajax/index.html">
 <meta property="og:site_name" content="X+Y-Z">
 <meta property="og:description" content="传统的分页
 
-从URL中很明显的看出了分页的技术点，两个参数：一个是当前页page一个是页面大小size我们甚至可以直接修改URL中的参数来跳转到相应的页面。下面几个按钮也是比较常见的。
-
-弊端我简单总结一下：
-
-get请求参数在url中，虽然也不是什么敏感的信息，但是一旦哪个用户传递过来的不是整数，你后台要是不做处理肯定NumberFormatException！
-当换页的时候，后台处理请求然后">
+从URL中很明显的看出了分页的技术点，两个参数：一个是当前页page一个是页面大小size我们甚至可以直接修改URL中的参数来跳转到相应的页面。下面几个按钮也是比较常见的。">
 <meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-1.png">
 <meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-2.png">
 <meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-3.png">
@@ -114,17 +104,12 @@ get请求参数在url中，虽然也不是什么敏感的信息，但是一旦�
 <meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-5.png">
 <meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-6.png">
 <meta property="og:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-7.png">
-<meta property="og:updated_time" content="2017-02-08T19:08:03.055Z">
+<meta property="og:updated_time" content="2017-02-08T19:41:06.339Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jquery+Struts2实现ajax局部刷新分页">
 <meta name="twitter:description" content="传统的分页
 
-从URL中很明显的看出了分页的技术点，两个参数：一个是当前页page一个是页面大小size我们甚至可以直接修改URL中的参数来跳转到相应的页面。下面几个按钮也是比较常见的。
-
-弊端我简单总结一下：
-
-get请求参数在url中，虽然也不是什么敏感的信息，但是一旦哪个用户传递过来的不是整数，你后台要是不做处理肯定NumberFormatException！
-当换页的时候，后台处理请求然后">
+从URL中很明显的看出了分页的技术点，两个参数：一个是当前页page一个是页面大小size我们甚至可以直接修改URL中的参数来跳转到相应的页面。下面几个按钮也是比较常见的。">
 <meta name="twitter:image" content="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-1.png">
 
 
@@ -438,9 +423,10 @@ get请求参数在url中，虽然也不是什么敏感的信息，但是一旦�
       
         <h2 id="传统的分页"><a href="#传统的分页" class="headerlink" title="传统的分页"></a>传统的分页</h2><p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-jquery-struts2-ajax-1.png" alt="jquery struts2 ajax"></p>
 <ul>
-<li>从URL中很明显的看出了分页的技术点，两个参数：一个是当前页page一个是页面大小size<br>我们甚至可以直接修改URL中的参数来跳转到相应的页面。下面几个按钮也是比较常见的。</li>
+<li>从URL中很明显的看出了分页的技术点，两个参数：一个是当前页page一个是页面大小size<br>我们甚至可以直接修改URL中的参数来跳转到相应的页面。下面几个按钮也是比较常见的。<a id="more"></a>
+<h3 id="弊端"><a href="#弊端" class="headerlink" title="弊端"></a>弊端</h3></li>
 </ul>
-<h3 id="弊端"><a href="#弊端" class="headerlink" title="弊端"></a>弊端</h3><p>我简单总结一下：</p>
+<p>我简单总结一下：</p>
 <ol>
 <li>get请求参数在url中，虽然也不是什么敏感的信息，但是一旦哪个用户传递过来的不是整数，<br>你后台要是不做处理肯定NumberFormatException！</li>
 <li>当换页的时候，后台处理请求然后将页面需要的数据准备好，再转到页面,然后数据填充到页面，<br>渲染页面，一个分页就需要将整个页面重新绘制一遍。要是页面就一张table还好说。但是如果页面<br>中有其它数据，你得从后台再获取一遍（虽然前后并没有什么变化）。再者，如果页面中有很多类似<br>的table你得在分页的同时保持其它table的状态信息（比如说其它table现在在第几页什么的，如果分页<br>后其它table的状态信息没有被保存，而是统一回到第一页，那体验是很不好的。）</li>
