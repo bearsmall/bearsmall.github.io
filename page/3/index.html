@@ -210,26 +210,6 @@
         </li>
       
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
@@ -240,12 +220,32 @@
         </li>
       
         
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
           </a>
         </li>
       
@@ -301,7 +301,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://bearsmall.github.io/2015/10/26/tool/2015-10-26-jvm-setting/">
+  <link itemprop="mainEntityOfPage" href="https://bearsmall.github.io/2015/10/26/javase/2015-10-26-java-httpclient-encoding/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="BearSmall">
@@ -326,8 +326,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/10/26/tool/2015-10-26-jvm-setting/" itemprop="url">
-                  Eclipse、IDEA环境下设置jvm默认编码
+                <a class="post-title-link" href="/2015/10/26/javase/2015-10-26-java-httpclient-encoding/" itemprop="url">
+                  HttpClient发送请求后得到的响应内容出现部分乱码的问题
                 </a>
               
             
@@ -366,8 +366,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
+                  <a href="/categories/语言基础/" itemprop="url" rel="index">
+                    <span itemprop="name">语言基础</span>
                   </a>
                 </span>
 
@@ -384,8 +384,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2015/10/26/tool/2015-10-26-jvm-setting/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/10/26/tool/2015-10-26-jvm-setting/" itemprop="commentCount"></span>
+                <a href="/2015/10/26/javase/2015-10-26-java-httpclient-encoding/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/10/26/javase/2015-10-26-java-httpclient-encoding/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -412,10 +412,10 @@
 
       
         
-          <h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Encoding</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        System.out.println(System.getProperty(<span class="string">"file.encoding"</span>));</div><div class="line">        System.out.println(Charset.defaultCharset().name());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>几天爬虫出现了一个问题，用HttpClient不管是发送的Post请求还是Get请求一直出现一个问题：<br>得到的响应内容部分乱码，请注意我的措辞，是部分乱码，一小部分，一小部分，一小部分！！！<br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/10/26/tool/2015-10-26-jvm-setting/#more" rel="contents">
+            <a class="btn" href="/2015/10/26/javase/2015-10-26-java-httpclient-encoding/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
