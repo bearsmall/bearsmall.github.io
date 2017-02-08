@@ -565,8 +565,8 @@
   
   
 
-  <article class="post post-type-数据结构 " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/24/dataStructure/2015-11-08-stack-in-out-law/">
+  <article class="post post-type-Web技术 " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/01/javaweb/2017-01-01-tomcat-java-version/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
@@ -591,8 +591,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/01/24/dataStructure/2015-11-08-stack-in-out-law/" itemprop="url">
-                  入栈出栈规律
+                <a class="post-title-link" href="/2017/01/01/javaweb/2017-01-01-tomcat-java-version/" itemprop="url">
+                  给tomcat配java版本
                 </a>
               
             
@@ -608,8 +608,8 @@
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-24T00:00:00+08:00">
-                2017-01-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-01T00:00:00+08:00">
+                2017-01-01
               </time>
             
 
@@ -646,49 +646,47 @@
       
         
           
-            <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><h3 id="题引"><a href="#题引" class="headerlink" title="题引"></a>题引</h3><ul>
-<li><p>已知入栈序列为：1 2 3 4 5，这5个数依次入栈，出栈顺序、时机任意。<br>则下列可能的出栈序列不正确的是（）</p>
+            <h2 id="储备知识"><a href="#储备知识" class="headerlink" title="储备知识"></a>储备知识</h2><ul>
+<li>当我们把javaweb项目部署到tomcat中时，一般来说是没有源文件的（.Java），而是只有类文件（.class）.tomcat是servlet容器，负责执行servlet。</li>
+<li>众所周知：jsp实际上就是servlet。那么我们编写的jsp页面最终在访问的时候，都会预编译为Servlet（源文件和目标文件都有，work目录下）。</li>
+<li>可以尝试：安装tomcat和jre（不是jdk）。竟然可以执行jsp页面，也就是说jsp到servlet的转化和servlet源文件到.class文件的编译在</li>
+</ul>
+<p>只有jre的情况下竟然完成了。所以可以断定，编译过程是tomcat内置&gt;的一个编译环境。那么这个编译级别是怎么样的呢？jdk1.6?还是jdk1.7?</p>
 <ul>
-<li>A 1 2 3 4 5</li>
-<li>B 3 2 1 5 4</li>
-<li>C 1 5 4 3 2</li>
-<li>D 4 3 5 1 2</li>
+<li>我拿两个tomcat版本查看后发现（\conf\web.xml）：</li>
 </ul>
-</li>
-<li><p>这种题目，相信给你一分钟心算一下就可以出来了。然而，当规模增加到10个数，20个数，估计你花费的时间会成指数增长。但是我现在想在10秒之内做出来，不管是5个数还是10个数，或者20个数。那么怎么办呢？</p>
-</li>
-<li><p>好吧，废话不多说，我其实就是分享做这类题目的技巧和规律。。。。。。</p>
-</li>
-</ul>
-<h3 id="规律总结"><a href="#规律总结" class="headerlink" title="规律总结"></a>规律总结</h3><ul>
-<li>已知栈的输入序列是1,2,3,…,n，输出序列是a1,a2,…ai,…,an。</li>
-<li>然后我们任选一个数ai，并筛选ai到an之间所有&lt;=ai的元素，则它们一定是按照从大到小的顺序排列的。*</li>
-<li>（“从大到小“不一定紧紧相邻，只代表相对位置关系，比如(…，10，…，7，…，3，…，1，…）</li>
-</ul>
-<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><ul>
-<li>入栈顺序：1 2 3 4 5 【n=5】</li>
-<li>出栈顺序：3 2 1 5 4</li>
-</ul>
-<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><ul>
-<li>让i=1，那么ai=3,后面小于3的有2,1。刚好3,2,1是按照从大到小的顺序排列的</li>
-<li>让i=2，那么ai=2,后面小于2的有1。刚好2,1是按照从大到小的顺序排列的</li>
-<li>让i=3，那么ai=1,后面小于1的有NULL，满足。</li>
-<li>让i=4，那么ai=5,后面小于5的有4。刚好5,4是按照从大到小的顺序排列的</li>
-<li>让i=5，那么ai=4,后面小于4的有NULL，满足。</li>
-</ul>
-<h3 id="讲一讲原理"><a href="#讲一讲原理" class="headerlink" title="讲一讲原理"></a>讲一讲原理</h3><ul>
-<li>最理想的情况下，从小到大入栈，从大到小出栈，但是因为出栈是随机的，也就是在入栈还没结束的情况下就可以出栈。这样，就会出现一些小的数提前出栈的现象。但是那些“守规矩”的小数相对位置是没有变化的。比如入栈12345，结果在4入栈之前3不听话先出去了。但是这不会影响12的顺序，12的相对顺序还是保持着 12入栈，21出栈。因为12是守规矩的。</li>
-</ul>
-<h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><ul>
-<li>当然实际做题的时候规律掌握了扫一眼就可以判断那些是错误的了。</li>
-<li><p>【注；这些规律一般用来排除不满足的选项，因为这个不是充分条件】</p>
-</li>
-<li><p>可能会有这样的疑问：上面的规律前提都是输入序列为：1,2,3,…n这种递增的形式的，<br>如果哪天入栈序列改了，变成：n,n-1,…3,2,1，那规律难道都不适用了？还有就是输入的序列不是这些简单的数字，而是一些字母,数字等的混合形式，难道我又只能呵呵了。</p>
+<ol>
+<li>tomcat7.*</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">compilerSourceVM    Compiler source VM. [1.6]</div><div class="line">compilerTargetVM    Compiler target VM. [1.6]</div></pre></td></tr></table></figure>
+<ol>
+<li>tomcat8.*</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">compilerSourceVM    Compiler source VM. [1.7]</div><div class="line">compilerTargetVM    Compiler target VM. [1.7]</div></pre></td></tr></table></figure>
+<ul>
+<li><p>稍微解释一下这两个参数：</p>
+<ol>
+<li>compilerSourceVM:编译源文件时采用那个JDK版本？（上面指出了缺省值）</li>
+<li>compilerTargetVM:运行类文件时采用那个JDK版本？（上面给出了缺省值）</li>
+</ol>
 </li>
 </ul>
-<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><ul>
-<li>一句话：你先给它们每个元素（不管是数字还是字符串）标个序号，后面直接对序号操作就OK了【按照1,2,3,…,n的顺序】。</li>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://zm8.sm-img2.com/?src=http%3A%2F%2Fyoyo.is-programmer.com%2Fposts%2F13166.html&amp;uid=2f5668707a1b02af6f519213098ab4f7&amp;hid=c045dc490621a3bd2fd665ff3f88c93e&amp;pos=5&amp;cid=9&amp;time=1455440494614&amp;from=click&amp;restype=1&amp;pagetype=0000004000000402&amp;bu=news_natural&amp;query=%E8%AE%BE%E7%BD%AEtomcat+jsp%E7%BC%96%E8%AF%91jdk%E7%89%88%E6%9C%AC&amp;mode=&amp;uc_param_str=dnntnwvepffrgibijbprsvpi" target="_blank" rel="external"></a></p>
+<ul>
+<li><p>既然jsp最后都是由tomcat版本决定编译和运行时采用的jdk版本。那么项目里的纯java代码呢？</p>
+</li>
+<li><p>这个就需要自己在外部编译好最好打包到tomcat中。编译的工具很多，比如ant，maven等等。</p>
+</li>
 </ul>
+<h3 id="给tomcat配置jdk"><a href="#给tomcat配置jdk" class="headerlink" title="给tomcat配置jdk"></a>给tomcat配置jdk</h3><ul>
+<li>我没有听错吧，tomcat还能配置jdk版本。除去tomcat编译jsp的那个配置不算。<br>我们一般都是先安装jdk，再安装tomcat。项目运行的时候，不就是采用的安装的<br>jdk的版本吗？</li>
+<li>确实如此，不过我们还是可以配置的。一般像上面那样理解起来比较好，JDK和Tomcat单独安装，不需要怎么配置，java环境自然使用的是安装的jdk。</li>
+<li>不过在我们开发的时候有时候就是会吃编译和运行版本的亏。<br>例如我们在myeclipse集成开发环境中一般会使用自己安装的jdk和tomcat。<br>我们也推荐这么做，但是大部分人都只是觉得自己是在用自己的jdk和tomcat，其实不然。</li>
+<li>我们将自己的tomcat导入myeclipse中设置为enable，以为就万事大吉了。<br>但是我们其实还可以配置下面选项列表中的其它一些参数，比如说JDK。<br>点开一看大多数情况下会惊奇的发现使用的是myeclipse中默认的JDK，并不是我们安装的JDK。这种不了解有时候会造成一些看似诡异实则有因的问题。</li>
+<li>好了我们配置好JDK就可以了【如果知道maven，我们其实还可以在maven中设置编译和运行环境，不需要在Tomcat上折腾】。</li>
+<li>至于那个诡异的问题不是那么轻易就能碰到的，这里我人为搞一个。</li>
+</ul>
+<p>比如你Tomcat使用的JDK版本是1.7(运行)，然后你的项目编译环境是1.8的，你把编译好的项目放到Tomcat服务器上面，然后嗨嗨是不是一大堆找不到类啊？</p>
 
           
         
@@ -878,167 +876,6 @@
   
   
 
-  <article class="post post-type-Web技术 " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/01/javaweb/2017-01-01-tomcat-java-version/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="John Doe">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Hexo">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/01/javaweb/2017-01-01-tomcat-java-version/" itemprop="url">
-                  给tomcat配java版本
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-01T00:00:00+08:00">
-                2017-01-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="储备知识"><a href="#储备知识" class="headerlink" title="储备知识"></a>储备知识</h2><ul>
-<li>当我们把javaweb项目部署到tomcat中时，一般来说是没有源文件的（.Java），而是只有类文件（.class）.tomcat是servlet容器，负责执行servlet。</li>
-<li>众所周知：jsp实际上就是servlet。那么我们编写的jsp页面最终在访问的时候，都会预编译为Servlet（源文件和目标文件都有，work目录下）。</li>
-<li>可以尝试：安装tomcat和jre（不是jdk）。竟然可以执行jsp页面，也就是说jsp到servlet的转化和servlet源文件到.class文件的编译在</li>
-</ul>
-<p>只有jre的情况下竟然完成了。所以可以断定，编译过程是tomcat内置&gt;的一个编译环境。那么这个编译级别是怎么样的呢？jdk1.6?还是jdk1.7?</p>
-<ul>
-<li>我拿两个tomcat版本查看后发现（\conf\web.xml）：</li>
-</ul>
-<ol>
-<li>tomcat7.*</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">compilerSourceVM    Compiler source VM. [1.6]</div><div class="line">compilerTargetVM    Compiler target VM. [1.6]</div></pre></td></tr></table></figure>
-<ol>
-<li>tomcat8.*</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">compilerSourceVM    Compiler source VM. [1.7]</div><div class="line">compilerTargetVM    Compiler target VM. [1.7]</div></pre></td></tr></table></figure>
-<ul>
-<li><p>稍微解释一下这两个参数：</p>
-<ol>
-<li>compilerSourceVM:编译源文件时采用那个JDK版本？（上面指出了缺省值）</li>
-<li>compilerTargetVM:运行类文件时采用那个JDK版本？（上面给出了缺省值）</li>
-</ol>
-</li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://zm8.sm-img2.com/?src=http%3A%2F%2Fyoyo.is-programmer.com%2Fposts%2F13166.html&amp;uid=2f5668707a1b02af6f519213098ab4f7&amp;hid=c045dc490621a3bd2fd665ff3f88c93e&amp;pos=5&amp;cid=9&amp;time=1455440494614&amp;from=click&amp;restype=1&amp;pagetype=0000004000000402&amp;bu=news_natural&amp;query=%E8%AE%BE%E7%BD%AEtomcat+jsp%E7%BC%96%E8%AF%91jdk%E7%89%88%E6%9C%AC&amp;mode=&amp;uc_param_str=dnntnwvepffrgibijbprsvpi" target="_blank" rel="external"></a></p>
-<ul>
-<li><p>既然jsp最后都是由tomcat版本决定编译和运行时采用的jdk版本。那么项目里的纯java代码呢？</p>
-</li>
-<li><p>这个就需要自己在外部编译好最好打包到tomcat中。编译的工具很多，比如ant，maven等等。</p>
-</li>
-</ul>
-<h3 id="给tomcat配置jdk"><a href="#给tomcat配置jdk" class="headerlink" title="给tomcat配置jdk"></a>给tomcat配置jdk</h3><ul>
-<li>我没有听错吧，tomcat还能配置jdk版本。除去tomcat编译jsp的那个配置不算。<br>我们一般都是先安装jdk，再安装tomcat。项目运行的时候，不就是采用的安装的<br>jdk的版本吗？</li>
-<li>确实如此，不过我们还是可以配置的。一般像上面那样理解起来比较好，JDK和Tomcat单独安装，不需要怎么配置，java环境自然使用的是安装的jdk。</li>
-<li>不过在我们开发的时候有时候就是会吃编译和运行版本的亏。<br>例如我们在myeclipse集成开发环境中一般会使用自己安装的jdk和tomcat。<br>我们也推荐这么做，但是大部分人都只是觉得自己是在用自己的jdk和tomcat，其实不然。</li>
-<li>我们将自己的tomcat导入myeclipse中设置为enable，以为就万事大吉了。<br>但是我们其实还可以配置下面选项列表中的其它一些参数，比如说JDK。<br>点开一看大多数情况下会惊奇的发现使用的是myeclipse中默认的JDK，并不是我们安装的JDK。这种不了解有时候会造成一些看似诡异实则有因的问题。</li>
-<li>好了我们配置好JDK就可以了【如果知道maven，我们其实还可以在maven中设置编译和运行环境，不需要在Tomcat上折腾】。</li>
-<li>至于那个诡异的问题不是那么轻易就能碰到的，这里我人为搞一个。</li>
-</ul>
-<p>比如你Tomcat使用的JDK版本是1.7(运行)，然后你的项目编译环境是1.8的，你把编译好的项目放到Tomcat服务器上面，然后嗨嗨是不是一大堆找不到类啊？</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
   <article class="post post-type-工具 " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/27/tool/2016-06-27-id-pid-tree/">
 
@@ -1180,186 +1017,6 @@
   
   
 
-  <article class="post post-type-设计模式 " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/02/designPattern/2016-06-02-single-instance/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="John Doe">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Hexo">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/02/designPattern/2016-06-02-single-instance/" itemprop="url">
-                  设计模式之单例模式总结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-06-02T00:00:00+08:00">
-                2016-06-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="常见的单例模式"><a href="#常见的单例模式" class="headerlink" title="常见的单例模式"></a>常见的单例模式</h2><ul>
-<li>恶汉模式</li>
-<li>懒汉模式</li>
-<li>双重检查锁</li>
-<li>内部类</li>
-<li>枚举</li>
-</ul>
-<h2 id="具体实现方式"><a href="#具体实现方式" class="headerlink" title="具体实现方式"></a>具体实现方式</h2><h3 id="1-饿汉模式"><a href="#1-饿汉模式" class="headerlink" title="1. 饿汉模式"></a>1. 饿汉模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single1</span> </span>&#123;</div><div class="line">     <span class="keyword">private</span> <span class="keyword">static</span> Single1 single = <span class="keyword">new</span> Single1();</div><div class="line">     <span class="function"><span class="keyword">private</span> <span class="title">Single1</span><span class="params">()</span> </span>&#123;</div><div class="line">     &#125;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single1 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">             <span class="keyword">return</span> single;</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<h3 id="2-1-懒汉模式"><a href="#2-1-懒汉模式" class="headerlink" title="2.1 懒汉模式"></a>2.1 懒汉模式</h3><ul>
-<li>线程不安全</li>
-<li>延迟加载</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single2_1</span> </span>&#123;</div><div class="line">     <span class="keyword">private</span> <span class="keyword">static</span> Single2_1 single;</div><div class="line">     <span class="function"><span class="keyword">private</span> <span class="title">Single2_1</span><span class="params">()</span> </span>&#123;</div><div class="line">     &#125;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single2_1 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">         <span class="keyword">if</span>(single == <span class="keyword">null</span>)&#123;</div><div class="line">             single = <span class="keyword">new</span> Single2_1();</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">return</span> single;</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<h3 id="2-2-懒汉模式"><a href="#2-2-懒汉模式" class="headerlink" title="2.2 懒汉模式"></a>2.2 懒汉模式</h3><ul>
-<li>线程安全</li>
-<li>同步</li>
-<li>延迟加载</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single2_2</span> </span>&#123;</div><div class="line">     <span class="keyword">private</span> <span class="keyword">static</span> Single2_2 single;</div><div class="line">     <span class="function"><span class="keyword">private</span> <span class="title">Single2_2</span><span class="params">()</span> </span>&#123;</div><div class="line">     &#125;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Single2_2 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">         <span class="keyword">if</span>(single == <span class="keyword">null</span>)&#123;</div><div class="line">             single = <span class="keyword">new</span> Single2_2();</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">return</span> single;</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<h3 id="3-双重监测锁"><a href="#3-双重监测锁" class="headerlink" title="3. 双重监测锁"></a>3. 双重监测锁</h3><ul>
-<li>懒汉模式</li>
-<li>线程安全</li>
-<li>同步</li>
-<li>延迟加载</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single3</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Single3 single;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Single3</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single3 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(single == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">synchronized</span> (Single3.class) &#123;</div><div class="line">                <span class="keyword">if</span>(single == <span class="keyword">null</span>)&#123;</div><div class="line">                    single = <span class="keyword">new</span> Single3();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> single;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="4-内部类"><a href="#4-内部类" class="headerlink" title="4. 内部类"></a>4. 内部类</h3><ul>
-<li>线程安全</li>
-<li>延迟加载</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single4</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleHolder</span></span>&#123;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Single4 single = <span class="keyword">new</span> Single4();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Single4</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single4 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> SingleHolder.single;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="5-枚举"><a href="#5-枚举" class="headerlink" title="5. 枚举"></a>5. 枚举</h3><ul>
-<li>线程安全</li>
-<li>饿汉</li>
-<li>JVM底层天然支持</li>
-<li>反射，序列化对其无效</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Single5 &#123;</div><div class="line">     INSTANCE;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>&#123;</div><div class="line">         System.out.println(<span class="string">"其它方法"</span>);</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<h4 id="以上单例的实现方式除枚举外都可以通过反射和反序列化的方式进行破解！"><a href="#以上单例的实现方式除枚举外都可以通过反射和反序列化的方式进行破解！" class="headerlink" title="以上单例的实现方式除枚举外都可以通过反射和反序列化的方式进行破解！"></a>以上单例的实现方式除枚举外都可以通过反射和反序列化的方式进行破解！</h4><h4 id="通过枚举方式实现的单例模式是JVM底层天然实现的单例，反射无法破解！"><a href="#通过枚举方式实现的单例模式是JVM底层天然实现的单例，反射无法破解！" class="headerlink" title="通过枚举方式实现的单例模式是JVM底层天然实现的单例，反射无法破解！"></a>通过枚举方式实现的单例模式是JVM底层天然实现的单例，反射无法破解！</h4><h2 id="攻击单例模式"><a href="#攻击单例模式" class="headerlink" title="攻击单例模式"></a>攻击单例模式</h2><h3 id="反射攻击单例模式"><a href="#反射攻击单例模式" class="headerlink" title="反射攻击单例模式"></a>反射攻击单例模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReflectAttack</span> </span>&#123;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">         <span class="comment">//理想中唯一的单例</span></div><div class="line">         Single1 s1 = Single1.getInstance();</div><div class="line">         Class&lt;Single1&gt; clazz = (Class&lt;Single1&gt;) Class.forName(<span class="string">"com.xy.single.Single1"</span>);</div><div class="line">         <span class="comment">//反射出来的多例</span></div><div class="line">         Single1 s2 = clazz.newInstance();</div><div class="line">         System.out.println(s1==s2);</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>打印结果：false</p>
-</li>
-<li><p>解决方法：在构造函数中做文章！【如果想通过反射破坏单例则抛出运行时异常】</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="title">Single1</span><span class="params">()</span> </span>&#123;</div><div class="line">     <span class="keyword">if</span>(single!=<span class="keyword">null</span>)</div><div class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException();</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<h3 id="序列化攻击单例模式"><a href="#序列化攻击单例模式" class="headerlink" title="序列化攻击单例模式"></a>序列化攻击单例模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerializeAttack</span> </span>&#123;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">         <span class="comment">//理想中的单例</span></div><div class="line">         Single1 single1 = Single1.getInstance();</div><div class="line">         <span class="comment">//将对象序列化</span></div><div class="line">         FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"G:/a.txt"</span>);</div><div class="line">         ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(fos);</div><div class="line">         oos.writeObject(single1);</div><div class="line">         oos.close();</div><div class="line">         fos.close();</div><div class="line">         <span class="comment">//反序列化对象完成破解单例</span></div><div class="line">         FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">"G:/a.txt"</span>);</div><div class="line">         ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(fis);</div><div class="line">         Single1 single2 = (Single1) ois.readObject();</div><div class="line">         ois.close();</div><div class="line">         fis.close();</div><div class="line">         System.out.println(single1==single2);</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>打印结果：false</p>
-</li>
-<li><p>解决方法：单例类中添加readResolver方法</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> Object <span class="title">readResolve</span><span class="params">()</span> <span class="keyword">throws</span> ObjectStreamException</span>&#123;</div><div class="line">  <span class="keyword">return</span> single;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>该方法在ObjectReader调用readObject方法的时候触发【基于回调的】</p>
-</li>
-<li><p>注意返回值是Object类型，可能会抛异常</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
   <article class="post post-type-工具 " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/02/tool/2016-06-02-class-version/">
 
@@ -1461,6 +1118,154 @@
 <li>30（对应十进制的48）：JDK1.4</li>
 <li>2F（对应十进制的47）：JDK1.3</li>
 <li>2E（对应十进制的46）：JDK1.2</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-移动端 " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/02/android/2016-06-02-android-webview/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/02/android/2016-06-02-android-webview/" itemprop="url">
+                  一次Android WebView使用的苦逼体验之旅
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-06-02T00:00:00+08:00">
+                2016-06-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="场景概述"><a href="#场景概述" class="headerlink" title="场景概述"></a>场景概述</h2><p>有时候会有这么样的需求：我们想在自己的原生Android app中嵌入其它功能模块，而这些模块的实现往往早就有BS模式的了。<br>所以简单起见，直接拿过来用吧。 多亏了Android的WebView控件，它能让我们的app充当浏览器的功能浏览网页。<br>如果网页已经是屏幕自适应的（各种框架bootstrap啊，amazeui啊，不拉不拉不拉的），那么呈现出来的效果会更好！</p>
+<h2 id="使用webView"><a href="#使用webView" class="headerlink" title="使用webView"></a>使用webView</h2><h3 id="版本1"><a href="#版本1" class="headerlink" title="版本1"></a>版本1</h3><ol>
+<li>【首先webView控件准备好</li>
+<li>其次<figure class="highlight plain"><figcaption><span>android:name="android.permission.INTERNET"</span><a href="/>">```也不要忘了！】</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">3. 核心代码</div><div class="line"></div><div class="line">```java</div><div class="line">WebView webView= (WebView) findViewById(R.id.webview);</div><div class="line">webView.loadUrl(http://www.baidu.com);</div></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li>哈哈哈哈，代码太简单了，是不是马上就有效果了:blush:。</li>
+<li>高兴得太早了！</li>
+<li>怎么有些按钮点了没效果，网页显示出来好像和预想的差太多！！！！</li>
+</ul>
+<h3 id="版本2"><a href="#版本2" class="headerlink" title="版本2"></a>版本2</h3><h4 id="1-【添加一些设置项】"><a href="#1-【添加一些设置项】" class="headerlink" title="1. 【添加一些设置项】"></a>1. 【添加一些设置项】</h4><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">//允许JS执行</div><div class="line">webView.getSettings().setJavaScriptEnabled(true);</div><div class="line">类似的还有如下这些设置【用到的时候查文档吧！】</div><div class="line">//设置WebView的一些缩放功能点</div><div class="line">webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);</div><div class="line">webView.setHorizontalScrollBarEnabled(false);</div><div class="line">webView.getSettings().setSupportZoom(true);</div><div class="line">//设置WebView可触摸放大缩小</div><div class="line">webView.getSettings().setBuiltInZoomControls(true);</div><div class="line">webView.setInitialScale(70);</div><div class="line">webView.setHorizontalScrollbarOverlay(true);</div><div class="line">//WebView双击变大，再双击后变小，当手动放大后，双击可以恢复到原始大小</div><div class="line">//webView.getSettings().setUseWideViewPort(true);</div><div class="line">//提高渲染的优先级</div><div class="line">webView.getSettings().setRenderPriority(RenderPriority.HIGH);</div><div class="line">//把图片加载放在最后来加载渲染</div><div class="line">//webView.getSettings().setBlockNetworkImage(true);</div><div class="line">//用WebView将字符串以HTML的形式显示出来</div><div class="line">webView.loadDataWithBaseURL("fake://not/needed", &lt;p&gt;zzz&lt;/p&gt;, "text/html", "utf-8", "");</div><div class="line">//listview,webview中滚动拖动到顶部或者底部时的阴影</div><div class="line">webView.setOverScrollMode(View.OVER_SCROLL_NEVER);</div><div class="line">webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//使用缓存</div><div class="line">WebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE); //默认不使用缓存！</div><div class="line">webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY); //取消滚动条白边效果</div></pre></td></tr></table></figure>
+<p>好了，大致满足我们的需求了。<br>等等，怎么点击超链接都是用的外部浏览器打开的啊，我还是想继续用webView打开！！！</p>
+<ul>
+<li>下面介绍一个东西：<figure class="highlight plain"><figcaption><span>WebViewClient())```;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">```WebViewClient```就是帮助```WebView```处理各种通知、请求事件的。我们可以自定义```WebViewClient```，并重写里面的方法</div><div class="line">见下一版本。</div><div class="line"></div><div class="line"></div><div class="line">### 版本3</div><div class="line"></div><div class="line">#### 1.【自定义WebViewClient】</div><div class="line"></div><div class="line">```java</div><div class="line">webview1.setWebViewClient(new WebViewClient()&#123;</div><div class="line">    public boolean shouldOverrideUrlLoading(WebView view, String url) &#123;</div><div class="line">          view.loadUrl(url);</div><div class="line">          return true;</div><div class="line">    &#125;</div><div class="line"> &#125;);</div></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="2-当点击超链接时会触发该方法，返回true表明还是在webView中进行跳转不会跳到浏览器打开！"><a href="#2-当点击超链接时会触发该方法，返回true表明还是在webView中进行跳转不会跳到浏览器打开！" class="headerlink" title="2. 当点击超链接时会触发该方法，返回true表明还是在webView中进行跳转不会跳到浏览器打开！"></a>2. 当点击超链接时会触发该方法，返回true表明还是在webView中进行跳转不会跳到浏览器打开！</h4><h4 id="3-等等，我的页面有个按钮不起作用了："><a href="#3-等等，我的页面有个按钮不起作用了：" class="headerlink" title="3. 等等，我的页面有个按钮不起作用了：  "></a>3. 等等，我的页面有个按钮不起作用了：  <figure class="highlight plain"><figcaption><span>href="tel:110">110报警！```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### 4. 试了一下用浏览器打开可以直接掉出拨号软件，怎么放到webView中就GG了呢？</div><div class="line"></div><div class="line">### 版本4</div><div class="line"></div><div class="line">#### 1. 设置webViewClient</div><div class="line"></div><div class="line">```java</div><div class="line">webview1.setWebViewClient(new MyWebViewClient());</div></pre></td></tr></table></figure></h4><h4 id="2-【深度定义WebViewClient】"><a href="#2-【深度定义WebViewClient】" class="headerlink" title="2. 【深度定义WebViewClient】"></a>2. 【深度定义WebViewClient】</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//自定义 WebViewClient 辅助WebView设置处理关于页面跳转，页面请求等操作</span></div><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebViewClient</span> <span class="keyword">extends</span> <span class="title">WebViewClient</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view, String url)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(url.trim().startsWith(<span class="string">"tel"</span>))&#123;<span class="comment">//特殊情况tel，调用系统的拨号软件拨号【&lt;a href="tel:1111111111"&gt;1111111111&lt;/a&gt;】</span></div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">            i.setData(Uri.parse(url));</div><div class="line">            startActivity(i);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            view.loadUrl(url);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样就可以控制tel协议了。 既然到了这一步其实还可以做更多控制。<br>比如我就遇到过这种：有一个按钮对应的超链接偏偏就不要用webView打开，而是用手机自带的浏览器打开！<br>【具体原因就不细说了，总之就是webView和浏览器还是有一定的差距的，正好我当时要实现的东西就被卡在那个节骨眼上了。。。。。】<br> 不过处理起来也不是很难，见下一个版本。</p>
+<h3 id="版本5"><a href="#版本5" class="headerlink" title="版本5"></a>版本5</h3><h4 id="1-设置webViewClient"><a href="#1-设置webViewClient" class="headerlink" title="1. 设置webViewClient"></a>1. 设置webViewClient</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webview1.setWebViewClient(<span class="keyword">new</span> MyWebViewClient());</div></pre></td></tr></table></figure>
+<h4 id="2-扩展WebViewClient"><a href="#2-扩展WebViewClient" class="headerlink" title="2. 扩展WebViewClient"></a>2. 扩展WebViewClient</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//自定义 WebViewClient 辅助WebView设置处理关于页面跳转，页面请求等操作【处理tel协议和视频通讯请求url的拦截转发】</span></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebViewClient</span> <span class="keyword">extends</span> <span class="title">WebViewClient</span> </span>&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view, String url)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span>(url.trim().startsWith(<span class="string">"tel"</span>))&#123;<span class="comment">//特殊情况tel，调用系统的拨号软件拨号【&lt;a href="tel:1111111111"&gt;1111111111&lt;/a&gt;】</span></div><div class="line">                Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">                i.setData(Uri.parse(url));</div><div class="line">                startActivity(i);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                String port = url.substring(url.lastIndexOf(<span class="string">":"</span>)+<span class="number">1</span>,url.lastIndexOf(<span class="string">"/"</span>));<span class="comment">//尝试要拦截的视频通讯url格式(808端口)：【http://domainName:808/?roomName】</span></div><div class="line">                <span class="keyword">if</span>(port.equals(<span class="string">"808"</span>))&#123;<span class="comment">//特殊情况【若打开的链接是视频通讯地址格式则调用系统浏览器打开】</span></div><div class="line">                    Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">                    i.setData(Uri.parse(url));</div><div class="line">                    startActivity(i);</div><div class="line">                &#125;<span class="keyword">else</span> &#123;<span class="comment">//其它非特殊情况全部放行</span></div><div class="line">                    view.loadUrl(url);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>其实就是利用了这条url和其它url相比的独特性大笑（端口号不同），当然大家可能遇到的情况得根据实际情况来定。<br>写到这里是不是就玩完了呢？ no no no，好戏还在后头！<br>玩着玩着发现又有问题了，又有一个按钮不起作用。。。。。。这回是<figure class="highlight plain"><figcaption><span>type="file">文件上传```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">我的天哪，怎么总是有这么多破事。 下面再介绍一个东西``` webView.setWebChromeClient(new WebChromeClient());</div></pre></td></tr></table></figure></p>
+<p>【说明：WebChromeClient主要辅助WebView处理JavaScript的对话框、网站图标、网站title、加载进度等比等，不过它还能处理文件上传操作】<br>下一版本借用一下别人的代码</p>
+<h3 id="版本6"><a href="#版本6" class="headerlink" title="版本6"></a>版本6</h3><h4 id="1-设置webChromeClient"><a href="#1-设置webChromeClient" class="headerlink" title="1. 设置webChromeClient"></a>1. 设置webChromeClient</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webView.setWebChromeClient(<span class="keyword">new</span> MyChromeWebClient());</div></pre></td></tr></table></figure>
+<h4 id="2-定制WebChromeClient"><a href="#2-定制WebChromeClient" class="headerlink" title="2. 定制WebChromeClient"></a>2. 定制WebChromeClient</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//自定义 WebChromeClient 辅助WebView处理图片上传操作【&lt;input type=file&gt; 文件上传标签】</span></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyChromeWebClient</span> <span class="keyword">extends</span> <span class="title">WebChromeClient</span> </span>&#123;</div><div class="line">        <span class="comment">// For Android 3.0-</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openFileChooser</span><span class="params">(ValueCallback&lt;Uri&gt; uploadMsg)</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"openFileChoose(ValueCallback&lt;Uri&gt; uploadMsg)"</span>);</div><div class="line">            mUploadMessage = uploadMsg;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult(Intent.createChooser(i, <span class="string">"File Chooser"</span>), FILECHOOSER_RESULTCODE);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// For Android 3.0+</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openFileChooser</span><span class="params">( ValueCallback uploadMsg, String acceptType )</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"openFileChoose( ValueCallback uploadMsg, String acceptType )"</span>);</div><div class="line">            mUploadMessage = uploadMsg;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult(</div><div class="line">                    Intent.createChooser(i, <span class="string">"File Browser"</span>),</div><div class="line">                    FILECHOOSER_RESULTCODE);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//For Android 4.1</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openFileChooser</span><span class="params">(ValueCallback&lt;Uri&gt; uploadMsg, String acceptType, String capture)</span></span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"openFileChoose(ValueCallback&lt;Uri&gt; uploadMsg, String acceptType, String capture)"</span>);</div><div class="line">            mUploadMessage = uploadMsg;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult( Intent.createChooser( i, <span class="string">"File Browser"</span> ), MainActivity.FILECHOOSER_RESULTCODE );</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// For Android 5.0+</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onShowFileChooser</span> <span class="params">(WebView webView, ValueCallback&lt;Uri[]&gt; filePathCallback, WebChromeClient.FileChooserParams fileChooserParams)</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"onShowFileChooser(ValueCallback&lt;Uri&gt; uploadMsg, String acceptType, String capture)"</span>);</div><div class="line">            mUploadCallbackAboveL = filePathCallback;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult(</div><div class="line">                    Intent.createChooser(i, <span class="string">"File Browser"</span>),</div><div class="line">                    FILECHOOSER_RESULTCODE);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>最后下一个版本来个大杂烩吧</p>
+<h3 id="版本7"><a href="#版本7" class="headerlink" title="版本7"></a>版本7</h3><h4 id="1-大杂烩"><a href="#1-大杂烩" class="headerlink" title="1. 大杂烩"></a>1. 大杂烩</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String TAG = <span class="string">"MainActivity"</span>;</div><div class="line">    <span class="keyword">private</span> WebView webView;</div><div class="line">    <span class="keyword">private</span> ValueCallback&lt;Uri&gt; mUploadMessage;</div><div class="line">    <span class="keyword">private</span> ValueCallback&lt;Uri[]&gt; mUploadCallbackAboveL;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="keyword">int</span> FILECHOOSER_RESULTCODE = <span class="number">1</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String url = <span class="string">"http://xxxx.com"</span>;</div><div class="line"></div><div class="line">    <span class="comment">//初始化webView</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initWebView</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="comment">//从布局文件中扩展webView</span></div><div class="line">        webView=(WebView)<span class="keyword">this</span>.findViewById(R.id.webView);</div><div class="line">        WebSettings settings = webView.getSettings();</div><div class="line">        settings.setUseWideViewPort(<span class="keyword">true</span>);</div><div class="line">        settings.setLoadWithOverviewMode(<span class="keyword">true</span>);</div><div class="line">        settings.setDefaultTextEncodingName(<span class="string">"UTF-8"</span>);</div><div class="line">        <span class="comment">//开启JavaScript支持</span></div><div class="line">        settings.setJavaScriptEnabled(<span class="keyword">true</span>);</div><div class="line">        <span class="comment">// 支持缩放</span></div><div class="line">        settings.setSupportZoom(<span class="keyword">true</span>);</div><div class="line">        <span class="comment">//辅助WebView设置处理关于页面跳转，页面请求等操作</span></div><div class="line">        webView.setWebViewClient(<span class="keyword">new</span> MyWebViewClient());</div><div class="line">        <span class="comment">//辅助WebView处理图片上传操作</span></div><div class="line">        webView.setWebChromeClient(<span class="keyword">new</span> MyChromeWebClient());</div><div class="line">        <span class="comment">//加载地址</span></div><div class="line">        webView.loadUrl(url);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        initWebView();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);</div><div class="line">        <span class="keyword">if</span>(requestCode==FILECHOOSER_RESULTCODE)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> == mUploadMessage &amp;&amp; <span class="keyword">null</span> == mUploadCallbackAboveL) <span class="keyword">return</span>;</div><div class="line">            Uri result = data == <span class="keyword">null</span> || resultCode != RESULT_OK ? <span class="keyword">null</span> : data.getData();</div><div class="line">            <span class="keyword">if</span> (mUploadCallbackAboveL != <span class="keyword">null</span>) &#123;</div><div class="line">                onActivityResultAboveL(requestCode, resultCode, data);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span>  <span class="keyword">if</span> (mUploadMessage != <span class="keyword">null</span>) &#123;</div><div class="line">                mUploadMessage.onReceiveValue(result);</div><div class="line">                mUploadMessage = <span class="keyword">null</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@TargetApi</span>(Build.VERSION_CODES.LOLLIPOP)</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">onActivityResultAboveL</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (requestCode != FILECHOOSER_RESULTCODE</div><div class="line">                || mUploadCallbackAboveL == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Uri[] results = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">if</span> (resultCode == Activity.RESULT_OK) &#123;</div><div class="line">            <span class="keyword">if</span> (data == <span class="keyword">null</span>) &#123;</div><div class="line"></div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                String dataString = data.getDataString();</div><div class="line">                ClipData clipData = data.getClipData();</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (clipData != <span class="keyword">null</span>) &#123;</div><div class="line">                    results = <span class="keyword">new</span> Uri[clipData.getItemCount()];</div><div class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; clipData.getItemCount(); i++) &#123;</div><div class="line">                        ClipData.Item item = clipData.getItemAt(i);</div><div class="line">                        results[i] = item.getUri();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (dataString != <span class="keyword">null</span>)</div><div class="line">                    results = <span class="keyword">new</span> Uri[]&#123;Uri.parse(dataString)&#125;;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        mUploadCallbackAboveL.onReceiveValue(results);</div><div class="line">        mUploadCallbackAboveL = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//自定义 WebViewClient 辅助WebView设置处理关于页面跳转，页面请求等操作【处理tel协议和视频通讯请求url的拦截转发】</span></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebViewClient</span> <span class="keyword">extends</span> <span class="title">WebViewClient</span> </span>&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view, String url)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span>(url.trim().startsWith(<span class="string">"tel"</span>))&#123;<span class="comment">//特殊情况tel，调用系统的拨号软件拨号【&lt;a href="tel:1111111111"&gt;1111111111&lt;/a&gt;】</span></div><div class="line">                Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">                i.setData(Uri.parse(url));</div><div class="line">                startActivity(i);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                String port = url.substring(url.lastIndexOf(<span class="string">":"</span>)+<span class="number">1</span>,url.lastIndexOf(<span class="string">"/"</span>));<span class="comment">//尝试要拦截的视频通讯url格式(808端口)：【http://xxxx:808/?roomName】</span></div><div class="line">                <span class="keyword">if</span>(port.equals(<span class="string">"808"</span>))&#123;<span class="comment">//特殊情况【若打开的链接是视频通讯地址格式则调用系统浏览器打开】</span></div><div class="line">                    Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">                    i.setData(Uri.parse(url));</div><div class="line">                    startActivity(i);</div><div class="line">                &#125;<span class="keyword">else</span> &#123;<span class="comment">//其它非特殊情况全部放行</span></div><div class="line">                    view.loadUrl(url);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//自定义 WebChromeClient 辅助WebView处理图片上传操作【&lt;input type=file&gt; 文件上传标签】</span></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyChromeWebClient</span> <span class="keyword">extends</span> <span class="title">WebChromeClient</span> </span>&#123;</div><div class="line">        <span class="comment">// For Android 3.0-</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openFileChooser</span><span class="params">(ValueCallback&lt;Uri&gt; uploadMsg)</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"openFileChoose(ValueCallback&lt;Uri&gt; uploadMsg)"</span>);</div><div class="line">            mUploadMessage = uploadMsg;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult(Intent.createChooser(i, <span class="string">"File Chooser"</span>), FILECHOOSER_RESULTCODE);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// For Android 3.0+</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openFileChooser</span><span class="params">( ValueCallback uploadMsg, String acceptType )</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"openFileChoose( ValueCallback uploadMsg, String acceptType )"</span>);</div><div class="line">            mUploadMessage = uploadMsg;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult(</div><div class="line">                    Intent.createChooser(i, <span class="string">"File Browser"</span>),</div><div class="line">                    FILECHOOSER_RESULTCODE);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//For Android 4.1</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openFileChooser</span><span class="params">(ValueCallback&lt;Uri&gt; uploadMsg, String acceptType, String capture)</span></span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"openFileChoose(ValueCallback&lt;Uri&gt; uploadMsg, String acceptType, String capture)"</span>);</div><div class="line">            mUploadMessage = uploadMsg;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult( Intent.createChooser( i, <span class="string">"File Browser"</span> ), MainActivity.FILECHOOSER_RESULTCODE );</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// For Android 5.0+</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onShowFileChooser</span> <span class="params">(WebView webView, ValueCallback&lt;Uri[]&gt; filePathCallback, WebChromeClient.FileChooserParams fileChooserParams)</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"onShowFileChooser(ValueCallback&lt;Uri&gt; uploadMsg, String acceptType, String capture)"</span>);</div><div class="line">            mUploadCallbackAboveL = filePathCallback;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult(</div><div class="line">                    Intent.createChooser(i, <span class="string">"File Browser"</span>),</div><div class="line">                    FILECHOOSER_RESULTCODE);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://blog.saymagic.cn/2015/11/08/webview-upload.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">http://blog.saymagic.cn/2015/11/08/webview-upload.html?utm_source=tuicool&amp;utm_medium=referral</a></li>
 </ul>
 
           
@@ -1717,8 +1522,8 @@
   
   
 
-  <article class="post post-type-移动端 " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/02/android/2016-06-02-android-webview/">
+  <article class="post post-type-设计模式 " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/02/designPattern/2016-06-02-single-instance/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
@@ -1743,8 +1548,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/06/02/android/2016-06-02-android-webview/" itemprop="url">
-                  一次Android WebView使用的苦逼体验之旅
+                <a class="post-title-link" href="/2016/06/02/designPattern/2016-06-02-single-instance/" itemprop="url">
+                  设计模式之单例模式总结
                 </a>
               
             
@@ -1798,35 +1603,206 @@
       
         
           
-            <h2 id="场景概述"><a href="#场景概述" class="headerlink" title="场景概述"></a>场景概述</h2><p>有时候会有这么样的需求：我们想在自己的原生Android app中嵌入其它功能模块，而这些模块的实现往往早就有BS模式的了。<br>所以简单起见，直接拿过来用吧。 多亏了Android的WebView控件，它能让我们的app充当浏览器的功能浏览网页。<br>如果网页已经是屏幕自适应的（各种框架bootstrap啊，amazeui啊，不拉不拉不拉的），那么呈现出来的效果会更好！</p>
-<h2 id="使用webView"><a href="#使用webView" class="headerlink" title="使用webView"></a>使用webView</h2><h3 id="版本1"><a href="#版本1" class="headerlink" title="版本1"></a>版本1</h3><ol>
-<li>【首先webView控件准备好</li>
-<li>其次<figure class="highlight plain"><figcaption><span>android:name="android.permission.INTERNET"</span><a href="/>">```也不要忘了！】</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">3. 核心代码</div><div class="line"></div><div class="line">```java</div><div class="line">WebView webView= (WebView) findViewById(R.id.webview);</div><div class="line">webView.loadUrl(http://www.baidu.com);</div></pre></td></tr></table></figure></li>
-</ol>
-<ul>
-<li>哈哈哈哈，代码太简单了，是不是马上就有效果了:blush:。</li>
-<li>高兴得太早了！</li>
-<li>怎么有些按钮点了没效果，网页显示出来好像和预想的差太多！！！！</li>
+            <h2 id="常见的单例模式"><a href="#常见的单例模式" class="headerlink" title="常见的单例模式"></a>常见的单例模式</h2><ul>
+<li>恶汉模式</li>
+<li>懒汉模式</li>
+<li>双重检查锁</li>
+<li>内部类</li>
+<li>枚举</li>
 </ul>
-<h3 id="版本2"><a href="#版本2" class="headerlink" title="版本2"></a>版本2</h3><h4 id="1-【添加一些设置项】"><a href="#1-【添加一些设置项】" class="headerlink" title="1. 【添加一些设置项】"></a>1. 【添加一些设置项】</h4><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">//允许JS执行</div><div class="line">webView.getSettings().setJavaScriptEnabled(true);</div><div class="line">类似的还有如下这些设置【用到的时候查文档吧！】</div><div class="line">//设置WebView的一些缩放功能点</div><div class="line">webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);</div><div class="line">webView.setHorizontalScrollBarEnabled(false);</div><div class="line">webView.getSettings().setSupportZoom(true);</div><div class="line">//设置WebView可触摸放大缩小</div><div class="line">webView.getSettings().setBuiltInZoomControls(true);</div><div class="line">webView.setInitialScale(70);</div><div class="line">webView.setHorizontalScrollbarOverlay(true);</div><div class="line">//WebView双击变大，再双击后变小，当手动放大后，双击可以恢复到原始大小</div><div class="line">//webView.getSettings().setUseWideViewPort(true);</div><div class="line">//提高渲染的优先级</div><div class="line">webView.getSettings().setRenderPriority(RenderPriority.HIGH);</div><div class="line">//把图片加载放在最后来加载渲染</div><div class="line">//webView.getSettings().setBlockNetworkImage(true);</div><div class="line">//用WebView将字符串以HTML的形式显示出来</div><div class="line">webView.loadDataWithBaseURL("fake://not/needed", &lt;p&gt;zzz&lt;/p&gt;, "text/html", "utf-8", "");</div><div class="line">//listview,webview中滚动拖动到顶部或者底部时的阴影</div><div class="line">webView.setOverScrollMode(View.OVER_SCROLL_NEVER);</div><div class="line">webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//使用缓存</div><div class="line">WebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE); //默认不使用缓存！</div><div class="line">webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY); //取消滚动条白边效果</div></pre></td></tr></table></figure>
-<p>好了，大致满足我们的需求了。<br>等等，怎么点击超链接都是用的外部浏览器打开的啊，我还是想继续用webView打开！！！</p>
-<ul>
-<li>下面介绍一个东西：<figure class="highlight plain"><figcaption><span>WebViewClient())```;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">```WebViewClient```就是帮助```WebView```处理各种通知、请求事件的。我们可以自定义```WebViewClient```，并重写里面的方法</div><div class="line">见下一版本。</div><div class="line"></div><div class="line"></div><div class="line">### 版本3</div><div class="line"></div><div class="line">#### 1.【自定义WebViewClient】</div><div class="line"></div><div class="line">```java</div><div class="line">webview1.setWebViewClient(new WebViewClient()&#123;</div><div class="line">    public boolean shouldOverrideUrlLoading(WebView view, String url) &#123;</div><div class="line">          view.loadUrl(url);</div><div class="line">          return true;</div><div class="line">    &#125;</div><div class="line"> &#125;);</div></pre></td></tr></table></figure></li>
+<h2 id="具体实现方式"><a href="#具体实现方式" class="headerlink" title="具体实现方式"></a>具体实现方式</h2><h3 id="1-饿汉模式"><a href="#1-饿汉模式" class="headerlink" title="1. 饿汉模式"></a>1. 饿汉模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single1</span> </span>&#123;</div><div class="line">     <span class="keyword">private</span> <span class="keyword">static</span> Single1 single = <span class="keyword">new</span> Single1();</div><div class="line">     <span class="function"><span class="keyword">private</span> <span class="title">Single1</span><span class="params">()</span> </span>&#123;</div><div class="line">     &#125;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single1 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">             <span class="keyword">return</span> single;</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h3 id="2-1-懒汉模式"><a href="#2-1-懒汉模式" class="headerlink" title="2.1 懒汉模式"></a>2.1 懒汉模式</h3><ul>
+<li>线程不安全</li>
+<li>延迟加载</li>
 </ul>
-<h4 id="2-当点击超链接时会触发该方法，返回true表明还是在webView中进行跳转不会跳到浏览器打开！"><a href="#2-当点击超链接时会触发该方法，返回true表明还是在webView中进行跳转不会跳到浏览器打开！" class="headerlink" title="2. 当点击超链接时会触发该方法，返回true表明还是在webView中进行跳转不会跳到浏览器打开！"></a>2. 当点击超链接时会触发该方法，返回true表明还是在webView中进行跳转不会跳到浏览器打开！</h4><h4 id="3-等等，我的页面有个按钮不起作用了："><a href="#3-等等，我的页面有个按钮不起作用了：" class="headerlink" title="3. 等等，我的页面有个按钮不起作用了：  "></a>3. 等等，我的页面有个按钮不起作用了：  <figure class="highlight plain"><figcaption><span>href="tel:110">110报警！```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#### 4. 试了一下用浏览器打开可以直接掉出拨号软件，怎么放到webView中就GG了呢？</div><div class="line"></div><div class="line">### 版本4</div><div class="line"></div><div class="line">#### 1. 设置webViewClient</div><div class="line"></div><div class="line">```java</div><div class="line">webview1.setWebViewClient(new MyWebViewClient());</div></pre></td></tr></table></figure></h4><h4 id="2-【深度定义WebViewClient】"><a href="#2-【深度定义WebViewClient】" class="headerlink" title="2. 【深度定义WebViewClient】"></a>2. 【深度定义WebViewClient】</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//自定义 WebViewClient 辅助WebView设置处理关于页面跳转，页面请求等操作</span></div><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebViewClient</span> <span class="keyword">extends</span> <span class="title">WebViewClient</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view, String url)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(url.trim().startsWith(<span class="string">"tel"</span>))&#123;<span class="comment">//特殊情况tel，调用系统的拨号软件拨号【&lt;a href="tel:1111111111"&gt;1111111111&lt;/a&gt;】</span></div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">            i.setData(Uri.parse(url));</div><div class="line">            startActivity(i);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            view.loadUrl(url);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样就可以控制tel协议了。 既然到了这一步其实还可以做更多控制。<br>比如我就遇到过这种：有一个按钮对应的超链接偏偏就不要用webView打开，而是用手机自带的浏览器打开！<br>【具体原因就不细说了，总之就是webView和浏览器还是有一定的差距的，正好我当时要实现的东西就被卡在那个节骨眼上了。。。。。】<br> 不过处理起来也不是很难，见下一个版本。</p>
-<h3 id="版本5"><a href="#版本5" class="headerlink" title="版本5"></a>版本5</h3><h4 id="1-设置webViewClient"><a href="#1-设置webViewClient" class="headerlink" title="1. 设置webViewClient"></a>1. 设置webViewClient</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webview1.setWebViewClient(<span class="keyword">new</span> MyWebViewClient());</div></pre></td></tr></table></figure>
-<h4 id="2-扩展WebViewClient"><a href="#2-扩展WebViewClient" class="headerlink" title="2. 扩展WebViewClient"></a>2. 扩展WebViewClient</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//自定义 WebViewClient 辅助WebView设置处理关于页面跳转，页面请求等操作【处理tel协议和视频通讯请求url的拦截转发】</span></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebViewClient</span> <span class="keyword">extends</span> <span class="title">WebViewClient</span> </span>&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view, String url)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span>(url.trim().startsWith(<span class="string">"tel"</span>))&#123;<span class="comment">//特殊情况tel，调用系统的拨号软件拨号【&lt;a href="tel:1111111111"&gt;1111111111&lt;/a&gt;】</span></div><div class="line">                Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">                i.setData(Uri.parse(url));</div><div class="line">                startActivity(i);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                String port = url.substring(url.lastIndexOf(<span class="string">":"</span>)+<span class="number">1</span>,url.lastIndexOf(<span class="string">"/"</span>));<span class="comment">//尝试要拦截的视频通讯url格式(808端口)：【http://domainName:808/?roomName】</span></div><div class="line">                <span class="keyword">if</span>(port.equals(<span class="string">"808"</span>))&#123;<span class="comment">//特殊情况【若打开的链接是视频通讯地址格式则调用系统浏览器打开】</span></div><div class="line">                    Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">                    i.setData(Uri.parse(url));</div><div class="line">                    startActivity(i);</div><div class="line">                &#125;<span class="keyword">else</span> &#123;<span class="comment">//其它非特殊情况全部放行</span></div><div class="line">                    view.loadUrl(url);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>其实就是利用了这条url和其它url相比的独特性大笑（端口号不同），当然大家可能遇到的情况得根据实际情况来定。<br>写到这里是不是就玩完了呢？ no no no，好戏还在后头！<br>玩着玩着发现又有问题了，又有一个按钮不起作用。。。。。。这回是<figure class="highlight plain"><figcaption><span>type="file">文件上传```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">我的天哪，怎么总是有这么多破事。 下面再介绍一个东西``` webView.setWebChromeClient(new WebChromeClient());</div></pre></td></tr></table></figure></p>
-<p>【说明：WebChromeClient主要辅助WebView处理JavaScript的对话框、网站图标、网站title、加载进度等比等，不过它还能处理文件上传操作】<br>下一版本借用一下别人的代码</p>
-<h3 id="版本6"><a href="#版本6" class="headerlink" title="版本6"></a>版本6</h3><h4 id="1-设置webChromeClient"><a href="#1-设置webChromeClient" class="headerlink" title="1. 设置webChromeClient"></a>1. 设置webChromeClient</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webView.setWebChromeClient(<span class="keyword">new</span> MyChromeWebClient());</div></pre></td></tr></table></figure>
-<h4 id="2-定制WebChromeClient"><a href="#2-定制WebChromeClient" class="headerlink" title="2. 定制WebChromeClient"></a>2. 定制WebChromeClient</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//自定义 WebChromeClient 辅助WebView处理图片上传操作【&lt;input type=file&gt; 文件上传标签】</span></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyChromeWebClient</span> <span class="keyword">extends</span> <span class="title">WebChromeClient</span> </span>&#123;</div><div class="line">        <span class="comment">// For Android 3.0-</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openFileChooser</span><span class="params">(ValueCallback&lt;Uri&gt; uploadMsg)</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"openFileChoose(ValueCallback&lt;Uri&gt; uploadMsg)"</span>);</div><div class="line">            mUploadMessage = uploadMsg;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult(Intent.createChooser(i, <span class="string">"File Chooser"</span>), FILECHOOSER_RESULTCODE);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// For Android 3.0+</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openFileChooser</span><span class="params">( ValueCallback uploadMsg, String acceptType )</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"openFileChoose( ValueCallback uploadMsg, String acceptType )"</span>);</div><div class="line">            mUploadMessage = uploadMsg;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult(</div><div class="line">                    Intent.createChooser(i, <span class="string">"File Browser"</span>),</div><div class="line">                    FILECHOOSER_RESULTCODE);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//For Android 4.1</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openFileChooser</span><span class="params">(ValueCallback&lt;Uri&gt; uploadMsg, String acceptType, String capture)</span></span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"openFileChoose(ValueCallback&lt;Uri&gt; uploadMsg, String acceptType, String capture)"</span>);</div><div class="line">            mUploadMessage = uploadMsg;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult( Intent.createChooser( i, <span class="string">"File Browser"</span> ), MainActivity.FILECHOOSER_RESULTCODE );</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// For Android 5.0+</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onShowFileChooser</span> <span class="params">(WebView webView, ValueCallback&lt;Uri[]&gt; filePathCallback, WebChromeClient.FileChooserParams fileChooserParams)</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"onShowFileChooser(ValueCallback&lt;Uri&gt; uploadMsg, String acceptType, String capture)"</span>);</div><div class="line">            mUploadCallbackAboveL = filePathCallback;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult(</div><div class="line">                    Intent.createChooser(i, <span class="string">"File Browser"</span>),</div><div class="line">                    FILECHOOSER_RESULTCODE);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>最后下一个版本来个大杂烩吧</p>
-<h3 id="版本7"><a href="#版本7" class="headerlink" title="版本7"></a>版本7</h3><h4 id="1-大杂烩"><a href="#1-大杂烩" class="headerlink" title="1. 大杂烩"></a>1. 大杂烩</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String TAG = <span class="string">"MainActivity"</span>;</div><div class="line">    <span class="keyword">private</span> WebView webView;</div><div class="line">    <span class="keyword">private</span> ValueCallback&lt;Uri&gt; mUploadMessage;</div><div class="line">    <span class="keyword">private</span> ValueCallback&lt;Uri[]&gt; mUploadCallbackAboveL;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="keyword">int</span> FILECHOOSER_RESULTCODE = <span class="number">1</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String url = <span class="string">"http://xxxx.com"</span>;</div><div class="line"></div><div class="line">    <span class="comment">//初始化webView</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initWebView</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="comment">//从布局文件中扩展webView</span></div><div class="line">        webView=(WebView)<span class="keyword">this</span>.findViewById(R.id.webView);</div><div class="line">        WebSettings settings = webView.getSettings();</div><div class="line">        settings.setUseWideViewPort(<span class="keyword">true</span>);</div><div class="line">        settings.setLoadWithOverviewMode(<span class="keyword">true</span>);</div><div class="line">        settings.setDefaultTextEncodingName(<span class="string">"UTF-8"</span>);</div><div class="line">        <span class="comment">//开启JavaScript支持</span></div><div class="line">        settings.setJavaScriptEnabled(<span class="keyword">true</span>);</div><div class="line">        <span class="comment">// 支持缩放</span></div><div class="line">        settings.setSupportZoom(<span class="keyword">true</span>);</div><div class="line">        <span class="comment">//辅助WebView设置处理关于页面跳转，页面请求等操作</span></div><div class="line">        webView.setWebViewClient(<span class="keyword">new</span> MyWebViewClient());</div><div class="line">        <span class="comment">//辅助WebView处理图片上传操作</span></div><div class="line">        webView.setWebChromeClient(<span class="keyword">new</span> MyChromeWebClient());</div><div class="line">        <span class="comment">//加载地址</span></div><div class="line">        webView.loadUrl(url);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        initWebView();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);</div><div class="line">        <span class="keyword">if</span>(requestCode==FILECHOOSER_RESULTCODE)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> == mUploadMessage &amp;&amp; <span class="keyword">null</span> == mUploadCallbackAboveL) <span class="keyword">return</span>;</div><div class="line">            Uri result = data == <span class="keyword">null</span> || resultCode != RESULT_OK ? <span class="keyword">null</span> : data.getData();</div><div class="line">            <span class="keyword">if</span> (mUploadCallbackAboveL != <span class="keyword">null</span>) &#123;</div><div class="line">                onActivityResultAboveL(requestCode, resultCode, data);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span>  <span class="keyword">if</span> (mUploadMessage != <span class="keyword">null</span>) &#123;</div><div class="line">                mUploadMessage.onReceiveValue(result);</div><div class="line">                mUploadMessage = <span class="keyword">null</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@TargetApi</span>(Build.VERSION_CODES.LOLLIPOP)</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">onActivityResultAboveL</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (requestCode != FILECHOOSER_RESULTCODE</div><div class="line">                || mUploadCallbackAboveL == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Uri[] results = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">if</span> (resultCode == Activity.RESULT_OK) &#123;</div><div class="line">            <span class="keyword">if</span> (data == <span class="keyword">null</span>) &#123;</div><div class="line"></div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                String dataString = data.getDataString();</div><div class="line">                ClipData clipData = data.getClipData();</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (clipData != <span class="keyword">null</span>) &#123;</div><div class="line">                    results = <span class="keyword">new</span> Uri[clipData.getItemCount()];</div><div class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; clipData.getItemCount(); i++) &#123;</div><div class="line">                        ClipData.Item item = clipData.getItemAt(i);</div><div class="line">                        results[i] = item.getUri();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (dataString != <span class="keyword">null</span>)</div><div class="line">                    results = <span class="keyword">new</span> Uri[]&#123;Uri.parse(dataString)&#125;;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        mUploadCallbackAboveL.onReceiveValue(results);</div><div class="line">        mUploadCallbackAboveL = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//自定义 WebViewClient 辅助WebView设置处理关于页面跳转，页面请求等操作【处理tel协议和视频通讯请求url的拦截转发】</span></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebViewClient</span> <span class="keyword">extends</span> <span class="title">WebViewClient</span> </span>&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view, String url)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span>(url.trim().startsWith(<span class="string">"tel"</span>))&#123;<span class="comment">//特殊情况tel，调用系统的拨号软件拨号【&lt;a href="tel:1111111111"&gt;1111111111&lt;/a&gt;】</span></div><div class="line">                Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">                i.setData(Uri.parse(url));</div><div class="line">                startActivity(i);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                String port = url.substring(url.lastIndexOf(<span class="string">":"</span>)+<span class="number">1</span>,url.lastIndexOf(<span class="string">"/"</span>));<span class="comment">//尝试要拦截的视频通讯url格式(808端口)：【http://xxxx:808/?roomName】</span></div><div class="line">                <span class="keyword">if</span>(port.equals(<span class="string">"808"</span>))&#123;<span class="comment">//特殊情况【若打开的链接是视频通讯地址格式则调用系统浏览器打开】</span></div><div class="line">                    Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">                    i.setData(Uri.parse(url));</div><div class="line">                    startActivity(i);</div><div class="line">                &#125;<span class="keyword">else</span> &#123;<span class="comment">//其它非特殊情况全部放行</span></div><div class="line">                    view.loadUrl(url);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//自定义 WebChromeClient 辅助WebView处理图片上传操作【&lt;input type=file&gt; 文件上传标签】</span></div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyChromeWebClient</span> <span class="keyword">extends</span> <span class="title">WebChromeClient</span> </span>&#123;</div><div class="line">        <span class="comment">// For Android 3.0-</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openFileChooser</span><span class="params">(ValueCallback&lt;Uri&gt; uploadMsg)</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"openFileChoose(ValueCallback&lt;Uri&gt; uploadMsg)"</span>);</div><div class="line">            mUploadMessage = uploadMsg;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult(Intent.createChooser(i, <span class="string">"File Chooser"</span>), FILECHOOSER_RESULTCODE);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// For Android 3.0+</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openFileChooser</span><span class="params">( ValueCallback uploadMsg, String acceptType )</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"openFileChoose( ValueCallback uploadMsg, String acceptType )"</span>);</div><div class="line">            mUploadMessage = uploadMsg;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult(</div><div class="line">                    Intent.createChooser(i, <span class="string">"File Browser"</span>),</div><div class="line">                    FILECHOOSER_RESULTCODE);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//For Android 4.1</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openFileChooser</span><span class="params">(ValueCallback&lt;Uri&gt; uploadMsg, String acceptType, String capture)</span></span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"openFileChoose(ValueCallback&lt;Uri&gt; uploadMsg, String acceptType, String capture)"</span>);</div><div class="line">            mUploadMessage = uploadMsg;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult( Intent.createChooser( i, <span class="string">"File Browser"</span> ), MainActivity.FILECHOOSER_RESULTCODE );</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// For Android 5.0+</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onShowFileChooser</span> <span class="params">(WebView webView, ValueCallback&lt;Uri[]&gt; filePathCallback, WebChromeClient.FileChooserParams fileChooserParams)</span> </span>&#123;</div><div class="line">            Log.d(TAG, <span class="string">"onShowFileChooser(ValueCallback&lt;Uri&gt; uploadMsg, String acceptType, String capture)"</span>);</div><div class="line">            mUploadCallbackAboveL = filePathCallback;</div><div class="line">            Intent i = <span class="keyword">new</span> Intent(Intent.ACTION_GET_CONTENT);</div><div class="line">            i.addCategory(Intent.CATEGORY_OPENABLE);</div><div class="line">            i.setType(<span class="string">"*/*"</span>);</div><div class="line">            MainActivity.<span class="keyword">this</span>.startActivityForResult(</div><div class="line">                    Intent.createChooser(i, <span class="string">"File Browser"</span>),</div><div class="line">                    FILECHOOSER_RESULTCODE);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="http://blog.saymagic.cn/2015/11/08/webview-upload.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">http://blog.saymagic.cn/2015/11/08/webview-upload.html?utm_source=tuicool&amp;utm_medium=referral</a></li>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single2_1</span> </span>&#123;</div><div class="line">     <span class="keyword">private</span> <span class="keyword">static</span> Single2_1 single;</div><div class="line">     <span class="function"><span class="keyword">private</span> <span class="title">Single2_1</span><span class="params">()</span> </span>&#123;</div><div class="line">     &#125;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single2_1 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">         <span class="keyword">if</span>(single == <span class="keyword">null</span>)&#123;</div><div class="line">             single = <span class="keyword">new</span> Single2_1();</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">return</span> single;</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h3 id="2-2-懒汉模式"><a href="#2-2-懒汉模式" class="headerlink" title="2.2 懒汉模式"></a>2.2 懒汉模式</h3><ul>
+<li>线程安全</li>
+<li>同步</li>
+<li>延迟加载</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single2_2</span> </span>&#123;</div><div class="line">     <span class="keyword">private</span> <span class="keyword">static</span> Single2_2 single;</div><div class="line">     <span class="function"><span class="keyword">private</span> <span class="title">Single2_2</span><span class="params">()</span> </span>&#123;</div><div class="line">     &#125;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Single2_2 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">         <span class="keyword">if</span>(single == <span class="keyword">null</span>)&#123;</div><div class="line">             single = <span class="keyword">new</span> Single2_2();</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">return</span> single;</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h3 id="3-双重监测锁"><a href="#3-双重监测锁" class="headerlink" title="3. 双重监测锁"></a>3. 双重监测锁</h3><ul>
+<li>懒汉模式</li>
+<li>线程安全</li>
+<li>同步</li>
+<li>延迟加载</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single3</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Single3 single;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Single3</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single3 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(single == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">synchronized</span> (Single3.class) &#123;</div><div class="line">                <span class="keyword">if</span>(single == <span class="keyword">null</span>)&#123;</div><div class="line">                    single = <span class="keyword">new</span> Single3();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> single;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="4-内部类"><a href="#4-内部类" class="headerlink" title="4. 内部类"></a>4. 内部类</h3><ul>
+<li>线程安全</li>
+<li>延迟加载</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Single4</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingleHolder</span></span>&#123;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Single4 single = <span class="keyword">new</span> Single4();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Single4</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single4 <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> SingleHolder.single;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="5-枚举"><a href="#5-枚举" class="headerlink" title="5. 枚举"></a>5. 枚举</h3><ul>
+<li>线程安全</li>
+<li>饿汉</li>
+<li>JVM底层天然支持</li>
+<li>反射，序列化对其无效</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Single5 &#123;</div><div class="line">     INSTANCE;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>&#123;</div><div class="line">         System.out.println(<span class="string">"其它方法"</span>);</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h4 id="以上单例的实现方式除枚举外都可以通过反射和反序列化的方式进行破解！"><a href="#以上单例的实现方式除枚举外都可以通过反射和反序列化的方式进行破解！" class="headerlink" title="以上单例的实现方式除枚举外都可以通过反射和反序列化的方式进行破解！"></a>以上单例的实现方式除枚举外都可以通过反射和反序列化的方式进行破解！</h4><h4 id="通过枚举方式实现的单例模式是JVM底层天然实现的单例，反射无法破解！"><a href="#通过枚举方式实现的单例模式是JVM底层天然实现的单例，反射无法破解！" class="headerlink" title="通过枚举方式实现的单例模式是JVM底层天然实现的单例，反射无法破解！"></a>通过枚举方式实现的单例模式是JVM底层天然实现的单例，反射无法破解！</h4><h2 id="攻击单例模式"><a href="#攻击单例模式" class="headerlink" title="攻击单例模式"></a>攻击单例模式</h2><h3 id="反射攻击单例模式"><a href="#反射攻击单例模式" class="headerlink" title="反射攻击单例模式"></a>反射攻击单例模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReflectAttack</span> </span>&#123;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">         <span class="comment">//理想中唯一的单例</span></div><div class="line">         Single1 s1 = Single1.getInstance();</div><div class="line">         Class&lt;Single1&gt; clazz = (Class&lt;Single1&gt;) Class.forName(<span class="string">"com.xy.single.Single1"</span>);</div><div class="line">         <span class="comment">//反射出来的多例</span></div><div class="line">         Single1 s2 = clazz.newInstance();</div><div class="line">         System.out.println(s1==s2);</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>打印结果：false</p>
+</li>
+<li><p>解决方法：在构造函数中做文章！【如果想通过反射破坏单例则抛出运行时异常】</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="title">Single1</span><span class="params">()</span> </span>&#123;</div><div class="line">     <span class="keyword">if</span>(single!=<span class="keyword">null</span>)</div><div class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException();</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h3 id="序列化攻击单例模式"><a href="#序列化攻击单例模式" class="headerlink" title="序列化攻击单例模式"></a>序列化攻击单例模式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SerializeAttack</span> </span>&#123;</div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">         <span class="comment">//理想中的单例</span></div><div class="line">         Single1 single1 = Single1.getInstance();</div><div class="line">         <span class="comment">//将对象序列化</span></div><div class="line">         FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"G:/a.txt"</span>);</div><div class="line">         ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(fos);</div><div class="line">         oos.writeObject(single1);</div><div class="line">         oos.close();</div><div class="line">         fos.close();</div><div class="line">         <span class="comment">//反序列化对象完成破解单例</span></div><div class="line">         FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">"G:/a.txt"</span>);</div><div class="line">         ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(fis);</div><div class="line">         Single1 single2 = (Single1) ois.readObject();</div><div class="line">         ois.close();</div><div class="line">         fis.close();</div><div class="line">         System.out.println(single1==single2);</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>打印结果：false</p>
+</li>
+<li><p>解决方法：单例类中添加readResolver方法</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> Object <span class="title">readResolve</span><span class="params">()</span> <span class="keyword">throws</span> ObjectStreamException</span>&#123;</div><div class="line">  <span class="keyword">return</span> single;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>该方法在ObjectReader调用readObject方法的时候触发【基于回调的】</p>
+</li>
+<li><p>注意返回值是Object类型，可能会抛异常</p>
+</li>
 </ul>
 
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-设计模式 " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/designPattern/2016-01-26-factory-pattern-problem/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/26/designPattern/2016-01-26-factory-pattern-problem/" itemprop="url">
+                  工厂模式坑爹题目
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-01-26T00:00:00+08:00">
+                2016-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="已知代码"><a href="#已知代码" class="headerlink" title="已知代码"></a>已知代码</h2><ul>
+<li>Bean.java</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bean</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String beanName;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getBeanName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> beanName;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBeanName</span><span class="params">(String beanName)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.beanName = beanName;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Bean</span><span class="params">(String beanName)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.beanName = beanName;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>BeanFactory.java</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> BeanFactory instance = <span class="keyword">new</span> BeanFactory();</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Bean bean = <span class="keyword">null</span>;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BeanFactory</span><span class="params">()</span> </span>&#123;</div><div class="line">        bean = <span class="keyword">new</span> Bean(<span class="string">"mybean"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BeanFactory <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bean <span class="title">getBean</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> bean;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>App.java</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Bean bean = BeanFactory.getInstance().getBean();</div><div class="line">        System.out.println(bean.getBeanName());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="运行结果【1】"><a href="#运行结果【1】" class="headerlink" title="运行结果【1】"></a>运行结果【1】</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Exception in thread <span class="string">"main"</span> java.lang.NullPointerException</div><div class="line">      at com.xy.factory_simple.App.main(App.java:<span class="number">6</span>)</div></pre></td></tr></table></figure>
+<ul>
+<li>更改BeanFactory.java</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> BeanFactory instance = <span class="keyword">new</span> BeanFactory();</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Bean bean;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BeanFactory</span><span class="params">()</span> </span>&#123;</div><div class="line">        bean = <span class="keyword">new</span> Bean(<span class="string">"mybean"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BeanFactory <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bean <span class="title">getBean</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> bean;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="运行结果【2】"><a href="#运行结果【2】" class="headerlink" title="运行结果【2】"></a>运行结果【2】</h3><figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- 更改BeanFactory.java</div><div class="line"></div><div class="line">```java</div><div class="line">    private static Bean bean = null;</div><div class="line">    private static BeanFactory instance = new BeanFactory();</div><div class="line">    public BeanFactory() &#123;</div><div class="line">        bean = new Bean(&quot;mybean&quot;);</div><div class="line">    &#125;</div><div class="line">    public static BeanFactory getInstance()&#123;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">    public static Bean getBean()&#123;</div><div class="line">        return bean;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="运行结果【3】"><a href="#运行结果【3】" class="headerlink" title="运行结果【3】"></a>运行结果【3】</h3><p><code>mybean</code></p>
+<h2 id="你知道上面是为什么吗？"><a href="#你知道上面是为什么吗？" class="headerlink" title="你知道上面是为什么吗？"></a>你知道上面是为什么吗？</h2>
           
         
       
