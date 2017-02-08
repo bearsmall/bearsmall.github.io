@@ -245,7 +245,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/Hello-World-0/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/tool/2015-11-29-ApacheBench-Testing/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
@@ -270,8 +270,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/02/09/Hello-World-0/" itemprop="url">
-                  Hello World
+                <a class="post-title-link" href="/2017/02/09/tool/2015-11-29-ApacheBench-Testing/" itemprop="url">
+                  使用ApacheBench对网站进行压力测试
                 </a>
               
             
@@ -287,7 +287,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:29:45+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:46:50+08:00">
                 2017-02-09
               </time>
             
@@ -297,6 +297,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -325,7 +347,29 @@
       
         
           
-            
+            <h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><ul>
+<li><p>网站发布了，性能怎么样呢？是时候测试一下了</p>
+</li>
+<li><p>Apache服务器下载地址：<a href="http://www.apache.org/" target="_blank" rel="external">http://www.apache.org/</a></p>
+</li>
+</ul>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>当我们安装Apache服务器之后，我们在其bin目录下可以看到一个ab.exe，的确ApacheBench（ab）是Apache附带的一个小工具，专门用来做HTTP服务器的BenchMark Testing的。</p>
+<ul>
+<li><p>ok,下面我们以淘宝网为测试对象说明一下这个ab到底是如何使用的。（window下）</p>
+</li>
+<li><p>打开cmd控制台，切换到ab.exe路径下。执行下面这条命令：</p>
+<figure class="highlight plain"><figcaption><span>-n 1000 -c 10</span><a href="http://www.taobao.com/```" target="_blank" rel="external">link</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">    【-n表示发送的请求数，这里发送1000次请求，-c表示每次的并发数，这里设置为10，注意后面的/不要掉了！】</div><div class="line"></div><div class="line">- 下面是输出的一堆信息：</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>C:\server\Apache24\bin&gt;ab -n 1000 -c 10 <a href="http://www.taobao.com/" target="_blank" rel="external">http://www.taobao.com/</a><br>This is ApacheBench, Version 2.3 &lt;$Revision: 1706008 $&gt;<br>Copyright 1996 Adam Twiss, Zeus Technology Ltd, <a href="http://www.zeustech.net/" target="_blank" rel="external">http://www.zeustech.net/</a><br>Licensed to The Apache Software Foundation, <a href="http://www.apache.org/" target="_blank" rel="external">http://www.apache.org/</a></p>
+<p>Benchmarking www.taobao.com (be patient)<br>Completed 100 requests<br>Completed 200 requests<br>Completed 300 requests<br>Completed 400 requests<br>Completed 500 requests<br>Completed 600 requests<br>Completed 700 requests<br>Completed 800 requests<br>Completed 900 requests<br>Completed 1000 requests<br>Finished 1000 requests                   //1000次请求结束</p>
+<p>Server Software:        Tengine          //淘宝网使用的web服务器<br>Server Hostname:        www.taobao.com   //域名<br>Server Port:            80       //端口号</p>
+<p>Document Path:          /                //请求的路径，这里是根路径<br>Document Length:        258 bytes        //第一次返回的文档的大小，大小发生改变，这个响应会视为一个错误。</p>
+<p>Concurrency Level:      10               //并发数，也就是我们前面设置的-c参数值<br>Time taken for tests:   54.977 seconds   //这1000次请求一共花费的时间是54.977秒<br>Complete requests:      1000             //成功的请求次数<br>Failed requests:        2                //失败的请求次数<br>   (Connect: 2, Receive: 0, Length: 0, Exceptions: 0)                           //连接失败，接收异常，长得异常，读取失败<br>Non-2xx responses:      1000<br>Total transferred:      560000 bytes     //从服务器接收的字节数。<br>HTML transferred:       258000 bytes     //html内容字节数<br>Requests per second:    18.19 [#/sec] (mean) //没秒请求数<br>Time per request:       549.766 [ms] (mean)  //每个并发的时间<br>Time per request:       54.977 [ms] (mean, across all concurrent requests)              //每次并发中，每个请求的时间<br>Transfer rate:          9.95 [Kbytes/sec]   received  //没秒的网络传输量</p>
+<p>Connection Times (ms)<br>              min  mean[+/-sd] median   max<br>Connect:        8   13   4.0     12      55   //socket从发送请求到建立连接所花费的时间<br>Processing:    10  494 2796.3    109   21385   //建立连接后，直到http全部接收所用的时间<br>Waiting:        9  334 2290.8     78   21115<br>//发送HTTP后，到接收到第一个字节所等待的时间<br>Total:         26  507 2796.2    121   21399<br>//connect+processing的时间</p>
+<p>//对于整个1000个请求来说，50%的请求的响应时间在121毫秒内，60%的请求响应时间在126毫秒内，….，最长的请求响应时间为21399毫秒<br>Percentage of the requests served within a certain time (ms)<br>  50%    121<br>  66%    126<br>  75%    130<br>  80%    133<br>  90%    154<br>  95%    185<br>  98%   1082<br>  99%  21128<br> 100%  21399 (longest request)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">## 参数信息</div><div class="line"></div><div class="line">- 下面看看 ApacheBench有哪些参数，输入```ab -help```即可查看。</div></pre></td></tr></table></figure></p>
+<p>C:\server\Apache24\bin&gt;ab -help<br>Usage: ab [options] [<a href="http://]hostname[:port]/path" target="_blank" rel="external">http://]hostname[:port]/path</a><br>Options are:<br>-n requests Number of requests to perform<br>-c concurrency Number of multiple requests to make at a time<br>-t timelimit Seconds to max. to spend on benchmarking<br>This implies -n 50000<br>-s timeout Seconds to max. wait for each response<br>Default is 30 seconds<br>-b windowsize Size of TCP send/receive buffer, in bytes<br>-B address Address to bind to when making outgoing connections<br>-p postfile File containing data to POST. Remember also to set -T<br>-u putfile File containing data to PUT. Remember also to set -T<br>-T content-type Content-type header to use for POST/PUT data, eg.<br>‘application/x-www-form-urlencoded’<br>Default is ‘text/plain’<br>-v verbosity How much troubleshooting info to print<br>-w Print out results in HTML tables<br>-i Use HEAD instead of GET<br>-x attributes String to insert as table attributes<br>-y attributes String to insert as tr attributes<br>-z attributes String to insert as td or th attributes<br>-C attribute Add cookie, eg. ‘Apache=1234’. (repeatable)<br>-H attribute Add Arbitrary header line, eg. ‘Accept-Encoding: gzip’<br>Inserted after all normal header lines. (repeatable)<br>-A attribute Add Basic WWW Authentication, the attributes<br>are a colon separated username and password.<br>-P attribute Add Basic Proxy Authentication, the attributes<br>are a colon separated username and password.<br>-X proxy:port Proxyserver and port number to use<br>-V Print version number and exit<br>-k Use HTTP KeepAlive feature<br>-d Do not show percentiles served table.<br>-S Do not show confidence estimators and warnings.<br>-q Do not show progress when doing more than 150 requests<br>-l Accept variable document length (use this for dynamic pages)<br>-g filename Output collected data to gnuplot format file.<br>-e filename Output CSV file with percentages served<br>-r Don’t exit on socket receive errors.<br>-m method Method name<br>-h Display usage information (this message)<br>```</p>
+
           
         
       
@@ -365,7 +409,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/hello-world/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/tool/2016-06-02-class-version/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
@@ -390,8 +434,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/02/09/hello-world/" itemprop="url">
-                  Hello World
+                <a class="post-title-link" href="/2017/02/09/tool/2016-06-02-class-version/" itemprop="url">
+                  查看.class文件的版本号
                 </a>
               
             
@@ -407,7 +451,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:24:21+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:46:50+08:00">
                 2017-02-09
               </time>
             
@@ -417,6 +461,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -445,15 +511,1468 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+            <h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>十六进制编辑器</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<li>用编辑器打开.class文件</li>
+<li>可以看到如下内容：</li>
+</ol>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-class-file-version-1.png" alt="Class File Version"></p>
+<h3 id="解释："><a href="#解释：" class="headerlink" title="解释："></a>解释：</h3><ol>
+<li>我们只关心第一行画线的部分。</li>
+<li>前面八个字节CA FE BA BE是固定的。</li>
+<li>随后四个字节00 00是次版本号。</li>
+<li>再随后四个字节00 34是主版本号【这里是1.8】</li>
+</ol>
+<h3 id="JDK版本号对应关系如下："><a href="#JDK版本号对应关系如下：" class="headerlink" title="JDK版本号对应关系如下："></a>JDK版本号对应关系如下：</h3><ul>
+<li>34（对应十进制的52）：JDK1.8</li>
+<li>33（对应十进制的51）：JDK1.7</li>
+<li>32（对应十进制的50）：JDK1.6</li>
+<li>31（对应十进制的49）：JDK1.5</li>
+<li>30（对应十进制的48）：JDK1.4</li>
+<li>2F（对应十进制的47）：JDK1.3</li>
+<li>2E（对应十进制的46）：JDK1.2</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/tool/2016-01-21-page-seperate/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/09/tool/2016-01-21-page-seperate/" itemprop="url">
+                  分页求总页数
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:46:50+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="小问题直接上代码比较清晰明了"><a href="#小问题直接上代码比较清晰明了" class="headerlink" title="小问题直接上代码比较清晰明了"></a>小问题直接上代码比较清晰明了</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PageModel</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> currentPage = <span class="number">1</span>;<span class="comment">// 当前页</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> pageSize = <span class="number">10</span>;<span class="comment">// 每页大小</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> totalCount = <span class="number">0</span>;<span class="comment">// 总记录数</span></div><div class="line">    <span class="comment">//private int totalPage ;// 总页数</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCurrentPage</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> currentPage;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCurrentPage</span><span class="params">(<span class="keyword">int</span> currentPage)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.currentPage = currentPage;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPageSize</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> pageSize;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPageSize</span><span class="params">(<span class="keyword">int</span> pageSize)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.pageSize = pageSize;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getTotalCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> totalCount;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTotalCount</span><span class="params">(<span class="keyword">int</span> totalCount)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.totalCount = totalCount;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 方法一</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getTotalPage0</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (totalCount + pageSize - <span class="number">1</span>) / pageSize;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 方法二</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getTotalPage1</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (totalCount - <span class="number">1</span>) / pageSize + <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 方法三</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getTotalPage2</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> p = totalCount / pageSize;</div><div class="line">        <span class="keyword">if</span> (totalCount % pageSize == <span class="number">0</span>)</div><div class="line">            <span class="keyword">return</span> p;</div><div class="line">        <span class="keyword">else</span></div><div class="line">            <span class="keyword">return</span> p + <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 方法四</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getTotalPage3</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> p = totalCount / pageSize;</div><div class="line">        <span class="keyword">if</span> (totalCount % pageSize != <span class="number">0</span>)</div><div class="line">            p++;</div><div class="line">        <span class="keyword">return</span> p;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>说是四种其实也就两种。。。。。。</p>
+</li>
+<li><p>其中，前面两个写起来比较简单，后面两种比较传统。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/tool/2016-06-27-id-pid-tree/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/09/tool/2016-06-27-id-pid-tree/" itemprop="url">
+                  （id，pid）格式数据转树和森林结构工具类设计与实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:46:50+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>树形结构很多地方都有应用，比如我们在构造网站后台的授权限树的时候，再比如我们在设计多级留言的时候、还有分类等等。</p>
+<ul>
+<li>有些时候我们的树形结构并不需要过多设计，这是因为我们的很多时候对这棵树的要求不高（两层、三层就行了），这时候我们很容易的会按照层级划分树形结构，然后查询数据库的时候会一层一层的嵌套查询。</li>
+<li>如果层次比较浅这种做法是可取的（或者我们本来就不打算一次将树加载完全，而是在需要时再加载，那分层级的多次加载也许有用武之地）。但是考虑这种情况：我们的树比较深，而且要一次加载完全。</li>
+<li>要是按照一层一层的加载原则，那么光是访问数据库的查询语句就是指数形式的了。性能肯定不好。那么除了一层一层的查询好有更好的办法吗？肯定是有的，多查询一些资料会发现这种做法比较常见了：（id，pid）。</li>
+<li>通俗说就是一个节点只需要记住自己的id和父亲的id（根节点没有pid可以设置一个特殊值）就可以拥有呈现这棵树的完整结构全部信息了，仔细想一想自己学过的数据结构，是不是这样的？</li>
+<li>好了这样一来我们在设计数据库的时候就可以很轻松的设计一棵树的树形结构了。那么有个问题，我们在展现出来的时候总不能直接显示一连串的（id，pid）集合吧。我们要的是树形结构。</li>
+<li>这时候我们其实非常想实现的是从（id，pid）到 （id，children【】）的转化。毕竟我们在展现树形结构的时候后一种格式更适合页面的呈现，而前一种比较适合数据的存储格式。</li>
+</ul>
+<h2 id="树形结构实现"><a href="#树形结构实现" class="headerlink" title="树形结构实现"></a>树形结构实现</h2><h3 id="自定义节点类"><a href="#自定义节点类" class="headerlink" title="自定义节点类"></a>自定义节点类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 节点类</div><div class="line"> * <span class="doctag">@author</span> bearsmall</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;<span class="comment">//主键ID</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> pid;<span class="comment">//父节点ID</span></div><div class="line">    <span class="keyword">private</span> Object content;<span class="comment">//节点内容</span></div><div class="line">    <span class="keyword">private</span> List&lt;TreeNode&gt; children = <span class="keyword">new</span> ArrayList&lt;TreeNode&gt;();<span class="comment">//子孙节点</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span><span class="params">(<span class="keyword">int</span> id, Object content)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.id = id;</div><div class="line">        <span class="keyword">this</span>.content = content;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> pid, Object content)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.id = id;</div><div class="line">        <span class="keyword">this</span>.pid = pid;</div><div class="line">        <span class="keyword">this</span>.content = content;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> id;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.id = id;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPid</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> pid;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPid</span><span class="params">(<span class="keyword">int</span> pid)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.pid = pid;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getContent</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> content;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContent</span><span class="params">(Object content)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.content = content;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;TreeNode&gt; <span class="title">getChildren</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> children;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setChildren</span><span class="params">(List&lt;TreeNode&gt; children)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.children = children;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"TreeNode [id="</span> + id + <span class="string">", pid="</span> + pid + <span class="string">", content="</span> + content</div><div class="line">                + <span class="string">", children="</span> + children + <span class="string">"]"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="树节点管理类"><a href="#树节点管理类" class="headerlink" title="树节点管理类"></a>树节点管理类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 树节点管理类</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> bearsmall</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNodeManager</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> List&lt;TreeNode&gt; list;<span class="comment">// 树的所有节点</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TreeNodeManager</span><span class="params">(TreeNode[] items)</span> </span>&#123;</div><div class="line">        list = <span class="keyword">new</span> ArrayList&lt;TreeNode&gt;();</div><div class="line">        <span class="keyword">for</span> (TreeNode treeNode : items) &#123;</div><div class="line">            list.add(treeNode);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TreeNodeManager</span><span class="params">(List&lt;TreeNode&gt; items)</span> </span>&#123;</div><div class="line">        list = items;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 根据节点ID获取一个节点</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> id</div><div class="line">     *            节点ID</div><div class="line">     * <span class="doctag">@return</span> 对应的节点对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">getTreeNodeAT</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (TreeNode treeNode : list) &#123;</div><div class="line">            <span class="keyword">if</span> (treeNode.getId() == id)</div><div class="line">                <span class="keyword">return</span> treeNode;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 获取树的根节点</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> 一棵树的根节点</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">getRoot</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (TreeNode treeNode : list) &#123;</div><div class="line">            <span class="keyword">if</span> (treeNode.getPid() == <span class="number">0</span>)</div><div class="line">                <span class="keyword">return</span> treeNode;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="树节点转化类"><a href="#树节点转化类" class="headerlink" title="树节点转化类"></a>树节点转化类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 节点归并类</div><div class="line"> * <span class="doctag">@author</span> bearsmall</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNodeMerger</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 将节点数组归并为一棵树（填充节点的children域）</div><div class="line">     * 时间复杂度为O(n^2)</div><div class="line">     * <span class="doctag">@param</span> items 节点域</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">merge</span><span class="params">(TreeNode[] items)</span></span>&#123;</div><div class="line">        TreeNodeManager treeNodeManager = <span class="keyword">new</span> TreeNodeManager(items);</div><div class="line">        <span class="keyword">for</span> (TreeNode treeNode : items) &#123;</div><div class="line">            <span class="keyword">if</span>(treeNode.getPid()!=<span class="number">0</span>)&#123;</div><div class="line">                TreeNode t = treeNodeManager.getTreeNodeAT(treeNode.getPid());</div><div class="line">                t.getChildren().add(treeNode);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> treeNodeManager.getRoot();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 将节点数组归并为一棵树（填充节点的children域）</div><div class="line">     *  时间复杂度为O(n^2)</div><div class="line">     * <span class="doctag">@param</span> items 节点域</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TreeNode <span class="title">merge</span><span class="params">(List&lt;TreeNode&gt; items)</span></span>&#123;</div><div class="line">        TreeNodeManager treeNodeManager = <span class="keyword">new</span> TreeNodeManager(items);</div><div class="line">        <span class="keyword">for</span> (TreeNode treeNode : items) &#123;</div><div class="line">            <span class="keyword">if</span>(treeNode.getPid()!=<span class="number">0</span>)&#123;</div><div class="line">                TreeNode t = treeNodeManager.getTreeNodeAT(treeNode.getPid());</div><div class="line">                t.getChildren().add(treeNode);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> treeNodeManager.getRoot();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="简单测试"><a href="#简单测试" class="headerlink" title="简单测试"></a>简单测试</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        TreeNode[] treeNodes = <span class="keyword">new</span> TreeNode[<span class="number">10</span>];</div><div class="line">        treeNodes[<span class="number">0</span>] = <span class="keyword">new</span> TreeNode(<span class="number">1</span>, <span class="number">0</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">1</span>] = <span class="keyword">new</span> TreeNode(<span class="number">2</span>, <span class="number">1</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">2</span>] = <span class="keyword">new</span> TreeNode(<span class="number">3</span>, <span class="number">1</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">3</span>] = <span class="keyword">new</span> TreeNode(<span class="number">4</span>, <span class="number">2</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">4</span>] = <span class="keyword">new</span> TreeNode(<span class="number">5</span>, <span class="number">3</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">5</span>] = <span class="keyword">new</span> TreeNode(<span class="number">6</span>, <span class="number">4</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">6</span>] = <span class="keyword">new</span> TreeNode(<span class="number">7</span>, <span class="number">3</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">7</span>] = <span class="keyword">new</span> TreeNode(<span class="number">8</span>, <span class="number">5</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">8</span>] = <span class="keyword">new</span> TreeNode(<span class="number">9</span>, <span class="number">6</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">9</span>] = <span class="keyword">new</span> TreeNode(<span class="number">10</span>, <span class="number">9</span>, <span class="string">""</span>);</div><div class="line">        TreeNode treeNode = TreeNodeMerger.merge(treeNodes);</div><div class="line">        JSONArray jsonArray = JSONArray.fromObject(treeNode);</div><div class="line">        System.out.println(jsonArray);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">[&#123;</div><div class="line">        <span class="attr">"children"</span> : [&#123;</div><div class="line">                <span class="attr">"children"</span> : [&#123;</div><div class="line">                        <span class="attr">"children"</span> : [&#123;</div><div class="line">                                <span class="attr">"children"</span> : [&#123;</div><div class="line">                                        <span class="attr">"children"</span> : [&#123;</div><div class="line">                                                <span class="attr">"children"</span> : [],</div><div class="line">                                                <span class="attr">"pid"</span> : <span class="number">9</span>,</div><div class="line">                                                <span class="attr">"id"</span> : <span class="number">10</span>,</div><div class="line">                                                <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                                            &#125;</div><div class="line">                                        ],</div><div class="line">                                        <span class="attr">"pid"</span> : <span class="number">6</span>,</div><div class="line">                                        <span class="attr">"id"</span> : <span class="number">9</span>,</div><div class="line">                                        <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                                    &#125;</div><div class="line">                                ],</div><div class="line">                                <span class="attr">"pid"</span> : <span class="number">4</span>,</div><div class="line">                                <span class="attr">"id"</span> : <span class="number">6</span>,</div><div class="line">                                <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                            &#125;</div><div class="line">                        ],</div><div class="line">                        <span class="attr">"pid"</span> : <span class="number">2</span>,</div><div class="line">                        <span class="attr">"id"</span> : <span class="number">4</span>,</div><div class="line">                        <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                    &#125;</div><div class="line">                ],</div><div class="line">                <span class="attr">"pid"</span> : <span class="number">1</span>,</div><div class="line">                <span class="attr">"id"</span> : <span class="number">2</span>,</div><div class="line">                <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">            &#125;, &#123;</div><div class="line">                <span class="attr">"children"</span> : [&#123;</div><div class="line">                        <span class="attr">"children"</span> : [&#123;</div><div class="line">                                <span class="attr">"children"</span> : [],</div><div class="line">                                <span class="attr">"pid"</span> : <span class="number">5</span>,</div><div class="line">                                <span class="attr">"id"</span> : <span class="number">8</span>,</div><div class="line">                                <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                            &#125;</div><div class="line">                        ],</div><div class="line">                        <span class="attr">"pid"</span> : <span class="number">3</span>,</div><div class="line">                        <span class="attr">"id"</span> : <span class="number">5</span>,</div><div class="line">                        <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                    &#125;, &#123;</div><div class="line">                        <span class="attr">"children"</span> : [],</div><div class="line">                        <span class="attr">"pid"</span> : <span class="number">3</span>,</div><div class="line">                        <span class="attr">"id"</span> : <span class="number">7</span>,</div><div class="line">                        <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                    &#125;</div><div class="line">                ],</div><div class="line">                <span class="attr">"pid"</span> : <span class="number">1</span>,</div><div class="line">                <span class="attr">"id"</span> : <span class="number">3</span>,</div><div class="line">                <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">            &#125;</div><div class="line">        ],</div><div class="line">        <span class="attr">"pid"</span> : <span class="number">0</span>,</div><div class="line">        <span class="attr">"id"</span> : <span class="number">1</span>,</div><div class="line">        <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">    &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<ul>
+<li>这种格式是不是更清晰呢？</li>
+</ul>
+<h2 id="森林结构实现"><a href="#森林结构实现" class="headerlink" title="森林结构实现"></a>森林结构实现</h2><h3 id="森林管理类"><a href="#森林管理类" class="headerlink" title="森林管理类"></a>森林管理类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 森林节点管理类</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> bearsmall</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForestNodeManager</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> List&lt;TreeNode&gt; list;<span class="comment">// 森林的所有节点</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ForestNodeManager</span><span class="params">(TreeNode[] items)</span> </span>&#123;</div><div class="line">        list = <span class="keyword">new</span> ArrayList&lt;TreeNode&gt;();</div><div class="line">        <span class="keyword">for</span> (TreeNode treeNode : items) &#123;</div><div class="line">            list.add(treeNode);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ForestNodeManager</span><span class="params">(List&lt;TreeNode&gt; items)</span> </span>&#123;</div><div class="line">        list = items;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 根据节点ID获取一个节点</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> id</div><div class="line">     *            节点ID</div><div class="line">     * <span class="doctag">@return</span> 对应的节点对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">getTreeNodeAT</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (TreeNode treeNode : list) &#123;</div><div class="line">            <span class="keyword">if</span> (treeNode.getId() == id)</div><div class="line">                <span class="keyword">return</span> treeNode;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 获取树的根节点【一个森林对应多颗树】</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> 树的根节点集合</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;TreeNode&gt; <span class="title">getRoot</span><span class="params">()</span> </span>&#123;</div><div class="line">        List&lt;TreeNode&gt; roots = <span class="keyword">new</span> ArrayList&lt;TreeNode&gt;();</div><div class="line">        <span class="keyword">for</span> (TreeNode treeNode : list) &#123;</div><div class="line">            <span class="keyword">if</span> (treeNode.getPid() == <span class="number">0</span>)</div><div class="line">                roots.add(treeNode);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> roots;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="森林节点归并类"><a href="#森林节点归并类" class="headerlink" title="森林节点归并类"></a>森林节点归并类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 节点归并类</div><div class="line"> * <span class="doctag">@author</span> bearsmall</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForestNodeMerger</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 将节点数组归并为一个森林（多棵树）（填充节点的children域）</div><div class="line">     * 时间复杂度为O(n^2)</div><div class="line">     * <span class="doctag">@param</span> items 节点域</div><div class="line">     * <span class="doctag">@return</span> 多棵树的根节点集合</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;TreeNode&gt; <span class="title">merge</span><span class="params">(TreeNode[] items)</span></span>&#123;</div><div class="line">        ForestNodeManager forestNodeManager = <span class="keyword">new</span> ForestNodeManager(items);</div><div class="line">        <span class="keyword">for</span> (TreeNode treeNode : items) &#123;</div><div class="line">            <span class="keyword">if</span>(treeNode.getPid()!=<span class="number">0</span>)&#123;</div><div class="line">                TreeNode t = forestNodeManager.getTreeNodeAT(treeNode.getPid());</div><div class="line">                t.getChildren().add(treeNode);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> forestNodeManager.getRoot();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 将节点数组归并为一个森林（多棵树）（填充节点的children域）</div><div class="line">     * 时间复杂度为O(n^2)</div><div class="line">     * <span class="doctag">@param</span> items 节点域</div><div class="line">     * <span class="doctag">@return</span> 多棵树的根节点集合</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;TreeNode&gt; <span class="title">merge</span><span class="params">(List&lt;TreeNode&gt; items)</span></span>&#123;</div><div class="line">        ForestNodeManager forestNodeManager = <span class="keyword">new</span> ForestNodeManager(items);</div><div class="line">        <span class="keyword">for</span> (TreeNode treeNode : items) &#123;</div><div class="line">            <span class="keyword">if</span>(treeNode.getPid()!=<span class="number">0</span>)&#123;</div><div class="line">                TreeNode t = forestNodeManager.getTreeNodeAT(treeNode.getPid());</div><div class="line">                t.getChildren().add(treeNode);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> forestNodeManager.getRoot();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="测一下"><a href="#测一下" class="headerlink" title="测一下"></a>测一下</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main2</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        TreeNode[] treeNodes = <span class="keyword">new</span> TreeNode[<span class="number">10</span>];</div><div class="line">        treeNodes[<span class="number">0</span>] = <span class="keyword">new</span> TreeNode(<span class="number">1</span>, <span class="number">0</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">1</span>] = <span class="keyword">new</span> TreeNode(<span class="number">2</span>, <span class="number">0</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">2</span>] = <span class="keyword">new</span> TreeNode(<span class="number">3</span>, <span class="number">1</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">3</span>] = <span class="keyword">new</span> TreeNode(<span class="number">4</span>, <span class="number">2</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">4</span>] = <span class="keyword">new</span> TreeNode(<span class="number">5</span>, <span class="number">3</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">5</span>] = <span class="keyword">new</span> TreeNode(<span class="number">6</span>, <span class="number">4</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">6</span>] = <span class="keyword">new</span> TreeNode(<span class="number">7</span>, <span class="number">3</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">7</span>] = <span class="keyword">new</span> TreeNode(<span class="number">8</span>, <span class="number">5</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">8</span>] = <span class="keyword">new</span> TreeNode(<span class="number">9</span>, <span class="number">6</span>, <span class="string">""</span>);</div><div class="line">        treeNodes[<span class="number">9</span>] = <span class="keyword">new</span> TreeNode(<span class="number">10</span>, <span class="number">9</span>, <span class="string">""</span>);</div><div class="line">        List&lt;TreeNode&gt; tns = ForestNodeMerger.merge(treeNodes);</div><div class="line">        JSONArray jsonArray = JSONArray.fromObject(tns);</div><div class="line">        System.out.println(jsonArray);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="打印输出"><a href="#打印输出" class="headerlink" title="打印输出"></a>打印输出</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">[&#123;</div><div class="line">        <span class="attr">"children"</span> : [&#123;</div><div class="line">                <span class="attr">"children"</span> : [&#123;</div><div class="line">                        <span class="attr">"children"</span> : [&#123;</div><div class="line">                                <span class="attr">"children"</span> : [],</div><div class="line">                                <span class="attr">"pid"</span> : <span class="number">5</span>,</div><div class="line">                                <span class="attr">"id"</span> : <span class="number">8</span>,</div><div class="line">                                <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                            &#125;</div><div class="line">                        ],</div><div class="line">                        <span class="attr">"pid"</span> : <span class="number">3</span>,</div><div class="line">                        <span class="attr">"id"</span> : <span class="number">5</span>,</div><div class="line">                        <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                    &#125;, &#123;</div><div class="line">                        <span class="attr">"children"</span> : [],</div><div class="line">                        <span class="attr">"pid"</span> : <span class="number">3</span>,</div><div class="line">                        <span class="attr">"id"</span> : <span class="number">7</span>,</div><div class="line">                        <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                    &#125;</div><div class="line">                ],</div><div class="line">                <span class="attr">"pid"</span> : <span class="number">1</span>,</div><div class="line">                <span class="attr">"id"</span> : <span class="number">3</span>,</div><div class="line">                <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">            &#125;</div><div class="line">        ],</div><div class="line">        <span class="attr">"pid"</span> : <span class="number">0</span>,</div><div class="line">        <span class="attr">"id"</span> : <span class="number">1</span>,</div><div class="line">        <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">    &#125;, &#123;</div><div class="line">        <span class="attr">"children"</span> : [&#123;</div><div class="line">                <span class="attr">"children"</span> : [&#123;</div><div class="line">                        <span class="attr">"children"</span> : [&#123;</div><div class="line">                                <span class="attr">"children"</span> : [&#123;</div><div class="line">                                        <span class="attr">"children"</span> : [],</div><div class="line">                                        <span class="attr">"pid"</span> : <span class="number">9</span>,</div><div class="line">                                        <span class="attr">"id"</span> : <span class="number">10</span>,</div><div class="line">                                        <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                                    &#125;</div><div class="line">                                ],</div><div class="line">                                <span class="attr">"pid"</span> : <span class="number">6</span>,</div><div class="line">                                <span class="attr">"id"</span> : <span class="number">9</span>,</div><div class="line">                                <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                            &#125;</div><div class="line">                        ],</div><div class="line">                        <span class="attr">"pid"</span> : <span class="number">4</span>,</div><div class="line">                        <span class="attr">"id"</span> : <span class="number">6</span>,</div><div class="line">                        <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">                    &#125;</div><div class="line">                ],</div><div class="line">                <span class="attr">"pid"</span> : <span class="number">2</span>,</div><div class="line">                <span class="attr">"id"</span> : <span class="number">4</span>,</div><div class="line">                <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">            &#125;</div><div class="line">        ],</div><div class="line">        <span class="attr">"pid"</span> : <span class="number">0</span>,</div><div class="line">        <span class="attr">"id"</span> : <span class="number">2</span>,</div><div class="line">        <span class="attr">"content"</span> : <span class="string">""</span></div><div class="line">    &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<h4 id="ok！"><a href="#ok！" class="headerlink" title=" ok！"></a><strong> ok！</strong></h4>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/tool/2015-10-26-jvm-setting/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/09/tool/2015-10-26-jvm-setting/" itemprop="url">
+                  Eclipse、IDEA环境下设置jvm默认编码
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:46:50+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Encoding</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        System.out.println(System.getProperty(<span class="string">"file.encoding"</span>));</div><div class="line">        System.out.println(Charset.defaultCharset().name());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>打印结果是什么？</p>
+</li>
+<li><p>是GBK吧</p>
+</li>
+<li><p>估计大多数人的机器打印的结果是GBK，因为我们很多人系统默认编码就是GBK（In China）.</p>
+</li>
+<li><p>我们查看jdk文档可以看到：</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Java.nio.charset.Charset</span></div><div class="line"><span class="function"><span class="keyword">static</span> Charset <span class="title">defaultCharset</span><span class="params">()</span></span></div><div class="line">Returns the <span class="keyword">default</span> charset of <span class="keyword">this</span> Java virtual machine.</div><div class="line"><span class="comment">//java.lang.System</span></div><div class="line"><span class="keyword">static</span> String <span class="title">getProperty</span><span class="params">(String key)</span></div><div class="line">Gets the system property indicated by the specified key.</div></pre></td></tr></table></figure>
+<ul>
+<li><p>上面两个说白了上面两个方法获得的是系统默认的字符集编码，所以我们一般获得的是GBK，因为我们大部分用的是中文版的window系统。。。。。</p>
+</li>
+<li><p>但是我们能不能改呢？肯定能！</p>
+</li>
+<li><p>eclipse上 右键工程–&gt;properties–&gt;Resource–&gt;textfileEncoding</p>
+</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-1.png" alt="Eclipse Encoding Setting Page"></p>
+<ul>
+<li><p>看到这里的GBK了吧，也许你早就改过了，所以前面运行结果不是GBK。</p>
+</li>
+<li><p>试试改成utf-8，再运行程序。是不是发现运行结果变成utf-8了？</p>
+</li>
+<li><p>为了统一编码，这里我们通常设置成utf-8</p>
+</li>
+<li><p>IDEA上 File–&gt;Settings–&gt;File Encodings–&gt;Project Encoding</p>
+</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-2.png" alt="IDEA Encoding Setting Page"></p>
+<ul>
+<li><p>我们改成iso8859-1试试</p>
+</li>
+<li><p>输出是不是变成了iso8859-1。为了统一编码我们还是改回utf-8吧。【如果你之前没有改过idea的编码，这个位置还有其它几个位置编码可能就是system default即GBK】</p>
+</li>
+<li><p>这样就完了？no,no,no!!</p>
+</li>
+<li><p>我们试着建立一个web项目，web容器采用tomcat</p>
+</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-3.png" alt="IDEA Encoding Setting Page"></p>
+<ul>
+<li><p>好大的两个GBK…….【声明：IDEA上工程，文件的字符集编码已经设置成了UTF-8，所以不要怀疑是这个原因。】</p>
+</li>
+<li><p>那么，到底是什么原因呢？我们之前明明就是这样改的，而且成功了哎。</p>
+</li>
+<li><p>我只想说：可能web项目比较特殊吧，毕竟它运行的时候借助了web容器，比如这里我们使用的是tomcat容器。</p>
+</li>
+<li><p>那么我们该如何让其回归utf-8呢？</p>
+</li>
+<li><p>方法当然有，如下：来到tomcat配置界面：添加虚拟机启动参数：-Dfile.encoding=UTF-8</p>
+</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-4.png" alt="JVM Encoding Setting Page"></p>
+<ul>
+<li>我们再来运行一遍：</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-5.png" alt="JVM Encoding Setting Page"></p>
+<ul>
+<li><p>utf-8出来了，有木有。</p>
+</li>
+<li><p>纳尼，控制台出现了鸟文？</p>
+</li>
+<li><p>我们继续对IDEA做点修改。</p>
+</li>
+<li><p>打开idea安装目录下的bin文件夹，找到idea.exe.vmoptions文件并打开</p>
+</li>
+<li><p>添加一条配置信息：-Dfile.encoding=UTF-8</p>
+</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-6.png" alt="IDEA Encoding Setting Page"></p>
+<ul>
+<li>ok，重启idea，再次运行web项目</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-7.png" alt="IDEA Encoding Setting Page"></p>
+<ul>
+<li>世界顿时又美好了。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/rtc/2017-02-06-google-codelabs-webrtc/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/09/rtc/2017-02-06-google-codelabs-webrtc/" itemprop="url">
+                  英汉对译 Real Time Communication With WebRTC 【Google codelabs】
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:46:50+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/译文/" itemprop="url" rel="index">
+                    <span itemprop="name">译文</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="导引"><a href="#导引" class="headerlink" title="导引"></a>导引</h2><p><a href="https://codelabs.developers.google.com/codelabs/webrtc-web" target="_blank" rel="external">Real Time Communication with WebRTC</a>是Google codeLabs上一个学习WebRTC的初级教程，这里我利用课余时间对其进行了英译汉的翻译，介于英语能力有限，翻译不当之处在所难免。不当之处还请斧正。</p>
+<p>为了保证不影响英语大神的阅读体验，翻译的时候是根据原文一段段翻译的（保留了英文原文），要是觉得译文有些地方看不懂，不要迟疑，直接看对应的英文吧╮(╯▽╰)╭</p>
+<h1 id="Real-Time-Communication-with-WebRTC—-WebRTC即时通讯"><a href="#Real-Time-Communication-with-WebRTC—-WebRTC即时通讯" class="headerlink" title="Real Time Communication with WebRTC—-WebRTC即时通讯"></a><a href="https://codelabs.developers.google.com/codelabs/webrtc-web" target="_blank" rel="external">Real Time Communication with WebRTC</a>—-<a href="https://github.com/bearsmall/BlogSharing/tree/master/rtc/WebRTC/google-codelabs-webrtc" target="_blank" rel="external">WebRTC即时通讯</a></h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">章节</th>
+<th style="text-align:center">英文原版</th>
+<th style="text-align:center">英译汉对照版</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><a href="https://codelabs.developers.google.com/codelabs/webrtc-web/#0" target="_blank" rel="external">Introduction</a></td>
+<td style="text-align:center"><a href="https://github.com/bearsmall/BlogSharing/blob/master/rtc/WebRTC/google-codelabs-webrtc/1-Introduction.md" target="_blank" rel="external">简介</a></td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center"><a href="https://codelabs.developers.google.com/codelabs/webrtc-web/#1" target="_blank" rel="external">Overview</a></td>
+<td style="text-align:center"><a href="https://github.com/bearsmall/BlogSharing/blob/master/rtc/WebRTC/google-codelabs-webrtc/2-Overview.md" target="_blank" rel="external">概述</a></td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center"><a href="https://codelabs.developers.google.com/codelabs/webrtc-web/#2" target="_blank" rel="external">Get the sample code</a></td>
+<td style="text-align:center"><a href="https://github.com/bearsmall/BlogSharing/blob/master/rtc/WebRTC/google-codelabs-webrtc/3-Get-the-sample-code.md" target="_blank" rel="external">获取样例代码</a></td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center"><a href="https://codelabs.developers.google.com/codelabs/webrtc-web/#3" target="_blank" rel="external">Stream video from your webcam</a></td>
+<td style="text-align:center"><a href="https://github.com/bearsmall/BlogSharing/blob/master/rtc/WebRTC/google-codelabs-webrtc/4-Stream-video-from-your-webcam.md" target="_blank" rel="external">从摄像头获取视频流</a></td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center"><a href="https://codelabs.developers.google.com/codelabs/webrtc-web/#4" target="_blank" rel="external">Stream video with RTCPeerConnection</a></td>
+<td style="text-align:center"><a href="https://github.com/bearsmall/BlogSharing/blob/master/rtc/WebRTC/google-codelabs-webrtc/5-Stream-video-with-RTCPeerConnection.md" target="_blank" rel="external">RTCPeerConnection下的视频流</a></td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center"><a href="https://codelabs.developers.google.com/codelabs/webrtc-web/#5" target="_blank" rel="external">Use RTCDataChannel to exchange data</a></td>
+<td style="text-align:center"><a href="https://github.com/bearsmall/BlogSharing/blob/master/rtc/WebRTC/google-codelabs-webrtc/6-Use-RTCDataChannel-to-exchange-data.md" target="_blank" rel="external">使用RTCDataChannel交换数据</a></td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center"><a href="https://codelabs.developers.google.com/codelabs/webrtc-web/#6" target="_blank" rel="external">Set up a signaling service to exchange messages</a></td>
+<td style="text-align:center"><a href="https://github.com/bearsmall/BlogSharing/blob/master/rtc/WebRTC/google-codelabs-webrtc/7-Set-up-a-signaling-service-to-exchange-messages.md" target="_blank" rel="external">搭建一个信令服务器传递消息</a></td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center"><a href="https://codelabs.developers.google.com/codelabs/webrtc-web/#7" target="_blank" rel="external">Combine peer connection and signaling</a></td>
+<td style="text-align:center"><a href="https://github.com/bearsmall/BlogSharing/blob/master/rtc/WebRTC/google-codelabs-webrtc/8-Combine-peer-connection-and-signaling.md" target="_blank" rel="external">整合peerConnection和信令</a></td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center"><a href="https://codelabs.developers.google.com/codelabs/webrtc-web/#8" target="_blank" rel="external">Take a photo and share it via a data channel</a></td>
+<td style="text-align:center"><a href="https://github.com/bearsmall/BlogSharing/blob/master/rtc/WebRTC/google-codelabs-webrtc/9-Take-a-photo-and-share-it-via-a-data-channel.md" target="_blank" rel="external">拍一张照然后通过datachannel分享它</a></td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center"><a href="https://codelabs.developers.google.com/codelabs/webrtc-web/#9" target="_blank" rel="external">Congratulations</a></td>
+<td style="text-align:center"><a href="https://github.com/bearsmall/BlogSharing/blob/master/rtc/WebRTC/google-codelabs-webrtc/10-Congratulations.md" target="_blank" rel="external">祝贺</a></td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/javaweb/2016-01-26-Servlet-write-encoding/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/09/javaweb/2016-01-26-Servlet-write-encoding/" itemprop="url">
+                  Servlet中直接response.getWriter().write() 输出乱码解决！
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:46:50+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web技术/" itemprop="url" rel="index">
+                    <span itemprop="name">Web技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="基础环境"><a href="#基础环境" class="headerlink" title="基础环境"></a>基础环境</h2><ul>
+<li><p>项目编码：utf-8</p>
+</li>
+<li><p>页面编码：utf-8</p>
+</li>
+<li><p>请求类型：Post</p>
+</li>
+</ul>
+<h2 id="Demo1"><a href="#Demo1" class="headerlink" title="Demo1"></a>Demo1</h2><h3 id="Servlet核心代码"><a href="#Servlet核心代码" class="headerlink" title="Servlet核心代码"></a>Servlet核心代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">request.setCharacterEncoding(<span class="string">"UTF-8"</span>);</div><div class="line">response.setCharacterEncoding(<span class="string">"UTF-8"</span>);</div><div class="line">String username = request.getParameter(<span class="string">"username"</span>);</div><div class="line">System.out.println(username);<span class="comment">//控制台正确输出中文</span></div><div class="line">response.getWriter().write(username);<span class="comment">//页面中文乱码</span></div></pre></td></tr></table></figure>
+<ul>
+<li>运行结果</li>
+</ul>
+<p><img src="images/javaweb-servlet-encoding-settting-1.png" alt="Servlet Encoding Setting Page"></p>
+<h2 id="Demo2："><a href="#Demo2：" class="headerlink" title="Demo2："></a>Demo2：</h2><h3 id="Servlet核心代码-1"><a href="#Servlet核心代码-1" class="headerlink" title="Servlet核心代码"></a>Servlet核心代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">request.setCharacterEncoding(<span class="string">"UTF-8"</span>);</div><div class="line">String username = request.getParameter(<span class="string">"username"</span>);</div><div class="line">System.out.println(username);</div><div class="line">request.setAttribute(<span class="string">"username"</span>, username);</div><div class="line">request.getRequestDispatcher(<span class="string">"result.jsp"</span>).forward(request, response);</div></pre></td></tr></table></figure>
+<ul>
+<li>运行结果</li>
+</ul>
+<p><img src="images/javaweb-servlet-encoding-settting-2.png" alt="Servlet Encoding Setting Page"></p>
+<h2 id="Demo3"><a href="#Demo3" class="headerlink" title="Demo3:"></a>Demo3:</h2><h3 id="Servlet核心代码-2"><a href="#Servlet核心代码-2" class="headerlink" title="Servlet核心代码"></a>Servlet核心代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">request.setCharacterEncoding(<span class="string">"UTF-8"</span>);</div><div class="line">response.setContentType(<span class="string">"text/html;charset=utf-8"</span>);</div><div class="line">String username = request.getParameter(<span class="string">"username"</span>);</div><div class="line">System.out.println(username);</div><div class="line">response.getWriter().write(username);</div></pre></td></tr></table></figure>
+<ul>
+<li>运行结果</li>
+</ul>
+<p><img src="images/javaweb-servlet-encoding-settting-3.png" alt="Servlet Encoding Setting Page"></p>
+<ul>
+<li>思考？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">为什么Demo1会出现乱码？而Demo2没有出现乱码？</div><div class="line">明明Demo1的response也设置了utf-8编码。</div></pre></td></tr></table></figure>
+<ul>
+<li>Demo1乱码的原因</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">从控制台输出可以看出，控制台并没有乱码，只是response在输出中文的</div><div class="line">时候出现了乱码，因此，这行代码：response.setCharacterEncoding(“UTF-8”);</div><div class="line">可能并没有起到想要的效果。</div><div class="line">反观Demo2，并没有response.setCharacterEncoding(“UTF-8”); 这句话，但是输出的</div><div class="line">页面是通过request的转发到JSP页面实现的。其实JSP页面最后也要转换为Servlet</div><div class="line">页面中的元素也是response.getWriter().write(“”);出来的。既然有response，那么</div><div class="line">这个response的编码是如何确定的呢？我们看一看JSP与对应的Servlet就可以明白了：</div></pre></td></tr></table></figure>
+<p><img src="images/javaweb-servlet-encoding-settting-4.png" alt="Servlet Encoding Setting Page"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">也就是说Demo2中的response.setCharacterEncoding隐藏在JSP页面中了。</div><div class="line">然后根据转换后的Servlet可以看出response.setContentType(“text/html;charset=utf-8”);</div><div class="line">才能达到应有的效果,在使用http协议的情况中，该方法设置 Content-type实体报头</div><div class="line">response.setContentType()的作用是使客户端浏览器，区分不同种类的数据，并根据不</div><div class="line">同的MIME调用浏览器内不同的程序嵌入模块来处理相应的数据。</div><div class="line">例如：web浏览器就是通过MIME类型来判断文件是GIF图片，通过MIME类型来处理json字符串。</div><div class="line">Tomcat的安装目录\conf\web.xml 中就定义了大量MIME类型 ，可以参考。</div><div class="line">response.setContentType(“text/html; charset=utf-8”); html</div><div class="line">response.setContentType(“text/plain; charset=utf-8”); 文本</div><div class="line">response.setContentType(“text/JavaScript; charset=utf-8”); json数据</div><div class="line">response.setContentType(“application/xml; charset=utf-8”); xml数据</div></pre></td></tr></table></figure>
+<h3 id="因此Demo3正是解决Demo1乱码的方法！"><a href="#因此Demo3正是解决Demo1乱码的方法！" class="headerlink" title="因此Demo3正是解决Demo1乱码的方法！"></a>因此Demo3正是解决Demo1乱码的方法！</h3>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/javaweb/2017-01-01-tomcat-java-version/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/09/javaweb/2017-01-01-tomcat-java-version/" itemprop="url">
+                  给tomcat配java版本
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:46:50+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web技术/" itemprop="url" rel="index">
+                    <span itemprop="name">Web技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="储备知识"><a href="#储备知识" class="headerlink" title="储备知识"></a>储备知识</h2><ul>
+<li>当我们把javaweb项目部署到tomcat中时，一般来说是没有源文件的（.Java），而是只有类文件（.class）.tomcat是servlet容器，负责执行servlet。</li>
+<li>众所周知：jsp实际上就是servlet。那么我们编写的jsp页面最终在访问的时候，都会预编译为Servlet（源文件和目标文件都有，work目录下）。</li>
+<li>可以尝试：安装tomcat和jre（不是jdk）。竟然可以执行jsp页面，也就是说jsp到servlet的转化和servlet源文件到.class文件的编译在</li>
+</ul>
+<p>只有jre的情况下竟然完成了。所以可以断定，编译过程是tomcat内置&gt;的一个编译环境。那么这个编译级别是怎么样的呢？jdk1.6?还是jdk1.7?</p>
+<ul>
+<li>我拿两个tomcat版本查看后发现（\conf\web.xml）：</li>
+</ul>
+<ol>
+<li>tomcat7.*</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">compilerSourceVM    Compiler source VM. [1.6]</div><div class="line">compilerTargetVM    Compiler target VM. [1.6]</div></pre></td></tr></table></figure>
+<ol>
+<li>tomcat8.*</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">compilerSourceVM    Compiler source VM. [1.7]</div><div class="line">compilerTargetVM    Compiler target VM. [1.7]</div></pre></td></tr></table></figure>
+<ul>
+<li><p>稍微解释一下这两个参数：</p>
+<ol>
+<li>compilerSourceVM:编译源文件时采用那个JDK版本？（上面指出了缺省值）</li>
+<li>compilerTargetVM:运行类文件时采用那个JDK版本？（上面给出了缺省值）</li>
+</ol>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://zm8.sm-img2.com/?src=http%3A%2F%2Fyoyo.is-programmer.com%2Fposts%2F13166.html&amp;uid=2f5668707a1b02af6f519213098ab4f7&amp;hid=c045dc490621a3bd2fd665ff3f88c93e&amp;pos=5&amp;cid=9&amp;time=1455440494614&amp;from=click&amp;restype=1&amp;pagetype=0000004000000402&amp;bu=news_natural&amp;query=%E8%AE%BE%E7%BD%AEtomcat+jsp%E7%BC%96%E8%AF%91jdk%E7%89%88%E6%9C%AC&amp;mode=&amp;uc_param_str=dnntnwvepffrgibijbprsvpi" target="_blank" rel="external"></a></p>
+<ul>
+<li><p>既然jsp最后都是由tomcat版本决定编译和运行时采用的jdk版本。那么项目里的纯java代码呢？</p>
+</li>
+<li><p>这个就需要自己在外部编译好最好打包到tomcat中。编译的工具很多，比如ant，maven等等。</p>
+</li>
+</ul>
+<h3 id="给tomcat配置jdk"><a href="#给tomcat配置jdk" class="headerlink" title="给tomcat配置jdk"></a>给tomcat配置jdk</h3><ul>
+<li>我没有听错吧，tomcat还能配置jdk版本。除去tomcat编译jsp的那个配置不算。<br>我们一般都是先安装jdk，再安装tomcat。项目运行的时候，不就是采用的安装的<br>jdk的版本吗？</li>
+<li>确实如此，不过我们还是可以配置的。一般像上面那样理解起来比较好，JDK和Tomcat单独安装，不需要怎么配置，java环境自然使用的是安装的jdk。</li>
+<li>不过在我们开发的时候有时候就是会吃编译和运行版本的亏。<br>例如我们在myeclipse集成开发环境中一般会使用自己安装的jdk和tomcat。<br>我们也推荐这么做，但是大部分人都只是觉得自己是在用自己的jdk和tomcat，其实不然。</li>
+<li>我们将自己的tomcat导入myeclipse中设置为enable，以为就万事大吉了。<br>但是我们其实还可以配置下面选项列表中的其它一些参数，比如说JDK。<br>点开一看大多数情况下会惊奇的发现使用的是myeclipse中默认的JDK，并不是我们安装的JDK。这种不了解有时候会造成一些看似诡异实则有因的问题。</li>
+<li>好了我们配置好JDK就可以了【如果知道maven，我们其实还可以在maven中设置编译和运行环境，不需要在Tomcat上折腾】。</li>
+<li>至于那个诡异的问题不是那么轻易就能碰到的，这里我人为搞一个。</li>
+</ul>
+<p>比如你Tomcat使用的JDK版本是1.7(运行)，然后你的项目编译环境是1.8的，你把编译好的项目放到Tomcat服务器上面，然后嗨嗨是不是一大堆找不到类啊？</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/javaweb/2017-01-01-maven-compile-level/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/09/javaweb/2017-01-01-maven-compile-level/" itemprop="url">
+                  Maven一次编译和部署环境不一致导致的问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:46:50+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web技术/" itemprop="url" rel="index">
+                    <span itemprop="name">Web技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="基本情况"><a href="#基本情况" class="headerlink" title="基本情况"></a>基本情况</h2><ul>
+<li>maven项目</li>
+<li>SSH整合</li>
+<li>单元测试没有问题，部署到Tomcat中报错</li>
+<li>maven install成功!部署失败</li>
+</ul>
+<h3 id="错误信息："><a href="#错误信息：" class="headerlink" title="错误信息："></a>错误信息：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div></pre></td><td class="code"><pre><div class="line">[com.alibaba.druid.pool.DruidDataSource]&#123;dataSource-1&#125; closed</div><div class="line">[org.springframework.web.context.ContextLoader]Context initialization failed</div><div class="line">org.springframework.beans.factory.BeanCreationException: Error creating bean with name &apos;sessionFactory&apos; defined in class path resource [applicationContext.xml]: Invocation of init method failed; nested exception is org.hibernate.MappingException: entity class not found: com.xy.model.RouteInfo</div><div class="line">    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1455)</div><div class="line">    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:519)</div><div class="line">    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:456)</div><div class="line">    at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:294)</div><div class="line">    at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:225)</div><div class="line">    at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:291)</div><div class="line">    at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:193)</div><div class="line">    at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:591)</div><div class="line">    at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)</div><div class="line">    at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:469)</div><div class="line">    at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:383)</div><div class="line">    at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:283)</div><div class="line">    at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:111)</div><div class="line">    at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:5016)</div><div class="line">    at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5528)</div><div class="line">    at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)</div><div class="line">    at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:901)</div><div class="line">    at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:877)</div><div class="line">    at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:652)</div><div class="line">    at org.apache.catalina.startup.HostConfig.deployDirectory(HostConfig.java:1258)</div><div class="line">    at org.apache.catalina.startup.HostConfig$DeployDirectory.run(HostConfig.java:1918)</div><div class="line">    at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)</div><div class="line">    at java.util.concurrent.FutureTask.run(FutureTask.java:262)</div><div class="line">    at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)</div><div class="line">    at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)</div><div class="line">    at java.lang.Thread.run(Thread.java:744)</div><div class="line">Caused by: org.hibernate.MappingException: entity class not found: com.xy.model.RouteInfo</div><div class="line">    at org.hibernate.mapping.PersistentClass.getMappedClass(PersistentClass.java:129)</div><div class="line">    at org.hibernate.tuple.PropertyFactory.getGetter(PropertyFactory.java:390)</div><div class="line">    at org.hibernate.tuple.PropertyFactory.buildIdentifierProperty(PropertyFactory.java:75)</div><div class="line">    at org.hibernate.tuple.entity.EntityMetamodel.&lt;init&gt;(EntityMetamodel.java:145)</div><div class="line">    at org.hibernate.persister.entity.AbstractEntityPersister.&lt;init&gt;(AbstractEntityPersister.java:505)</div><div class="line">    at org.hibernate.persister.entity.SingleTableEntityPersister.&lt;init&gt;(SingleTableEntityPersister.java:146)</div><div class="line">    at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</div><div class="line">    at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)</div><div class="line">    at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</div><div class="line">    at java.lang.reflect.Constructor.newInstance(Constructor.java:526)</div><div class="line">    at org.hibernate.persister.internal.PersisterFactoryImpl.create(PersisterFactoryImpl.java:163)</div><div class="line">    at org.hibernate.persister.internal.PersisterFactoryImpl.createEntityPersister(PersisterFactoryImpl.java:135)</div><div class="line">    at org.hibernate.internal.SessionFactoryImpl.&lt;init&gt;(SessionFactoryImpl.java:381)</div><div class="line">    at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1750)</div><div class="line">    at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1788)</div><div class="line">    at org.springframework.orm.hibernate4.LocalSessionFactoryBuilder.buildSessionFactory(LocalSessionFactoryBuilder.java:242)</div><div class="line">    at org.springframework.orm.hibernate4.LocalSessionFactoryBean.buildSessionFactory(LocalSessionFactoryBean.java:372)</div><div class="line">    at org.springframework.orm.hibernate4.LocalSessionFactoryBean.afterPropertiesSet(LocalSessionFactoryBean.java:357)</div><div class="line">    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1514)</div><div class="line">    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1452)</div><div class="line">    ... 25 more</div><div class="line">Caused by: java.lang.ClassNotFoundException: com.xy.model.RouteInfo</div><div class="line">    at org.apache.catalina.loader.WebappClassLoader.loadClass(WebappClassLoader.java:1720)</div><div class="line">    at org.apache.catalina.loader.WebappClassLoader.loadClass(WebappClassLoader.java:1571)</div><div class="line">    at java.lang.Class.forName0(Native Method)</div><div class="line">    at java.lang.Class.forName(Class.java:190)</div><div class="line">    at org.hibernate.internal.util.ReflectHelper.classForName(ReflectHelper.java:192)</div><div class="line">    at org.hibernate.mapping.PersistentClass.getMappedClass(PersistentClass.java:126)</div><div class="line">    ... 44 more</div><div class="line">二月 14, 2016 5:49:10 下午 org.apache.catalina.core.StandardContext listenerStart</div><div class="line">严重: Exception sending context initialized event to listener instance of class org.springframework.web.context.ContextLoaderListener</div><div class="line">org.springframework.beans.factory.BeanCreationException: Error creating bean with name &apos;sessionFactory&apos; defined in class path resource [applicationContext.xml]: Invocation of init method failed; nested exception is org.hibernate.MappingException: entity class not found: com.xy.model.RouteInfo</div><div class="line">    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1455)</div><div class="line">    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:519)</div><div class="line">    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:456)</div><div class="line">    at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:294)</div><div class="line">    at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:225)</div><div class="line">    at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:291)</div><div class="line">    at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:193)</div><div class="line">    at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:591)</div><div class="line">    at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)</div><div class="line">    at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:469)</div><div class="line">    at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:383)</div><div class="line">    at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:283)</div><div class="line">    at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:111)</div><div class="line">    at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:5016)</div><div class="line">    at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5528)</div><div class="line">    at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)</div><div class="line">    at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:901)</div><div class="line">    at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:877)</div><div class="line">    at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:652)</div><div class="line">    at org.apache.catalina.startup.HostConfig.deployDirectory(HostConfig.java:1258)</div><div class="line">    at org.apache.catalina.startup.HostConfig$DeployDirectory.run(HostConfig.java:1918)</div><div class="line">    at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)</div><div class="line">    at java.util.concurrent.FutureTask.run(FutureTask.java:262)</div><div class="line">    at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)</div><div class="line">    at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)</div><div class="line">    at java.lang.Thread.run(Thread.java:744)</div><div class="line">Caused by: org.hibernate.MappingException: entity class not found: com.xy.model.RouteInfo</div><div class="line">    at org.hibernate.mapping.PersistentClass.getMappedClass(PersistentClass.java:129)</div><div class="line">    at org.hibernate.tuple.PropertyFactory.getGetter(PropertyFactory.java:390)</div><div class="line">    at org.hibernate.tuple.PropertyFactory.buildIdentifierProperty(PropertyFactory.java:75)</div><div class="line">    at org.hibernate.tuple.entity.EntityMetamodel.&lt;init&gt;(EntityMetamodel.java:145)</div><div class="line">    at org.hibernate.persister.entity.AbstractEntityPersister.&lt;init&gt;(AbstractEntityPersister.java:505)</div><div class="line">    at org.hibernate.persister.entity.SingleTableEntityPersister.&lt;init&gt;(SingleTableEntityPersister.java:146)</div><div class="line">    at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)</div><div class="line">    at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)</div><div class="line">    at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)</div><div class="line">    at java.lang.reflect.Constructor.newInstance(Constructor.java:526)</div><div class="line">    at org.hibernate.persister.internal.PersisterFactoryImpl.create(PersisterFactoryImpl.java:163)</div><div class="line">    at org.hibernate.persister.internal.PersisterFactoryImpl.createEntityPersister(PersisterFactoryImpl.java:135)</div><div class="line">    at org.hibernate.internal.SessionFactoryImpl.&lt;init&gt;(SessionFactoryImpl.java:381)</div><div class="line">    at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1750)</div><div class="line">    at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1788)</div><div class="line">    at org.springframework.orm.hibernate4.LocalSessionFactoryBuilder.buildSessionFactory(LocalSessionFactoryBuilder.java:242)</div><div class="line">    at org.springframework.orm.hibernate4.LocalSessionFactoryBean.buildSessionFactory(LocalSessionFactoryBean.java:372)</div><div class="line">    at org.springframework.orm.hibernate4.LocalSessionFactoryBean.afterPropertiesSet(LocalSessionFactoryBean.java:357)</div><div class="line">    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1514)</div><div class="line">    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1452)</div><div class="line">    ... 25 more</div><div class="line">Caused by: java.lang.ClassNotFoundException: com.xy.model.RouteInfo</div><div class="line">    at org.apache.catalina.loader.WebappClassLoader.loadClass(WebappClassLoader.java:1720)</div><div class="line">    at org.apache.catalina.loader.WebappClassLoader.loadClass(WebappClassLoader.java:1571)</div><div class="line">    at java.lang.Class.forName0(Native Method)</div><div class="line">    at java.lang.Class.forName(Class.java:190)</div><div class="line">    at org.hibernate.internal.util.ReflectHelper.classForName(ReflectHelper.java:192)</div><div class="line">    at org.hibernate.mapping.PersistentClass.getMappedClass(PersistentClass.java:126)</div><div class="line">    ... 44 more</div><div class="line">二月 14, 2016 5:49:10 下午 org.apache.catalina.core.StandardContext startInternal</div></pre></td></tr></table></figure>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><ul>
+<li>关键语句出现了多次：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">org.hibernate.MappingException: entity class not found: com.xy.model.RouteInfo</div></pre></td></tr></table></figure>
+<ul>
+<li>说RouteInfo类没有找到，但是我看了下源码确实有这个类啊。【非常重要的可疑点！！】</li>
+</ul>
+<h4 id="一般来说这种‘明明’有但是却说找不到的类的情况分三种："><a href="#一般来说这种‘明明’有但是却说找不到的类的情况分三种：" class="headerlink" title="一般来说这种‘明明’有但是却说找不到的类的情况分三种："></a>一般来说这种‘明明’有但是却说找不到的类的情况分三种：</h4><ol>
+<li>确实找不到，因为你太粗心了，类名写错了。</li>
+<li>有时候映射文件不是com.xy这种包路径，而是com/xy这种文件路径也是其中一个原因。</li>
+<li>最惨的是编译版本和运行版本不匹配（即编译版本高于运行版本）</li>
+</ol>
+<h4 id="对应的解决方案如下："><a href="#对应的解决方案如下：" class="headerlink" title="对应的解决方案如下："></a>对应的解决方案如下：</h4><ol>
+<li>修改类名</li>
+<li>仔细查看配置文件，根据配置模板进行相应的修改</li>
+<li><p>编译版本调整：</p>
+<ul>
+<li>如果不是maven项目，修改build path，compile level。</li>
+<li>如果是maven项目，修改pom.xml，</li>
+<li>下面是模板【当然也可以直接修改maven中的配置，起到全局效果】。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">profiles</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">profile</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">id</span>&gt;</span>jdk-1.8<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">activation</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">activeByDefault</span>&gt;</span>true<span class="tag">&lt;/<span class="name">activeByDefault</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">jdk</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">jdk</span>&gt;</span></div><div class="line">          <span class="tag">&lt;/<span class="name">activation</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">maven.compiler.compilerVersion</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">maven.compiler.compilerVersion</span>&gt;</span></div><div class="line">          <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">profile</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">profiles</span>&gt;</span></div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/javaweb/2015-08-24-Struts2-return-json/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/09/javaweb/2015-08-24-Struts2-return-json/" itemprop="url">
+                  Struts返回Json格式数据
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:46:50+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web技术/" itemprop="url" rel="index">
+                    <span itemprop="name">Web技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
+<li>我们知道json数据就是一堆键/值对的集合，更随意的可以就把它理解为符合特定规则字符串。那么我们怎么利用这个特殊的“字符串”来进行前后台的交互呢？</li>
+<li>其实很简单，让你用字符串交互估计都会，用json也没有那么复杂。</li>
+<li>简单的我们直接向页面输出：先获取到response（不要问我怎么获取，用你的奇技淫巧可以办到的）然后调用response.getWriter().write(String str)方法直接向调用者输出。</li>
+<li>感觉是不是很无聊啊，就是输出个字符串而已嘛，不过既然是输出json格式的就麻烦把字符串弄成符合要求的json吧。你可以自己拼字符串，也可以用现成的工具类。</li>
+<li>Java api就有现成的，不过有好多更加优秀的第三方jar包，为什么不试一试呢？来半张官网的图 :scream:，有兴趣的自行研究：</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-struts2-json-1.png" alt="Struts2 Json format"></p>
+<h2 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h2><h3 id="配置Action"><a href="#配置Action" class="headerlink" title="配置Action"></a>配置Action</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"adminManage"</span> <span class="attr">namespace</span>=<span class="string">"/"</span> <span class="attr">extends</span>=<span class="string">"json-default"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"KAdminTest"</span> <span class="attr">class</span>=<span class="string">"com.know.control.action.AdminAction"</span></span></div><div class="line">        <span class="attr">method</span>=<span class="string">"queryAllUsers"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">type</span>=<span class="string">"json"</span>&gt;</span></div><div class="line">            <span class="comment">&lt;!-- 这里指定将被Struts2序列化的属性，该属性在action中必须有对应的getter方法 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"root"</span>&gt;</span>jsonResult<span class="tag">&lt;/<span class="name">param</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!-- 指定是否序列化值为空的属性 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"excludeNullProperties"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">param</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">result</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">action</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">package</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="有几点值得注意："><a href="#有几点值得注意：" class="headerlink" title="有几点值得注意："></a>有几点值得注意：</h4><ul>
+<li>不同于我们以往配置的Action（以往配置的Action所在的package都是extends=”struts-defualt”）<br>这里我们extends=”json-default”，这里需要引入特定的jar包：struts2-json-plugin-xxx.jar.来支持<br>有人可能会问了json-default哪来的？其实就是继承自struts-default打开struts2-json-plugin-xxx.jar.查看struts-default.xml文件就会发现这个：</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">struts</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"json-default"</span> <span class="attr">extends</span>=<span class="string">"struts-default"</span>&gt;</span></div><div class="line">       ........</div><div class="line">    <span class="tag">&lt;/<span class="name">package</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">struts</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>就是配置result的时候要指定type=”json”，如果想向前台传递参数则配置<figure class="highlight plain"><figcaption><span>name="root">jsonResult ``` ，这里的jsonResult必须在Action中有对应的get方法，</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">jsonResult的类型不固定，因为最终由jsonResult到格式化的json是由struts2完成的，不需要我们做转换。</div><div class="line">当然还有其它更多的配置如下：</div><div class="line"></div><div class="line">```xml</div><div class="line">    &lt;param name=&quot;root&quot;&gt;jsonResult&lt;/param&gt;</div><div class="line">    &lt;!-- 指定是否序列化值为空的属性 --&gt;</div><div class="line">    &lt;param name=&quot;excludeNullProperties&quot;&gt;true&lt;/param&gt;</div><div class="line">    &lt;!-- 指定将序列化jsonResult中的哪些属性 --&gt;</div><div class="line">    &lt;param name=&quot;includeProperties&quot;&gt;userList.*&lt;/param&gt;</div><div class="line">    &lt;!-- 指定jsonResult中哪些属性将不被序列化，一般不与上边的配置同时出现 --&gt;</div><div class="line">    &lt;param name=&quot;excludeProperties&quot;&gt;SUCCESS&lt;/param&gt;</div></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="编写Action"><a href="#编写Action" class="headerlink" title="编写Action"></a>编写Action</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdminAction</span> <span class="keyword">extends</span> <span class="title">ActionSupport</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> Map&lt;String,Object&gt; jsonResult;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title">getJsonResult</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> jsonResult;</div><div class="line">    &#125;</div><div class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> UserService userProxy = (UserService) BeanFactory</div><div class="line">            .getBean(<span class="string">"UserProxy"</span>);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">queryAllUsers</span><span class="params">()</span></span>&#123;</div><div class="line">        List&lt;UserModel&gt; userList = userProxy.transForm(userProxy.getUsers());</div><div class="line">        jsonResult = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</div><div class="line">        jsonResult.put(<span class="string">"total"</span>, userList.size());</div><div class="line">        jsonResult.put(<span class="string">"rows"</span>, userList);</div><div class="line">        jsonResult.put(<span class="string">"success"</span>, <span class="keyword">true</span>);</div><div class="line">        <span class="keyword">return</span> SUCCESS;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>使用Map做jsonResult更符合json的格式。好了，其它的细节不展开了。</p>
+</li>
+<li><p>最后测试，下面是输出结果：</p>
+</li>
+</ul>
+<p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-struts2-json-2.png" alt="Struts2 Json format"></p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><ul>
+<li><p>一开始我在获取userList的时并没有做transForm操作，一切看似正确，但是当程序运行，访问URL的时候报了一个could not initialize proxy -no session 异常，当时很郁闷。<br>后来才发现是hibernate的懒加载捣的鬼。就是我的User和其他表有一对多的映射。看似userList查询成功，其实User的一些属性并没有值（这种”没有值“的状态和为null不太一样，当你访问这些属性的时候，它会再次查询一遍数据库（俗称懒加载）。<br>不过，要实现懒加载必须在同一个session中，但是由于我们访问这些属性的地方不对（我们在哪里访问这些属性了？），不在同一个session中，导致出错）</p>
+</li>
+<li><p>所以我重新做了一个UserModel来封装需要的数据。这样就不会被那些无辜牵连的数据折腾了。</p>
+</li>
+</ul>
 
           
         
@@ -488,6 +2007,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
           
           </div>
@@ -528,14 +2051,28 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
 
           
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              
+            </div>
+          
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
           
 
         </nav>

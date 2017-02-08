@@ -1,0 +1,732 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="乱码" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="概述
+之所以出现乱码，主要是由于编码和解码采用的方法不同。
+因此保证编码解码格式一致是避免乱码发生的重要前提。
+
+问题背景JavaWeb技术下，Tomcat作为容器，发送请求的时候出现乱码问题。
+两种常见方法1.Post方式请求乱码
+自从Tomcat5.x以来，Get方式和Post方式提交的请求，tomcat会采用不同的方式来处理编码。对于Post请求，Tomcat会使用12如果未设置，则默认都采">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Get请求，Post请求乱码问题解决方案">
+<meta property="og:url" content="http://yoursite.com/2017/02/09/javaweb/2015-09-07-Get-Post-Encoding/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述
+之所以出现乱码，主要是由于编码和解码采用的方法不同。
+因此保证编码解码格式一致是避免乱码发生的重要前提。
+
+问题背景JavaWeb技术下，Tomcat作为容器，发送请求的时候出现乱码问题。
+两种常见方法1.Post方式请求乱码
+自从Tomcat5.x以来，Get方式和Post方式提交的请求，tomcat会采用不同的方式来处理编码。对于Post请求，Tomcat会使用12如果未设置，则默认都采">
+<meta property="og:updated_time" content="2017-02-08T16:59:52.739Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Get请求，Post请求乱码问题解决方案">
+<meta name="twitter:description" content="概述
+之所以出现乱码，主要是由于编码和解码采用的方法不同。
+因此保证编码解码格式一致是避免乱码发生的重要前提。
+
+问题背景JavaWeb技术下，Tomcat作为容器，发送请求的时候出现乱码问题。
+两种常见方法1.Post方式请求乱码
+自从Tomcat5.x以来，Get方式和Post方式提交的请求，tomcat会采用不同的方式来处理编码。对于Post请求，Tomcat会使用12如果未设置，则默认都采">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/09/javaweb/2015-09-07-Get-Post-Encoding/"/>
+
+
+
+
+
+  <title> Get请求，Post请求乱码问题解决方案 | Hexo </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hexo</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/javaweb/2015-09-07-Get-Post-Encoding/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Get请求，Post请求乱码问题解决方案
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-09T01:46:50+08:00">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web技术/" itemprop="url" rel="index">
+                    <span itemprop="name">Web技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
+<li><strong>之所以出现乱码，主要是由于编码和解码采用的方法不同。</strong></li>
+<li><strong>因此保证编码解码格式一致是避免乱码发生的重要前提。</strong></li>
+</ul>
+<h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>JavaWeb技术下，Tomcat作为容器，发送请求的时候出现乱码问题。</p>
+<h2 id="两种常见方法"><a href="#两种常见方法" class="headerlink" title="两种常见方法"></a>两种常见方法</h2><h3 id="1-Post方式请求乱码"><a href="#1-Post方式请求乱码" class="headerlink" title="1.Post方式请求乱码"></a>1.Post方式请求乱码</h3><ul>
+<li><p>自从Tomcat5.x以来，Get方式和Post方式提交的请求，tomcat会采用不同的方式来处理编码。<br>对于Post请求，Tomcat会使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">如果未设置，则默认都采用iso-8859-1编码。因此如果在发送Post请求的时候出现乱码，常见的解决方法如下：</div><div class="line">    * a)  ```request.setCharacterEncoding(&quot;utf-8&quot;);</div></pre></td></tr></table></figure></p>
+<ul>
+<li>b)  <figure class="highlight plain"><figcaption><span>name = new String(request.getParameter("name").getBytes("ISO-8859-1"), "UTF-8");```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- （当然response的编码也不要忘记设置成utf-8的）</div><div class="line">- 【注】：上面提供的是两种不同的方法，并不是一种方法的两个步骤！！！</div><div class="line"></div><div class="line">#### 我们可以看出来第一种方式写法固定，非常很适合通过写成过滤器的方式进行编码的统一转换。</div><div class="line"></div><div class="line">```java</div><div class="line">publicclass EncodingFilter extends HttpFilter &#123;</div><div class="line">    publicvoid doFilter(HttpServletRequest request,  HttpServletResponse response, FilterChain chain) throws IOException, ServletException &#123;</div><div class="line">       Stringcharset = this.getInitParameter(&quot;charset&quot;);</div><div class="line">       if(charset == null ||charset.isEmpty()) &#123;</div><div class="line">           charset =&quot;UTF-8&quot;;</div><div class="line">       &#125;</div><div class="line">        request.setCharacterEncoding(charset);</div><div class="line">       response.setContentType(&quot;text/html;charset=&quot; + charset);</div><div class="line">       chain.doFilter(request, response);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h3 id="2-Get方式请求乱码"><a href="#2-Get方式请求乱码" class="headerlink" title="2.Get方式请求乱码"></a>2.Get方式请求乱码</h3><ul>
+<li><p>我们刚谈到Tomcat对Post请求的编码处理策略，并且从字里行间读出了Tomcat对Post和Get的编码策略有所不同，<br>那么Tomcat对Get请求的编码策略到底是如何不同的呢？答案就是Tomcat对于Get请求并不会考虑使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- 言外之意就是我们无法通过```request.setCharacterEncoding```方式来改变编码，因为最终Tomcat会永远使用iso-8859-1进行编码（但是要注意一下，</div><div class="line">respon还是可以通过调用```response.setCharacterEncoding```方式进行编码的设置的），既然是这样的话下面这个方法还是勉强可行的</div><div class="line"></div><div class="line">    &gt;方法a）</div><div class="line"></div><div class="line">    * 步骤一：```response.setCharacterEncoding(&quot;UTF-8&quot;)</div></pre></td></tr></table></figure></p>
+<ul>
+<li>步骤二：<figure class="highlight plain"><figcaption><span>name = new String(request.getParameter("name").getBytes("ISO-8859-1"), "UTF-8");```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- 通过这两步，可以看到我们的request的字符编码格式是默认的“iso-8859-1&quot; 我们的response字符编码是自己设置的”utf-8&quot;</div><div class="line">显然两个是不相容的，因此我们在获取请求参数的时候才进行了一下字符集的转换即步骤二：```String name=new String(request.getParameter(&quot;name&quot;).getBytes(&quot;ISO-8859-1&quot;), &quot;UTF-8&quot;)；</div></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>既然有a），那肯定还有b）咯？当然！而且方案b更加干净，利落，彻底。让我们一起看一下吧：</p>
+<blockquote>
+<p>方法b）</p>
+</blockquote>
+<ul>
+<li><p>修改Tomcat安装目录下conf子目录下的<figure class="highlight plain"><figcaption><span>【注：记得先停掉服务器】</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">找到文件中类似这样的段落：```&lt;Connector connectionTimeout=&quot;20000&quot; port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot; redirectPort=&quot;8443&quot;/&gt;</div></pre></td></tr></table></figure></p>
+</li>
+<li><p>在里面加上这样一段：URIEncoding=”UTF-8” 即变成下面这段<figure class="highlight plain"><figcaption><span>connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443" URIEncoding="UTF-8"</span><a href="/>```">link</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">    * 最后重启Tomcat即可。</div><div class="line"></div><div class="line">- 对于Get请求编码的统一处理也可以写成过滤器的形式，只不过稍微有些复杂。</div><div class="line"></div><div class="line">#### EncodingRequest.Java</div><div class="line"></div><div class="line">```java</div><div class="line">public class EncodingRequest extends HttpServletRequestWrapper &#123;</div><div class="line">    private String charset;</div><div class="line">    public EncodingRequest(HttpServletRequest request, String charset) &#123;</div><div class="line">        super(request);</div><div class="line">        this.charset = charset;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public String getParameter(String name) &#123;</div><div class="line">        HttpServletRequest request = (HttpServletRequest) getRequest();</div><div class="line"></div><div class="line">        String method = request.getMethod();</div><div class="line">        if(method.equalsIgnoreCase(&quot;post&quot;)) &#123;</div><div class="line">            try &#123;</div><div class="line">                request.setCharacterEncoding(charset);</div><div class="line">            &#125; catch (UnsupportedEncodingException e) &#123;&#125;</div><div class="line">        &#125; else if(method.equalsIgnoreCase(&quot;get&quot;)) &#123;</div><div class="line">            String value = request.getParameter(name);</div><div class="line">            try &#123;</div><div class="line">                value = new String(name.getBytes(&quot;ISO-8859-1&quot;), charset);</div><div class="line">            &#125; catch (UnsupportedEncodingException e) &#123;</div><div class="line">            &#125;</div><div class="line">            return value;</div><div class="line">        &#125;</div><div class="line">        return request.getParameter(name);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="EncodingFilter-java"><a href="#EncodingFilter-java" class="headerlink" title="EncodingFilter.java"></a>EncodingFilter.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EncodingFilter</span> <span class="keyword">extends</span> <span class="title">HttpFilter</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(HttpServletRequest request,</span></span></div><div class="line">            HttpServletResponse response, FilterChain chain)</div><div class="line">            <span class="keyword">throws</span> IOException, ServletException &#123;</div><div class="line">        String charset = <span class="keyword">this</span>.getInitParameter(<span class="string">"charset"</span>);</div><div class="line">        <span class="keyword">if</span>(charset == <span class="keyword">null</span> || charset.isEmpty()) &#123;</div><div class="line">            charset = <span class="string">"UTF-8"</span>;</div><div class="line">        &#125;</div><div class="line">        response.setCharacterEncoding(charset);</div><div class="line">        response.setContentType(<span class="string">"text/html;charset="</span> + charset);</div><div class="line">        EncodingRequest res = <span class="keyword">new</span> EncodingRequest(request, charset);</div><div class="line">        chain.doFilter(res, response);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="web-xml"><a href="#web-xml" class="headerlink" title="web.xml"></a>web.xml</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>EncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>cn.itcast.filter.EncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>charset<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>EncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>【注】为了避免您的测试与我给的解决方案结果不符，请在项目编码格式为<code>utf-8</code>，jsp页面 <code>pageEncoding=&quot;utf-8&quot;</code>的环境下测试。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Get-Post-乱码/" rel="tag"># Get,Post,乱码</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/09/javaweb/2015-07-27-Ajax-login-check/" rel="next" title="Ajax初体验之登录校验">
+                <i class="fa fa-chevron-left"></i> Ajax初体验之登录校验
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/09/javaweb/2016-06-02-framework-BaseSSH/" rel="prev" title="基于Spring4+Hibernate4的通用数据访问层+业务逻辑层（Dao层+Service层）设计与实现">
+                基于Spring4+Hibernate4的通用数据访问层+业务逻辑层（Dao层+Service层）设计与实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">categories</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题背景"><span class="nav-number">2.</span> <span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两种常见方法"><span class="nav-number">3.</span> <span class="nav-text">两种常见方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Post方式请求乱码"><span class="nav-number">3.1.</span> <span class="nav-text">1.Post方式请求乱码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Get方式请求乱码"><span class="nav-number">3.2.</span> <span class="nav-text">2.Get方式请求乱码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#EncodingFilter-java"><span class="nav-number">3.2.1.</span> <span class="nav-text">EncodingFilter.java</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#web-xml"><span class="nav-number">3.2.2.</span> <span class="nav-text">web.xml</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
