@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="">
+<html class="theme-next muse use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -106,7 +106,7 @@
     motion: true,
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: '博主'
     },
     algolia: {
       applicationID: '',
@@ -129,13 +129,23 @@
   <title> Hexo </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
 
 
 
 
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?your-analytics-id";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -192,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            首页
           </a>
         </li>
       
@@ -202,7 +212,17 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            Kategorien
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
           </a>
         </li>
       
@@ -212,7 +232,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            归档
           </a>
         </li>
       
@@ -222,7 +242,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -255,12 +275,12 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/javase/2016-01-26-java-generic/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/26/designPattern/2016-01-26-factory-pattern-problem/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
     <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
+    <meta itemprop="image" content="http://tva4.sinaimg.cn/crop.0.0.100.100.180/005GnZ5ojw8emmxtcdl6jj302s02sdfp.jpg">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -280,8 +300,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/01/26/javase/2016-01-26-java-generic/" itemprop="url">
-                  关于Java泛型的小知识点
+                <a class="post-title-link" href="/2016/01/26/designPattern/2016-01-26-factory-pattern-problem/" itemprop="url">
+                  工厂模式坑爹题目
                 </a>
               
             
@@ -295,7 +315,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">发表于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-01-26T00:00:00+08:00">
                 2016-01-26
@@ -316,12 +336,12 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/语言基础/" itemprop="url" rel="index">
-                    <span itemprop="name">语言基础</span>
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
                   </a>
                 </span>
 
@@ -332,6 +352,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/01/26/designPattern/2016-01-26-factory-pattern-problem/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/01/26/designPattern/2016-01-26-factory-pattern-problem/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -357,26 +387,26 @@
       
         
           
-            <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><ul>
-<li>java不允许直接实例化一个泛型数组</li>
+            <h2 id="已知代码"><a href="#已知代码" class="headerlink" title="已知代码"></a>已知代码</h2><ul>
+<li>Bean.java</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Stack&lt;String&gt;[] a = <span class="keyword">new</span> Stack&lt;String&gt;[N];</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bean</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String beanName;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getBeanName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> beanName;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBeanName</span><span class="params">(String beanName)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.beanName = beanName;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Bean</span><span class="params">(String beanName)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.beanName = beanName;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <ul>
-<li>上面这种写法是错误的！类似的还有下面这种！</li>
+<li>BeanFactory.java</li>
 </ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-genericity-1.png" alt="Eclipse Encoding Setting Page"></p>
-<h2 id="How-to"><a href="#How-to" class="headerlink" title="How to ?"></a>How to ?</h2><ul>
-<li>Java如何创建一个字符串栈的数组？</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Stack&lt;String&gt;[] a = (Stack&lt;String&gt;) <span class="keyword">new</span> Stack[N];</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> BeanFactory instance = <span class="keyword">new</span> BeanFactory();</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Bean bean = <span class="keyword">null</span>;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BeanFactory</span><span class="params">()</span> </span>&#123;</div><div class="line">        bean = <span class="keyword">new</span> Bean(<span class="string">"mybean"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BeanFactory <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bean <span class="title">getBean</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> bean;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <ul>
-<li>强制类型转换</li>
+<li>App.java</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FixedCapacityStack</span>&lt;<span class="title">Item</span>&gt;</span>&#123;</div><div class="line">    <span class="keyword">private</span> Item[] a;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FixedCapacityStack</span><span class="params">(<span class="keyword">int</span> cap)</span></span>&#123;</div><div class="line">        <span class="comment">//报错，由于某些历史和技术原因，创建泛型数组在Java中是不允许的</span></div><div class="line">        <span class="comment">//a = new Item[cap];</span></div><div class="line"></div><div class="line">        <span class="comment">//正确！</span></div><div class="line">        a = (Item[]) <span class="keyword">new</span> Object[cap];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Bean bean = BeanFactory.getInstance().getBean();</div><div class="line">        System.out.println(bean.getBeanName());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="运行结果【1】"><a href="#运行结果【1】" class="headerlink" title="运行结果【1】"></a>运行结果【1】</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Exception in thread <span class="string">"main"</span> java.lang.NullPointerException</div><div class="line">      at com.xy.factory_simple.App.main(App.java:<span class="number">6</span>)</div></pre></td></tr></table></figure>
 <ul>
-<li>注意：上面两种泛型类数组是有区别的！</li>
+<li>更改BeanFactory.java</li>
 </ul>
-
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> BeanFactory instance = <span class="keyword">new</span> BeanFactory();</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Bean bean;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BeanFactory</span><span class="params">()</span> </span>&#123;</div><div class="line">        bean = <span class="keyword">new</span> Bean(<span class="string">"mybean"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BeanFactory <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bean <span class="title">getBean</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> bean;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="运行结果【2】"><a href="#运行结果【2】" class="headerlink" title="运行结果【2】"></a>运行结果【2】</h3><figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- 更改BeanFactory.java</div><div class="line"></div><div class="line">```java</div><div class="line">    private static Bean bean = null;</div><div class="line">    private static BeanFactory instance = new BeanFactory();</div><div class="line">    public BeanFactory() &#123;</div><div class="line">        bean = new Bean(&quot;mybean&quot;);</div><div class="line">    &#125;</div><div class="line">    public static BeanFactory getInstance()&#123;</div><div class="line">        return instance;</div><div class="line">    &#125;</div><div class="line">    public static Bean getBean()&#123;</div><div class="line">        return bean;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="运行结果【3】"><a href="#运行结果【3】" class="headerlink" title="运行结果【3】"></a>运行结果【3】</h3><p><code>mybean</code></p>
+<h2 id="你知道上面是为什么吗？"><a href="#你知道上面是为什么吗？" class="headerlink" title="你知道上面是为什么吗？"></a>你知道上面是为什么吗？</h2>
           
         
       
@@ -421,7 +451,7 @@
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
     <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
+    <meta itemprop="image" content="http://tva4.sinaimg.cn/crop.0.0.100.100.180/005GnZ5ojw8emmxtcdl6jj302s02sdfp.jpg">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -456,7 +486,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">发表于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-01-26T00:00:00+08:00">
                 2016-01-26
@@ -477,7 +507,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -493,6 +523,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/01/26/javaweb/2016-01-26-Servlet-write-encoding/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/01/26/javaweb/2016-01-26-Servlet-write-encoding/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -596,7 +636,7 @@
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
     <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
+    <meta itemprop="image" content="http://tva4.sinaimg.cn/crop.0.0.100.100.180/005GnZ5ojw8emmxtcdl6jj302s02sdfp.jpg">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -631,7 +671,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">发表于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-01-21T00:00:00+08:00">
                 2016-01-21
@@ -652,7 +692,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -668,6 +708,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/01/21/tool/2016-01-21-page-seperate/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/01/21/tool/2016-01-21-page-seperate/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -745,7 +795,7 @@
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
     <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
+    <meta itemprop="image" content="http://tva4.sinaimg.cn/crop.0.0.100.100.180/005GnZ5ojw8emmxtcdl6jj302s02sdfp.jpg">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -780,7 +830,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">发表于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-01-02T00:00:00+08:00">
                 2016-01-02
@@ -801,7 +851,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -817,6 +867,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/01/02/javaweb/2016-01-2-jquery-struts2-ajax/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/01/02/javaweb/2016-01-2-jquery-struts2-ajax/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -903,172 +963,12 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/30/javaweb/2015-11-30-define-tag2/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="John Doe">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Hexo">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/30/javaweb/2015-11-30-define-tag2/" itemprop="url">
-                  JAVAWEB之自定义TAG开发二
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-11-30T00:00:00+08:00">
-                2015-11-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">in</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Web技术/" itemprop="url" rel="index">
-                    <span itemprop="name">Web技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>上一篇我们讲了如何使用TAG简化我们的basePath获取，现在我们再来谈谈TAG另外的一个用处，使用场景说明：很多时候，我们从后台获取的时间参数（从数据库中读取的）是这种格式的：19941230123033，然而我们需要的却是这种格式的：</p>
-<ul>
-<li>1994年12月30日12时30分33秒</li>
-<li>1994年12月30日12时30分</li>
-<li>1994年12月30日</li>
-<li>12时30分33秒</li>
-</ul>
-<p>可谓是多种多样，按照我们常规的处理方式，我们直接在设计页面的时候就确定好页面需要显示的具体格式，然后让后台去转化为我们需要的格式不就好了吗，但是正如你所看到的，也许同一个时间日期参数在一个页面需要显示多种格式，再或者当这种格式容易发生变化的时候，上面那种处理方式显然是吃力不讨好的。下面我们借用Tag的技巧来解决这个问题：</p>
-<h2 id="自定义Tag"><a href="#自定义Tag" class="headerlink" title="自定义Tag"></a>自定义Tag</h2><p>【借助上一章的工程】</p>
-<h3 id="tool-tdl文件"><a href="#tool-tdl文件" class="headerlink" title="tool.tdl文件"></a>tool.tdl文件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">taglib</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tlib-version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">tlib-version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">jsp-version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="name">jsp-version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">short-name</span>&gt;</span>base<span class="tag">&lt;/<span class="name">short-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tag</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>basePath<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tag-class</span>&gt;</span>com.xy.tag.BasePathTag<span class="tag">&lt;/<span class="name">tag-class</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">body-content</span>&gt;</span>jsp<span class="tag">&lt;/<span class="name">body-content</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tag</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tag</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>timeFormat<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tag-class</span>&gt;</span>com.xy.tag.TimeFormatTag<span class="tag">&lt;/<span class="name">tag-class</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">body-content</span>&gt;</span>jsp<span class="tag">&lt;/<span class="name">body-content</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">attribute</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>date<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">required</span>&gt;</span>true<span class="tag">&lt;/<span class="name">required</span>&gt;</span><span class="comment">&lt;!-- 是否必填 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">rtexprvalue</span>&gt;</span>true<span class="tag">&lt;/<span class="name">rtexprvalue</span>&gt;</span><span class="comment">&lt;!-- 是否能够以$&#123;&#125;方式传值 --&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">attribute</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">attribute</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>pattern<span class="tag">&lt;/<span class="name">name</span>&gt;</span><span class="comment">&lt;!-- 字段索引名 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">required</span>&gt;</span>true<span class="tag">&lt;/<span class="name">required</span>&gt;</span><span class="comment">&lt;!-- 是否必填 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">rtexprvalue</span>&gt;</span>false<span class="tag">&lt;/<span class="name">rtexprvalue</span>&gt;</span><span class="comment">&lt;!-- 是否能够以$&#123;&#125;方式传值 --&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">attribute</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tag</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">taglib</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>说明一下：<figure class="highlight plain"><figcaption><span>是否必填 -->指的是是否可以传入动态值（即后台传过来的数据，例如$&#123;&#125;方式的el表达式形式）</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">### TimeFormatTag类</div><div class="line"></div><div class="line">```java</div><div class="line">package com.xy.tag;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line">import java.text.ParseException;</div><div class="line">import java.text.SimpleDateFormat;</div><div class="line">import java.util.Date;</div><div class="line"></div><div class="line">import javax.servlet.jsp.JspException;</div><div class="line">import javax.servlet.jsp.JspWriter;</div><div class="line">import javax.servlet.jsp.tagext.TagSupport;</div><div class="line"></div><div class="line">public class TimeFormatTag extends TagSupport &#123;</div><div class="line">    private static final long serialVersionUID = 1L;</div><div class="line">    private String date;</div><div class="line">    private String pattern;</div><div class="line"></div><div class="line">    public String getDate() &#123;</div><div class="line">        return date;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setDate(String date) &#123;</div><div class="line">        this.date = date;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public String getPattern() &#123;</div><div class="line">        return pattern;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setPattern(String pattern) &#123;</div><div class="line">        this.pattern = pattern;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public int doEndTag() throws JspException &#123;</div><div class="line">        return 0;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public int doStartTag() throws JspException &#123;</div><div class="line">        JspWriter jspw = this.pageContext.getOut();</div><div class="line">        Date d = null;</div><div class="line">        String fin = &quot;&quot;;</div><div class="line">        SimpleDateFormat from = null;</div><div class="line">        SimpleDateFormat to = new SimpleDateFormat(pattern);</div><div class="line">        try &#123;</div><div class="line">            switch (date.length()) &#123;</div><div class="line">            case 12:</div><div class="line">                from = new SimpleDateFormat(&quot;yyyyMMddHHmm&quot;);</div><div class="line">            case 14:</div><div class="line">                from = new SimpleDateFormat(&quot;yyyyMMddHHmmss&quot;);</div><div class="line">            &#125;</div><div class="line">            d = from.parse(date);</div><div class="line">            fin = to.format(d);</div><div class="line">            jspw.print(fin);</div><div class="line">        &#125; catch (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; catch (ParseException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        return 0;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="index-jsp页面"><a href="#index-jsp页面" class="headerlink" title="index.jsp页面"></a>index.jsp页面</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Cfg:basePath</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">    19941230123033的格式化<span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Cfg:timeFormat</span> <span class="attr">date</span>=<span class="string">"19941230123033"</span> <span class="attr">pattern</span>=<span class="string">"yyyy年MM月dd日hh时mm分ss秒"</span>&gt;</span><span class="tag">&lt;/<span class="name">Cfg:timeFormat</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Cfg:timeFormat</span> <span class="attr">date</span>=<span class="string">"19941230123033"</span> <span class="attr">pattern</span>=<span class="string">"yyyy年MM月dd日hh时mm分"</span>&gt;</span><span class="tag">&lt;/<span class="name">Cfg:timeFormat</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Cfg:timeFormat</span> <span class="attr">date</span>=<span class="string">"19941230123033"</span> <span class="attr">pattern</span>=<span class="string">"yyyy年MM月dd日"</span>&gt;</span><span class="tag">&lt;/<span class="name">Cfg:timeFormat</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Cfg:timeFormat</span> <span class="attr">date</span>=<span class="string">"19941230123033"</span> <span class="attr">pattern</span>=<span class="string">"hh时mm分ss秒"</span>&gt;</span><span class="tag">&lt;/<span class="name">Cfg:timeFormat</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
-<h2 id="运行截图"><a href="#运行截图" class="headerlink" title="运行截图"></a>运行截图</h2><p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-tags-two-1.png" alt="javaweb tag two"></p>
-<ul>
-<li>好了，一个可变格式的转换器就完成了，使用起来还是很方便的，【可以自己尝试一下动态数据】。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/30/javaweb/2015-11-30-define-tag/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
     <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
+    <meta itemprop="image" content="http://tva4.sinaimg.cn/crop.0.0.100.100.180/005GnZ5ojw8emmxtcdl6jj302s02sdfp.jpg">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1103,7 +1003,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">发表于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-11-30T00:00:00+08:00">
                 2015-11-30
@@ -1124,7 +1024,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1140,6 +1040,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/11/30/javaweb/2015-11-30-define-tag/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/30/javaweb/2015-11-30-define-tag/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -1238,12 +1148,182 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/30/javaweb/2015-11-30-define-tag2/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://tva4.sinaimg.cn/crop.0.0.100.100.180/005GnZ5ojw8emmxtcdl6jj302s02sdfp.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/11/30/javaweb/2015-11-30-define-tag2/" itemprop="url">
+                  JAVAWEB之自定义TAG开发二
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-11-30T00:00:00+08:00">
+                2015-11-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web技术/" itemprop="url" rel="index">
+                    <span itemprop="name">Web技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/11/30/javaweb/2015-11-30-define-tag2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/30/javaweb/2015-11-30-define-tag2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>上一篇我们讲了如何使用TAG简化我们的basePath获取，现在我们再来谈谈TAG另外的一个用处，使用场景说明：很多时候，我们从后台获取的时间参数（从数据库中读取的）是这种格式的：19941230123033，然而我们需要的却是这种格式的：</p>
+<ul>
+<li>1994年12月30日12时30分33秒</li>
+<li>1994年12月30日12时30分</li>
+<li>1994年12月30日</li>
+<li>12时30分33秒</li>
+</ul>
+<p>可谓是多种多样，按照我们常规的处理方式，我们直接在设计页面的时候就确定好页面需要显示的具体格式，然后让后台去转化为我们需要的格式不就好了吗，但是正如你所看到的，也许同一个时间日期参数在一个页面需要显示多种格式，再或者当这种格式容易发生变化的时候，上面那种处理方式显然是吃力不讨好的。下面我们借用Tag的技巧来解决这个问题：</p>
+<h2 id="自定义Tag"><a href="#自定义Tag" class="headerlink" title="自定义Tag"></a>自定义Tag</h2><p>【借助上一章的工程】</p>
+<h3 id="tool-tdl文件"><a href="#tool-tdl文件" class="headerlink" title="tool.tdl文件"></a>tool.tdl文件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">taglib</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tlib-version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">tlib-version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">jsp-version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="name">jsp-version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">short-name</span>&gt;</span>base<span class="tag">&lt;/<span class="name">short-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tag</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>basePath<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tag-class</span>&gt;</span>com.xy.tag.BasePathTag<span class="tag">&lt;/<span class="name">tag-class</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">body-content</span>&gt;</span>jsp<span class="tag">&lt;/<span class="name">body-content</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tag</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tag</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>timeFormat<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tag-class</span>&gt;</span>com.xy.tag.TimeFormatTag<span class="tag">&lt;/<span class="name">tag-class</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">body-content</span>&gt;</span>jsp<span class="tag">&lt;/<span class="name">body-content</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">attribute</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>date<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">required</span>&gt;</span>true<span class="tag">&lt;/<span class="name">required</span>&gt;</span><span class="comment">&lt;!-- 是否必填 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">rtexprvalue</span>&gt;</span>true<span class="tag">&lt;/<span class="name">rtexprvalue</span>&gt;</span><span class="comment">&lt;!-- 是否能够以$&#123;&#125;方式传值 --&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">attribute</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">attribute</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>pattern<span class="tag">&lt;/<span class="name">name</span>&gt;</span><span class="comment">&lt;!-- 字段索引名 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">required</span>&gt;</span>true<span class="tag">&lt;/<span class="name">required</span>&gt;</span><span class="comment">&lt;!-- 是否必填 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">rtexprvalue</span>&gt;</span>false<span class="tag">&lt;/<span class="name">rtexprvalue</span>&gt;</span><span class="comment">&lt;!-- 是否能够以$&#123;&#125;方式传值 --&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">attribute</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tag</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">taglib</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>说明一下：<figure class="highlight plain"><figcaption><span>是否必填 -->指的是是否可以传入动态值（即后台传过来的数据，例如$&#123;&#125;方式的el表达式形式）</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">### TimeFormatTag类</div><div class="line"></div><div class="line">```java</div><div class="line">package com.xy.tag;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line">import java.text.ParseException;</div><div class="line">import java.text.SimpleDateFormat;</div><div class="line">import java.util.Date;</div><div class="line"></div><div class="line">import javax.servlet.jsp.JspException;</div><div class="line">import javax.servlet.jsp.JspWriter;</div><div class="line">import javax.servlet.jsp.tagext.TagSupport;</div><div class="line"></div><div class="line">public class TimeFormatTag extends TagSupport &#123;</div><div class="line">    private static final long serialVersionUID = 1L;</div><div class="line">    private String date;</div><div class="line">    private String pattern;</div><div class="line"></div><div class="line">    public String getDate() &#123;</div><div class="line">        return date;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setDate(String date) &#123;</div><div class="line">        this.date = date;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public String getPattern() &#123;</div><div class="line">        return pattern;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setPattern(String pattern) &#123;</div><div class="line">        this.pattern = pattern;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public int doEndTag() throws JspException &#123;</div><div class="line">        return 0;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public int doStartTag() throws JspException &#123;</div><div class="line">        JspWriter jspw = this.pageContext.getOut();</div><div class="line">        Date d = null;</div><div class="line">        String fin = &quot;&quot;;</div><div class="line">        SimpleDateFormat from = null;</div><div class="line">        SimpleDateFormat to = new SimpleDateFormat(pattern);</div><div class="line">        try &#123;</div><div class="line">            switch (date.length()) &#123;</div><div class="line">            case 12:</div><div class="line">                from = new SimpleDateFormat(&quot;yyyyMMddHHmm&quot;);</div><div class="line">            case 14:</div><div class="line">                from = new SimpleDateFormat(&quot;yyyyMMddHHmmss&quot;);</div><div class="line">            &#125;</div><div class="line">            d = from.parse(date);</div><div class="line">            fin = to.format(d);</div><div class="line">            jspw.print(fin);</div><div class="line">        &#125; catch (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; catch (ParseException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        return 0;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="index-jsp页面"><a href="#index-jsp页面" class="headerlink" title="index.jsp页面"></a>index.jsp页面</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Cfg:basePath</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">    19941230123033的格式化<span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Cfg:timeFormat</span> <span class="attr">date</span>=<span class="string">"19941230123033"</span> <span class="attr">pattern</span>=<span class="string">"yyyy年MM月dd日hh时mm分ss秒"</span>&gt;</span><span class="tag">&lt;/<span class="name">Cfg:timeFormat</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Cfg:timeFormat</span> <span class="attr">date</span>=<span class="string">"19941230123033"</span> <span class="attr">pattern</span>=<span class="string">"yyyy年MM月dd日hh时mm分"</span>&gt;</span><span class="tag">&lt;/<span class="name">Cfg:timeFormat</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Cfg:timeFormat</span> <span class="attr">date</span>=<span class="string">"19941230123033"</span> <span class="attr">pattern</span>=<span class="string">"yyyy年MM月dd日"</span>&gt;</span><span class="tag">&lt;/<span class="name">Cfg:timeFormat</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Cfg:timeFormat</span> <span class="attr">date</span>=<span class="string">"19941230123033"</span> <span class="attr">pattern</span>=<span class="string">"hh时mm分ss秒"</span>&gt;</span><span class="tag">&lt;/<span class="name">Cfg:timeFormat</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="运行截图"><a href="#运行截图" class="headerlink" title="运行截图"></a>运行截图</h2><p><img src="http://okv02t39e.bkt.clouddn.com/javaweb-tags-two-1.png" alt="javaweb tag two"></p>
+<ul>
+<li>好了，一个可变格式的转换器就完成了，使用起来还是很方便的，【可以自己尝试一下动态数据】。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/11/29/tool/2015-11-29-ApacheBench-Testing/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
     <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
+    <meta itemprop="image" content="http://tva4.sinaimg.cn/crop.0.0.100.100.180/005GnZ5ojw8emmxtcdl6jj302s02sdfp.jpg">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1278,7 +1358,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">发表于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-11-29T00:00:00+08:00">
                 2015-11-29
@@ -1299,7 +1379,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1315,6 +1395,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/11/29/tool/2015-11-29-ApacheBench-Testing/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/29/tool/2015-11-29-ApacheBench-Testing/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -1407,7 +1497,7 @@
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
     <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
+    <meta itemprop="image" content="http://tva4.sinaimg.cn/crop.0.0.100.100.180/005GnZ5ojw8emmxtcdl6jj302s02sdfp.jpg">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1442,7 +1532,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">发表于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-11-08T00:00:00+08:00">
                 2015-11-08
@@ -1463,7 +1553,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1479,6 +1569,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/11/08/dataStructure/2015-11-08-stack-in-out-law/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/08/dataStructure/2015-11-08-stack-in-out-law/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -1587,234 +1687,12 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/26/tool/2015-10-26-jvm-setting/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="John Doe">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Hexo">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/10/26/tool/2015-10-26-jvm-setting/" itemprop="url">
-                  Eclipse、IDEA环境下设置jvm默认编码
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-10-26T00:00:00+08:00">
-                2015-10-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">in</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/工具/" itemprop="url" rel="index">
-                    <span itemprop="name">工具</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Encoding</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        System.out.println(System.getProperty(<span class="string">"file.encoding"</span>));</div><div class="line">        System.out.println(Charset.defaultCharset().name());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>打印结果是什么？</p>
-</li>
-<li><p>是GBK吧</p>
-</li>
-<li><p>估计大多数人的机器打印的结果是GBK，因为我们很多人系统默认编码就是GBK（In China）.</p>
-</li>
-<li><p>我们查看jdk文档可以看到：</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Java.nio.charset.Charset</span></div><div class="line"><span class="function"><span class="keyword">static</span> Charset <span class="title">defaultCharset</span><span class="params">()</span></span></div><div class="line">Returns the <span class="keyword">default</span> charset of <span class="keyword">this</span> Java virtual machine.</div><div class="line"><span class="comment">//java.lang.System</span></div><div class="line"><span class="keyword">static</span> String <span class="title">getProperty</span><span class="params">(String key)</span></div><div class="line">Gets the system property indicated by the specified key.</div></pre></td></tr></table></figure>
-<ul>
-<li><p>上面两个说白了上面两个方法获得的是系统默认的字符集编码，所以我们一般获得的是GBK，因为我们大部分用的是中文版的window系统。。。。。</p>
-</li>
-<li><p>但是我们能不能改呢？肯定能！</p>
-</li>
-<li><p>eclipse上 右键工程–&gt;properties–&gt;Resource–&gt;textfileEncoding</p>
-</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-1.png" alt="Eclipse Encoding Setting Page"></p>
-<ul>
-<li><p>看到这里的GBK了吧，也许你早就改过了，所以前面运行结果不是GBK。</p>
-</li>
-<li><p>试试改成utf-8，再运行程序。是不是发现运行结果变成utf-8了？</p>
-</li>
-<li><p>为了统一编码，这里我们通常设置成utf-8</p>
-</li>
-<li><p>IDEA上 File–&gt;Settings–&gt;File Encodings–&gt;Project Encoding</p>
-</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-2.png" alt="IDEA Encoding Setting Page"></p>
-<ul>
-<li><p>我们改成iso8859-1试试</p>
-</li>
-<li><p>输出是不是变成了iso8859-1。为了统一编码我们还是改回utf-8吧。【如果你之前没有改过idea的编码，这个位置还有其它几个位置编码可能就是system default即GBK】</p>
-</li>
-<li><p>这样就完了？no,no,no!!</p>
-</li>
-<li><p>我们试着建立一个web项目，web容器采用tomcat</p>
-</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-3.png" alt="IDEA Encoding Setting Page"></p>
-<ul>
-<li><p>好大的两个GBK…….【声明：IDEA上工程，文件的字符集编码已经设置成了UTF-8，所以不要怀疑是这个原因。】</p>
-</li>
-<li><p>那么，到底是什么原因呢？我们之前明明就是这样改的，而且成功了哎。</p>
-</li>
-<li><p>我只想说：可能web项目比较特殊吧，毕竟它运行的时候借助了web容器，比如这里我们使用的是tomcat容器。</p>
-</li>
-<li><p>那么我们该如何让其回归utf-8呢？</p>
-</li>
-<li><p>方法当然有，如下：来到tomcat配置界面：添加虚拟机启动参数：-Dfile.encoding=UTF-8</p>
-</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-4.png" alt="JVM Encoding Setting Page"></p>
-<ul>
-<li>我们再来运行一遍：</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-5.png" alt="JVM Encoding Setting Page"></p>
-<ul>
-<li><p>utf-8出来了，有木有。</p>
-</li>
-<li><p>纳尼，控制台出现了鸟文？</p>
-</li>
-<li><p>我们继续对IDEA做点修改。</p>
-</li>
-<li><p>打开idea安装目录下的bin文件夹，找到idea.exe.vmoptions文件并打开</p>
-</li>
-<li><p>添加一条配置信息：-Dfile.encoding=UTF-8</p>
-</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-6.png" alt="IDEA Encoding Setting Page"></p>
-<ul>
-<li>ok，重启idea，再次运行web项目</li>
-</ul>
-<p><img src="http://okv02t39e.bkt.clouddn.com/javase-eclipse-idea-encoding-setting-7.png" alt="IDEA Encoding Setting Page"></p>
-<ul>
-<li>世界顿时又美好了。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/26/javase/2015-10-26-java-httpclient-encoding/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="John Doe">
     <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
+    <meta itemprop="image" content="http://tva4.sinaimg.cn/crop.0.0.100.100.180/005GnZ5ojw8emmxtcdl6jj302s02sdfp.jpg">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1849,7 +1727,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">发表于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-10-26T00:00:00+08:00">
                 2015-10-26
@@ -1870,7 +1748,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">分类于</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -1886,6 +1764,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/10/26/javase/2015-10-26-java-httpclient-encoding/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/10/26/javase/2015-10-26-java-httpclient-encoding/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -1959,6 +1847,215 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/10/26/javase/2015-10-26-java-file-operation/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://tva4.sinaimg.cn/crop.0.0.100.100.180/005GnZ5ojw8emmxtcdl6jj302s02sdfp.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/10/26/javase/2015-10-26-java-file-operation/" itemprop="url">
+                  JAVA文件操作之默认字符集编码
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-10-26T00:00:00+08:00">
+                2015-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/语言基础/" itemprop="url" rel="index">
+                    <span itemprop="name">语言基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/10/26/javase/2015-10-26-java-file-operation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/10/26/javase/2015-10-26-java-file-operation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="导引"><a href="#导引" class="headerlink" title="导引"></a>导引</h2><ul>
+<li><p>我们知道，在一些文件操作，特别是涉及到编码的时候，很让人心烦。</p>
+</li>
+<li><p>为什么呢？因为编码解码不一致容易出现乱码啊。。。。。。然而很多时候我们只顾及到了编码或者只顾及到解码。所以这种情况下就只能作死的一个个的试常见的编码格式。</p>
+</li>
+</ul>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.xy.file;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.BufferedReader;</div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.FileInputStream;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.InputStreamReader;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.junit.Test;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Encoding</span> </span>&#123;</div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUTF_8</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        String result = <span class="string">""</span>;</div><div class="line">        String str = getClass().getResource(<span class="string">"/"</span>).getFile().toString();</div><div class="line">        str = System.getProperty(<span class="string">"user.dir"</span>);</div><div class="line">        BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(</div><div class="line">                <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(str + File.separator</div><div class="line">                        + <span class="string">"file/file1.txt"</span>))));</div><div class="line">        String temp = <span class="string">""</span>;</div><div class="line">        <span class="keyword">while</span> ((temp = br.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">            result+=temp+<span class="string">"\n"</span>;</div><div class="line">        &#125;</div><div class="line">        System.out.println(result);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>【注】这里有一个文件：工程目录下/file/file1.txt。编码格式为utf-8（文件编码格式信息很重要）<br>文件内容如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">计算机科学  与技术学院</div><div class="line">abc</div><div class="line">()（）【】</div></pre></td></tr></table></figure>
+<ul>
+<li>我们再来看一看打印输出的结果。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">璁＄畻鏈虹瀛?  涓庢妧鏈闄?</div><div class="line">abc</div><div class="line">()锛堬級銆愩??</div></pre></td></tr></table></figure>
+<ul>
+<li>果然乱了。     下面看一看解决方法</li>
+</ul>
+<h3 id="解决方法一"><a href="#解决方法一" class="headerlink" title="解决方法一"></a>解决方法一</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> ((temp = br.readLine()) != <span class="keyword">null</span>) &#123;</div><div class="line">            String s = <span class="keyword">new</span> String(temp.getBytes(), <span class="string">"utf-8"</span>);</div><div class="line">            result+=s+<span class="string">"\n"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们仅仅修改了while循环中的语句，把每次读取的一行信息重新编码，设置成utf-8。果然成功了。但是你知道这个过程究竟是怎么进行的吗？<br> 前面我们在包装文件对象的时候用到了InputStreamReader，构造函数中使用了只带一个参数的构造函数。查看jdk文档或者源代码可以看到，这个时候会采用jvm默认的编码格式进行编码。那么问题来了，在运行这个程序的时候你知道jvm到底采用的什么编码格式呢？并且随着具体环境的不同可能这个默认的编码格式就会改变。我们可以在eclipse上简单的模拟一下修改jvm默认编码的效果。右键项目–&gt;properties–&gt;Resource–&gt;TextFileEncoding<br> 默认的是GBK，如果你没有改过的话。这样我们改来改去，发现对输出的结果没有影响啊？？？你在逗我吗？不是说改变了jvm的默认编码吗？怎么结果都一样。</p>
+<ul>
+<li>我们拿gbk为例子，看while循环中的语句：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String s = <span class="keyword">new</span> String(temp.getBytes(), <span class="string">"utf-8"</span>);</div></pre></td></tr></table></figure>
+<ul>
+<li><p>这句代码简单明了，把原来的字符串以utf-8的形式重新编码。</p>
+</li>
+<li><p>话是这么说，但是你知道这条代码其实包括两部分吗？</p>
+<ul>
+<li>第一：temp字符串解码为bytes数组。</li>
+<li>第二：解码后的数组从新编码为新的字符串。</li>
+</ul>
+</li>
+<li><p>问题来了，既然涉及到了编码和解码，那么他们分别采用什么字符集进行的呢？毕竟我们只看到一个utf-8。难道都是采用utf-8?</p>
+</li>
+<li><p>no，由String的构造函数可知编码是采用的utf-8没错。</p>
+</li>
+<li><p>但是解码的话其实和上面的InputStreamReader类似，采用的是jvm默认的编码格式（这里即为GBK）。好的，有点乱对吧，下面我们好好理一理。</p>
+</li>
+<li><p>file1.txt【文件格式：UTF-8】–&gt;封装的FileInputStream【编码，系统默认GBK】–&gt;每一行对应的temp字符串【解码，系统默认GBK】–&gt;新串s【编码，UTF-8】。没错，你发现它其实是饶了一圈又绕回来了。。。。。。。</p>
+</li>
+<li><p>但是不要以为这样做很好，确实很多情况下没有显现出问题出来，但是其实这是有问题的。打个比方：你把水从杯子A全部倒进另一个杯子B里面，然后再从B倒回A。你觉得最后水是一样的吗？（暂且不考虑杯子上面沾上点水）。答案是不确定的。例如当杯子A比杯子B小，这个时候没有问题，或者杯子A比杯子B大，但是水比较少，杯子B能容纳得下。但是还有这种情况啊：杯子A比杯子B大，不巧A中装的水比较多，杯子B装不下。这个时候就会有水溢出。希望这个例子类比乱码对你有所帮助。</p>
+</li>
+<li><p>既然有问题，那么什么才是好的解决方法呢？</p>
+</li>
+<li><p>看看下面更改的代码：</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(</div><div class="line">             <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(str + File.separator</div><div class="line">                     + <span class="string">"file/file1.txt"</span>)),<span class="string">"utf-8"</span>));</div></pre></td></tr></table></figure>
+<ul>
+<li>没错，在构造InputStreamReader的时候就指定了编码方式（和文件的编码方式保持了一致）。其它代码不改动。<br>运行看看。</li>
+</ul>
+<figure class="highlight plain"><figcaption><span>与技术学院</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">abc</div><div class="line">()（）【】</div></pre></td></tr></table></figure>
+<p>乱码消失了。</p>
+<ul>
+<li>对比这两种方式，会发现第二种方式更好。因为它不会出现不必要的重复编码，解码的操作，这会导致数据丢失，从而导致乱码。<br>而且这种方式会不经意的提醒你：我的文件到底是什么编码格式的？这条信息非常重要！</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1996,7 +2093,7 @@
       <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
-               src="/images/avatar.gif"
+               src="http://tva4.sinaimg.cn/crop.0.0.100.100.180/005GnZ5ojw8emmxtcdl6jj302s02sdfp.jpg"
                alt="John Doe" />
           <p class="site-author-name" itemprop="name">John Doe</p>
           <p class="site-description motion-element" itemprop="description"></p>
@@ -2007,7 +2104,7 @@
             <div class="site-state-item site-state-posts">
               <a href="/archives">
                 <span class="site-state-item-count">26</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-name">日志</span>
               </a>
             </div>
           
@@ -2016,7 +2113,7 @@
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">8</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">分类</span>
               </a>
             </div>
           
@@ -2025,7 +2122,7 @@
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">25</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">标签</span>
               </a>
             </div>
           
@@ -2035,6 +2132,44 @@
         
 
         <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bearsmall" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bearsmall_vip" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://douban.com/people/your-user-name" target="_blank" title="douban">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  douban
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/xiong-yu-31-50" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
           
         </div>
 
@@ -2063,7 +2198,7 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
+  &copy;  2016 - 
   <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -2073,11 +2208,11 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
-  Theme -
+  主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Muse
   </a>
@@ -2162,28 +2297,34 @@
 
   
 
+    <script type="text/javascript">
+      var disqus_shortname = 'bearsmall';
+      var disqus_identifier = 'page/2/index.html';
+
+      var disqus_title = "";
 
 
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
 
-	
+      run_disqus_script('count.js');
 
+      
 
-
-
-
+    </script>
   
 
 
 
 
 
-  
 
 
-
-
-
-  
 
 
 
